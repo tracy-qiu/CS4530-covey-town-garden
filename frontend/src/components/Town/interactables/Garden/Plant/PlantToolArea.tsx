@@ -24,11 +24,12 @@ import {
 import PlantDetails from './PlantDetails';
 import WaterTool from './WaterTool';
 import RemovePlant from './RemovePlant';
+import { Plant } from '../../../../../types/CoveyTownSocket';
 /**
  *
  * @returns
  */
-export default function PlantToolArea(): JSX.Element {
+export default function PlantToolArea({plant}: {plant: Plant}): JSX.Element {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -45,9 +46,9 @@ export default function PlantToolArea(): JSX.Element {
           <Container>
             <ModalHeader>Plant Tool Menu</ModalHeader>
             <ModalCloseButton />
-            <PlantDetails />
-            <WaterTool />
-            <RemovePlant />
+            <PlantDetails plant={plant}/>
+            <WaterTool plant={plant}/>
+            <RemovePlant plant={plant}/>
           </Container>
         </ModalContent>
       </Modal>

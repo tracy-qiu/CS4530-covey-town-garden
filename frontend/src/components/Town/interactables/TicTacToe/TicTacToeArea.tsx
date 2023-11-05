@@ -22,7 +22,7 @@ import TicTacToeAreaController from '../../../../classes/interactable/TicTacToeA
 import PlayerController from '../../../../classes/PlayerController';
 import { useInteractable, useInteractableAreaController } from '../../../../classes/TownController';
 import useTownController from '../../../../hooks/useTownController';
-import { GameResult, GameStatus, InteractableID } from '../../../../types/CoveyTownSocket';
+import { GameResult, GameStatus, InteractableID, Plant } from '../../../../types/CoveyTownSocket';
 import GameAreaInteractable from '../GameArea';
 import TicTacToeLeaderboard from '../Leaderboard';
 import TicTacToeBoard from './TicTacToeBoard';
@@ -157,9 +157,11 @@ function TicTacToeArea({ interactableID }: { interactableID: InteractableID }): 
     );
   }
 
+  const samplePlant : Plant = {id: 'id', plantType: 'Blueberry', lastWateredTime: 100}
+
   return (
     <Container>
-      <PlantToolArea />
+      <PlantToolArea plant={samplePlant}/>
       <Accordion allowToggle>
         <AccordionItem>
           <Heading as='h3'>

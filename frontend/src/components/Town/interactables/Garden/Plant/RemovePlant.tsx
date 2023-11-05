@@ -21,15 +21,20 @@ import {
   ModalOverlay,
   useToast,
 } from '@chakra-ui/react';
+import { Plant } from '../../../../../types/CoveyTownSocket';
 /**
- * 
- * @returns 
+ *
+ * @returns
  */
-export default function RemovePlant(): JSX.Element {
+export default function RemovePlant({plant}: {plant: Plant}): JSX.Element {
+  const removePlant = (plantID : number) => {
+    // async call to remove plant
+  }
+
   return (
     <Container>
       <h1>Remove Plant</h1>
-      <Button colorScheme='red'>Remove Plant</Button>
+      <Button colorScheme='red' onClick={() => removePlant(plant.id)}>Remove Plant</Button>
     </Container>
   );
 }

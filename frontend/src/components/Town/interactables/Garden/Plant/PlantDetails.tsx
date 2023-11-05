@@ -21,14 +21,15 @@ import {
   ModalOverlay,
   useToast,
 } from '@chakra-ui/react';
+import { Plant } from '../../../../../types/CoveyTownSocket';
 /**
  *
  * @returns
  */
-export default function PlantDetails(): JSX.Element {
+export default function PlantDetails({plant}: {plant: Plant}): JSX.Element {
   return (
     <Container>
-      <h1>Rose</h1>
+      <h1>{plant.plantType}</h1>
       <h1>Care Instructions</h1>
       <h1>Lifecyle</h1>
     </Container>
