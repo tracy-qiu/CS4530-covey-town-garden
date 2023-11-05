@@ -1,7 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-// import Button from 'react-bootstrap/Button';
-// import Modal from 'react-bootstrap/Modal';
 import {
   Accordion,
   AccordionButton,
@@ -12,14 +10,6 @@ import {
   Button,
   Container,
   Heading,
-  List,
-  ListItem,
-  Modal,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  useToast,
 } from '@chakra-ui/react';
 import { Plant } from '../../../../../types/CoveyTownSocket';
 /**
@@ -32,9 +22,24 @@ export default function RemovePlant({plant}: {plant: Plant}): JSX.Element {
   }
 
   return (
-    <Container>
-      <h1>Remove Plant</h1>
-      <Button colorScheme='red' onClick={() => removePlant(plant.id)}>Remove Plant</Button>
-    </Container>
+    <Accordion allowToggle>
+        <AccordionItem>
+          <Heading as='h3'>
+            <AccordionButton>
+              <Box as='span' flex='1' textAlign='left'>
+                <b>Remove Plant</b>
+                <AccordionIcon />
+              </Box>
+            </AccordionButton>
+          </Heading>
+          <AccordionPanel>
+             <Container>
+              <Button colorScheme='red' onClick={() => removePlant(plant.id)}>Remove Plant</Button>
+            </Container>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
+
+
   );
 }

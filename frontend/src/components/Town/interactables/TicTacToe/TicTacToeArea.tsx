@@ -157,11 +157,11 @@ function TicTacToeArea({ interactableID }: { interactableID: InteractableID }): 
     );
   }
 
-  const samplePlant : Plant = {id: 'id', plantType: 'Blueberry', lastWateredTime: 100}
+  const samplePlant : Plant = {id: 'id', plantType: 'Rose', lastWateredTime: 100}
 
   return (
     <Container>
-      <PlantToolArea plant={samplePlant}/>
+      <PlantToolArea plant={samplePlant} showTools={true} />
       <Accordion allowToggle>
         <AccordionItem>
           <Heading as='h3'>

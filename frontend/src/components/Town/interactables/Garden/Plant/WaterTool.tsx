@@ -1,7 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-// import Button from 'react-bootstrap/Button';
-// import Modal from 'react-bootstrap/Modal';
 import {
   Accordion,
   AccordionButton,
@@ -12,14 +10,6 @@ import {
   Button,
   Container,
   Heading,
-  List,
-  ListItem,
-  Modal,
-  ModalCloseButton,
-  ModalContent,
-  ModalHeader,
-  ModalOverlay,
-  useToast,
 } from '@chakra-ui/react';
 import { Plant } from '../../../../../types/CoveyTownSocket';
 /**
@@ -31,10 +21,24 @@ export default function WaterTool({plant}: {plant: Plant}): JSX.Element {
     //waterPlant
   }
   return (
-    <Container>
-      <h1>Watering Status</h1>
-      <h2>Last watered: {plant.lastWateredTime}</h2>
-      <Button colorScheme='blue' onClick={() => waterPlant(plant.id)}>Water me!</Button>
-    </Container>
+    <Accordion allowToggle>
+        <AccordionItem>
+          <Heading as='h3'>
+            <AccordionButton>
+              <Box as='span' flex='1' textAlign='left'>
+                <b>Watering Status</b>
+                <AccordionIcon />
+              </Box>
+            </AccordionButton>
+          </Heading>
+          <AccordionPanel>
+             <Container>
+              <h2>Last watered: {plant.lastWateredTime}</h2>
+              <Button colorScheme='blue' onClick={() => waterPlant(plant.id)}>Water me!</Button>
+            </Container>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
+
   );
 }
