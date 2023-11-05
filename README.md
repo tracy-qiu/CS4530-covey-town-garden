@@ -1,4 +1,12 @@
-# Covey.Town
+# Garden Covey.Town
+
+### Render.js hosting:
+Frontend: https://garden-frontend.onrender.com
+<br />
+Townservice: https://garden-1v1i.onrender.com
+
+Figma Design: https://www.figma.com/file/gu9BqQpitISD8iMB0uCSrh/Community-Garden!?type=design&node-id=7%3A213&mode=design&t=CoMiaTN9Oax9lq4r-1
+
 
 Covey.Town provides a virtual meeting space where different groups of people can have simultaneous video calls, allowing participants to drift between different conversations, just like in real life.
 Covey.Town was built for Northeastern's [Spring 2021 software engineering course](https://neu-se.github.io/CS4530-CS5500-Spring-2021/), and is designed to be reused across semesters.
