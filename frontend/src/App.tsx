@@ -18,6 +18,7 @@ import TownControllerContext from './contexts/TownControllerContext';
 import LoginControllerContext from './contexts/LoginControllerContext';
 import { TownsServiceClient } from './generated/client';
 import { nanoid } from 'nanoid';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [townController, setTownController] = useState<TownController | null>(null);
