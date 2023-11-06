@@ -1,9 +1,11 @@
 export type PlantType = 'Rose' | 'Blueberry' | 'Carrot';
+export type PlantStatus = 'Healthy' | 'Dehydrated' | 'About to Die' | 'Dead :C'
 
 export type Plant = {
   id: string;
   plantType: PlantType;
   lastWateredTime: number;
+  status: PlantStatus;
 }
 
 export type TownJoinResponse = {

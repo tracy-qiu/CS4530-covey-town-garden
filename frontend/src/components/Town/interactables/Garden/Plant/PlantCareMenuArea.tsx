@@ -10,8 +10,7 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import PlantDetails from './PlantDetails';
-import WaterTool from './WaterTool';
-import RemovePlant from './RemovePlant';
+import PlantTool from './PlantTool';
 import { Plant } from '../../../../../types/CoveyTownSocket';
 
 export type PlantToolAreaProps = {
@@ -23,7 +22,7 @@ export type PlantToolAreaProps = {
  *
  * @returns
  */
-export default function PlantToolArea({ plant, showTools }: PlantToolAreaProps): JSX.Element {
+export default function PlantCareMenuArea({ plant, showTools }: PlantToolAreaProps): JSX.Element {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -42,7 +41,7 @@ export default function PlantToolArea({ plant, showTools }: PlantToolAreaProps):
             <ModalCloseButton />
             <PlantDetails plant={plant}/>
             <br />
-            {showTools && (<><WaterTool plant={plant} /><RemovePlant plant={plant} /></>)}
+            {showTools && (<><PlantTool plant={plant} /></>)}
           </Container>
         </ModalContent>
       </Modal>
