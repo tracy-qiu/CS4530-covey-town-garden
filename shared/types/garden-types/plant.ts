@@ -13,18 +13,27 @@ enum PlantAge {
     ADULT
 }
 
+enum PlantHealthStatus {
+    Healthy = "Healthy",
+    Dehydrated = "Dehydrated",
+    AboutToDie = "About to Die",
+    Dead = "Dead"
+}
+
 export class Plant {
     pid: PlantId;
     name: String;
     species: PlantType;
     age: PlantAge;
+    status?: PlantHealthStatus;
     lastWatered: Date; // example date: "Tue Feb 05 2019 12:05:22 GMT+0530 (IST)"
 
-    constructor(pid: String, name: String, species: PlantType, age: PlantAge, lastWatered: Date) {
+    constructor(pid: String, name: String, species: PlantType) {
         this.pid = pid;
         this.name = name;
         this.species = species;
-        this.age = age;
-        this.lastWatered = lastWatered;
+        this.age = PlantAge.SEEDLING;
+        this.lastWatered = new Date();
+        this.status = PlantHealthStatus.Healthy;
     }
 }
