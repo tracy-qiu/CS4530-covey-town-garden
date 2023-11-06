@@ -1,6 +1,5 @@
 type PlantId = String;
 
-// Instead of database, define in backend??
 enum PlantType {
     CARROT = "carrot",
     ROSE = "rose",
@@ -16,7 +15,6 @@ enum PlantAge {
 
 export class Plant {
     pid: PlantId;
-    // gardenPlotId: String; // Garden plot should have four Plant objects
     name: String;
     species: PlantType;
     age: PlantAge;
@@ -24,7 +22,6 @@ export class Plant {
 
     constructor(pid: String, name: String, species: PlantType, age: PlantAge, lastWatered: Date) {
         this.pid = pid;
-        // this.gardenPlotId = gardenPlotId;
         this.name = name;
         this.species = species;
         this.age = age;
