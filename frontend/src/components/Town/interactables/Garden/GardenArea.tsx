@@ -4,7 +4,6 @@ import { useInteractable, useInteractableAreaController } from '../../../../clas
 import useTownController from '../../../../hooks/useTownController';
 import { InteractableID } from '../../../../types/CoveyTownSocket';
 import GameAreaInteractable from '../GameArea';
-import { extendTheme } from '@chakra-ui/react';
 import {
   Modal,
   ModalOverlay,
@@ -17,57 +16,18 @@ import {
   GridItem,
   chakra,
   Button,
+  ModalBody,
+  Box,
+  HStack,
+  VStack,
 } from '@chakra-ui/react';
-
-const customTheme = extendTheme({
-  colors: {
-    custom: {
-      primary: '793D00',
-    },
-  },
-});
-
-const StyledPlot = chakra(Button, {
-  baseStyle: {
-    borderRadius: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexBasis: '33%',
-    border: '1px solid teal',
-    color: '793D00',
-    height: '33%',
-    fontSize: '50px',
-    _disabled: {
-      opacity: '100%',
-    },
-  },
-});
-
-const StyledGarden = chakra(Container, {
-  baseStyle: {
-    display: 'flex',
-    width: '400px',
-    height: '400px',
-    padding: '5px',
-    flexWrap: 'wrap',
-  },
-});
+import { GardenPlots } from './GardenPlots';
+import { GardenButton } from './GardenButton';
 
 export function GardenArea({ interactableID }: { interactableID: InteractableID }): JSX.Element {
-  const garden: number[][] = [
-    [1, 1, 0, 0],
-    [1, 1, 0, 0],
-  ];
   return (
     <Container>
-      <Spacer />
-      <StyledGarden>
-        {garden.map((row, rowIndex) => {
-          return row.map((plot, colIndex) => {
-            return <StyledPlot key={`${rowIndex}.${colIndex}`}></StyledPlot>;
-          });
-        })}
-      </StyledGarden>
+      <GardenPlots></GardenPlots>
     </Container>
   );
 }
@@ -93,9 +53,19 @@ export default function TicTacToeAreaWrapper(): JSX.Element {
       <Modal isOpen={true} onClose={closeModal} closeOnOverlayClick={false} size='xl'>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{'Community Garden'}</ModalHeader>
-          <ModalCloseButton />
-          <GardenArea interactableID={gameArea.name} />;
+          <VStack>
+            <HStack align='center' justify='center'>
+              <ModalHeader textAlign='center'>{'Community Garden'}</ModalHeader>
+              <GardenButton></GardenButton>
+            </HStack>
+            <HStack>
+              <Box border='1px solid black'>{'Users: '}</Box>
+              <ModalBody textAlign='center'>{'Welcome, username!'}</ModalBody>
+              <Spacer />
+            </HStack>
+            <ModalCloseButton />
+            <GardenArea interactableID={gameArea.name} />
+          </VStack>
         </ModalContent>
       </Modal>
     );
