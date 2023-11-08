@@ -24,6 +24,11 @@ import {
 import { GardenPlots } from './GardenPlots';
 import { GardenButton } from './GardenButton';
 
+/**
+ * Renders the plots and other components of the garden area.
+ * @param {InteractableID} interactableID
+ * @returns {JSX.Element} GardenArea
+ */
 export function GardenArea({ interactableID }: { interactableID: InteractableID }): JSX.Element {
   return (
     <Container>
@@ -32,9 +37,9 @@ export function GardenArea({ interactableID }: { interactableID: InteractableID 
   );
 }
 /**
- * A wrapper component for the TicTacToeArea component.
- * Determines if the player is currently in a tic tac toe area on the map, and if so,
- * renders the TicTacToeArea component in a modal.
+ * A wrapper component for the GardenArea component.
+ * Determines if the player is currently in a community garden area on the map, and if so,
+ * renders the GardenArea component in a modal with the appropriate content.
  *
  */
 export default function TicTacToeAreaWrapper(): JSX.Element {

@@ -50,6 +50,12 @@ const StyledGarden = chakra(Container, {
   },
 });
 
+/**
+ * Renders each individual plot styled for the garden together as one component.
+ * The plots display as four across and four down, with scrollability vertically
+ * to view other plots that do not fit in the view.
+ * @returns {JSX.Element} GardenPlots
+ */
 export function GardenPlots(): JSX.Element {
   const garden: number[][] = [
     [1, 1, 0, 0],
