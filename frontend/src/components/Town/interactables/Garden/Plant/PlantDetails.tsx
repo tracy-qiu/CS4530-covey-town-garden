@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Rose from '../Images/rose.png';
 import {
   AbsoluteCenter,
   Divider,
@@ -29,8 +28,8 @@ export default function PlantDetails({plant}: {plant: Plant}): JSX.Element {
       setAbout('Roses have been symbols of love and beauty for centuries. Red roses traditionally represent love and passion, while white roses symbolize purity and innocence.')
       setInstructions('To tend a rose, add water once a day');
       setAboutImg('https://img.freepik.com/free-photo/beautiful-rose-studio_23-2150737335.jpg')
-      setSeedImg('https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/28541/tj-openclipart-16-seed-germinating-20-2-16-clipart-md.png');
-      setSproutImg('https://static.vecteezy.com/system/resources/previews/023/258/444/original/sprout-graphic-clipart-design-free-png.png');
+      setSeedImg('https://cdn.pixabay.com/photo/2017/03/22/02/23/seedling-2163773_1280.png');
+      setSproutImg('https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/7821631/sprout-clipart-xl.png');
       setPlantImg('https://pngfre.com/wp-content/uploads/rose-65-852x1024.png');
     }
     else if (plant.plantType === 'Blueberry') {
@@ -38,8 +37,8 @@ export default function PlantDetails({plant}: {plant: Plant}): JSX.Element {
       setInstructions('To tend a blueberry, add water twice a day');
       setAboutImg('https://www.plantmegreen.com/cdn/shop/products/DukeBlueberryFruitDetail_PMG.jpg?v=1636636953')
       setSeedImg('https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/28541/tj-openclipart-16-seed-germinating-20-2-16-clipart-md.png');
-      setSproutImg('https://static.vecteezy.com/system/resources/previews/023/258/444/original/sprout-graphic-clipart-design-free-png.png');
-      setPlantImg('https://static.vecteezy.com/system/resources/previews/023/254/577/non_2x/blueberry-clipart-fruit-illustration-free-png.png');
+      setSproutImg('https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Emojione_1F331.svg/1024px-Emojione_1F331.svg.png');
+      setPlantImg('https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/25643/grodd-clipart-md.png');
     } else if (plant.plantType === 'Carrot') {
       setAbout('Carrots are a versatile root vegetable known for their nutritional value and sweet flavor. In some cultures, they are associated with simplicity, fertility, and grounding.')
       setInstructions('To tend a carrot, add water once a day');
