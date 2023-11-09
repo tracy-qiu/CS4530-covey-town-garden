@@ -11,9 +11,8 @@ import {
   Container,
   Heading,
   Badge,
-  Stack,
 } from '@chakra-ui/react';
-import { Plant } from '../../../../../types/CoveyTownSocket';
+import { Plant, PlantHealthStatus } from '../../../../../../../shared/types/garden-types/plant';
 
 /**
  * Displays actions to perform on a selected plant, such as watering and removing. It also shows a plant's current health status
@@ -22,21 +21,21 @@ import { Plant } from '../../../../../types/CoveyTownSocket';
 export default function PlantActions({ plant }: { plant: Plant }): JSX.Element {
   const [statusColor, setStatusColor] = useState('');
   useEffect(() => {
-    if (plant.status === 'Healthy') {
+    if (plant.status === PlantHealthStatus.Healthy) {
       setStatusColor('green');
-    } else if (plant.status === 'Dehydrated') {
+    } else if (plant.status === PlantHealthStatus.Dehydrated) {
       setStatusColor('yellow');
-    } else if (plant.status === 'About to Die') {
+    } else if (plant.status === PlantHealthStatus.AboutToDie) {
       setStatusColor('red');
-    } else if (plant.status === 'Dead :C') {
+    } else if (plant.status === PlantHealthStatus.Dead) {
       setStatusColor('purple');
     }
   }, [plant]);
-  const waterPlant = (plantID: string) => {
+  const waterPlant = (pid: string) => {
     //waterPlant
   };
 
-  const removePlant = (plantID: string) => {};
+  const removePlant = (pid: string) => {};
   return (
     <>
       <br />
@@ -58,8 +57,8 @@ export default function PlantActions({ plant }: { plant: Plant }): JSX.Element {
           </Heading>
           <AccordionPanel>
             <Container>
-              <h2>Last watered: {plant.lastWateredTime}</h2>
-              <Button colorScheme='blue' onClick={() => waterPlant(plant.id)}>
+              <h2>Last watered: {plant.lastWatered}</h2>
+              <Button colorScheme='blue' onClick={() => waterPlant(plant.pid)}>
                 Water me!
               </Button>
             </Container>
@@ -77,7 +76,7 @@ export default function PlantActions({ plant }: { plant: Plant }): JSX.Element {
           </Heading>
           <AccordionPanel>
             <Container>
-              <Button colorScheme='red' onClick={() => removePlant(plant.id)}>
+              <Button colorScheme='red' onClick={() => removePlant(plant.pid)}>
                 Remove Plant
               </Button>
             </Container>

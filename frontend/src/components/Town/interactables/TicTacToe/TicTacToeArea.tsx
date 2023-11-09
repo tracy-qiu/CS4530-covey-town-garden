@@ -22,11 +22,17 @@ import TicTacToeAreaController from '../../../../classes/interactable/TicTacToeA
 import PlayerController from '../../../../classes/PlayerController';
 import { useInteractable, useInteractableAreaController } from '../../../../classes/TownController';
 import useTownController from '../../../../hooks/useTownController';
-import { GameResult, GameStatus, InteractableID, Plant } from '../../../../types/CoveyTownSocket';
+import { GameResult, GameStatus, InteractableID } from '../../../../types/CoveyTownSocket';
 import GameAreaInteractable from '../GameArea';
 import TicTacToeLeaderboard from '../Leaderboard';
 import TicTacToeBoard from './TicTacToeBoard';
 import PlantCare from '../Garden/Plant/PlantCare';
+import {
+  Plant,
+  PlantAge,
+  PlantHealthStatus,
+  PlantType,
+} from '../../../../../../shared/types/garden-types/plant';
 
 /**
  * The TicTacToeArea component renders the TicTacToe game area.
@@ -158,10 +164,12 @@ function TicTacToeArea({ interactableID }: { interactableID: InteractableID }): 
   }
 
   const samplePlant: Plant = {
-    id: 'id',
-    plantType: 'Blueberry',
-    lastWateredTime: 100,
-    status: 'Dead :C',
+    pid: 'ajsfd',
+    name: 'blueberry',
+    species: PlantType.BLUEBERRY,
+    age: PlantAge.SEEDLING,
+    lastWatered: new Date(),
+    status: PlantHealthStatus.Healthy,
   };
 
   return (
