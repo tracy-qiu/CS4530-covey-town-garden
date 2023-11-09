@@ -10,7 +10,6 @@ import { RegisterRoutes } from '../generated/routes';
 import TownsStore from './lib/TownsStore';
 import { ClientToServerEvents, ServerToClientEvents } from './types/CoveyTownSocket';
 import { TownsController } from './town/TownsController';
-import { GardenController } from './town/garden/GardenController';
 import { initialize } from './town/garden/GardenManager';
 import { logError } from './Utils';
 

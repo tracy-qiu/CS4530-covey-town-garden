@@ -1,18 +1,37 @@
 type PlantId = number;
 
 enum PlantType {
-  CARROTS,
-  ROSES,
-  BLUEBERRIES,
+  CARROT = 'carrot',
+  ROSE = 'rose',
+  BLUEBERRY = 'blueberry',
+}
+
+// plant age: corresponds to numbers (as in DB)
+enum PlantAge {
+  SEEDLING,
+  SPROUT,
+  ADULT,
+}
+
+enum PlantHealthStatus {
+  Healthy = 'Healthy',
+  Dehydrated = 'Dehydrated',
+  AboutToDie = 'About to Die',
+  Dead = 'Dead',
 }
 
 type Plant = {
-  id: PlantId;
-  gardenPlotId: string;
+  pid: PlantId;
+
   name: string;
+
   species: PlantType;
-  age: number;
-  daysSinceLastWater: number;
+
+  age: PlantAge;
+
+  status?: PlantHealthStatus;
+
+  lastWatered: Date; // example date: "Tue Feb 05 2019 12:05:22 GMT+0530 (IST)"
 };
 
-export { PlantId, PlantType, Plant };
+export { PlantId, PlantType, PlantAge, PlantHealthStatus, Plant };

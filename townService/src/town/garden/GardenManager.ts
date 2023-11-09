@@ -1,6 +1,6 @@
 // manage the garden database
 
-import { PlantId, PlantType, Plant } from './plants';
+import { PlantId, PlantType, Plant, PlantHealthStatus } from './plants';
 
 // the database of transcript
 let allPlants: Plant[] = [];
@@ -17,23 +17,23 @@ class PlantIDManager {
 
 // addsPlants
 export function addPlant(
-  gardenPlotId: string,
   name: string,
   species: PlantType,
   age: number,
-  daysSinceLastWater: number,
+  lastWatered: Date,
+  status?: PlantHealthStatus,
 ): PlantId {
   const newID = PlantIDManager.newID();
-  allPlants.push({ id: newID, gardenPlotId, name, species, age, daysSinceLastWater });
+  allPlants.push({ pid: newID, name, species, age, status, lastWatered });
   return newID;
 }
 
 // initialize mock data
 export function initialize(): void {
   allPlants = [];
-  addPlant('P1', 'Carrots', PlantType.CARROTS, 1, 1);
-  addPlant('P2', 'Roses', PlantType.ROSES, 3, 4);
-  addPlant('P3', 'Blueberries', PlantType.BLUEBERRIES, 5, 2);
+  addPlant('Carrots', PlantType.CARROT, 1, new Date(), PlantHealthStatus.Healthy);
+  addPlant('Roses', PlantType.ROSE, 3, new Date(), PlantHealthStatus.Dehydrated);
+  addPlant('Blueberries', PlantType.BLUEBERRY, 5, new Date(), PlantHealthStatus.AboutToDie);
 }
 
 export function getAll(): Plant[] {
@@ -42,5 +42,5 @@ export function getAll(): Plant[] {
 
 // gets transcript for given ID.  Returns undefined if missing
 export function getPlant(plantID: number): Plant | undefined {
-  return allPlants.find(plant => plant.id === plantID);
+  return allPlants.find(plant => plant.pid === plantID);
 }
