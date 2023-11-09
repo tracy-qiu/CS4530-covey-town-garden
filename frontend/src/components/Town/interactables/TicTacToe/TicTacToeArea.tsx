@@ -26,7 +26,7 @@ import { GameResult, GameStatus, InteractableID, Plant } from '../../../../types
 import GameAreaInteractable from '../GameArea';
 import TicTacToeLeaderboard from '../Leaderboard';
 import TicTacToeBoard from './TicTacToeBoard';
-import PlantCareMenuArea from '../Garden/Plant/PlantCareMenuArea';
+import PlantCare from '../Garden/Plant/PlantCare';
 
 /**
  * The TicTacToeArea component renders the TicTacToe game area.
@@ -157,11 +157,16 @@ function TicTacToeArea({ interactableID }: { interactableID: InteractableID }): 
     );
   }
 
-  const samplePlant : Plant = {id: 'id', plantType: 'Blueberry', lastWateredTime: 100, status: 'Dead :C'}
+  const samplePlant: Plant = {
+    id: 'id',
+    plantType: 'Blueberry',
+    lastWateredTime: 100,
+    status: 'Dead :C',
+  };
 
   return (
     <Container>
-      <PlantCareMenuArea plant={samplePlant} showTools={true} />
+      <PlantCare plant={samplePlant} showActions={true} />
       <Accordion allowToggle>
         <AccordionItem>
           <Heading as='h3'>

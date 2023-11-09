@@ -10,19 +10,19 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import PlantDetails from './PlantDetails';
-import PlantTool from './PlantTool';
+import PlantActions from './PlantActions';
 import { Plant } from '../../../../../types/CoveyTownSocket';
 
-export type PlantToolAreaProps = {
+export type PlantCareProps = {
   plant: Plant;
-  showTools: boolean;
-}
+  showActions: boolean;
+};
 
 /**
- *
- * @returns
+ * Shows information about a plant, its health status, and actions to do on the plant (watering, remove)
+ * @returns JSX.Element
  */
-export default function PlantCareMenuArea({ plant, showTools }: PlantToolAreaProps): JSX.Element {
+export default function PlantCare({ plant, showActions }: PlantCareProps): JSX.Element {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -37,11 +37,15 @@ export default function PlantCareMenuArea({ plant, showTools }: PlantToolAreaPro
         <ModalOverlay />
         <ModalContent>
           <Container>
-            <ModalHeader>Plant Care Menu</ModalHeader>
+            <ModalHeader>Plant Care</ModalHeader>
             <ModalCloseButton />
-            <PlantDetails plant={plant}/>
+            <PlantDetails plant={plant} />
             <br />
-            {showTools && (<><PlantTool plant={plant} /></>)}
+            {showActions && (
+              <>
+                <PlantActions plant={plant} />
+              </>
+            )}
           </Container>
         </ModalContent>
       </Modal>
