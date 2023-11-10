@@ -20,7 +20,8 @@ export type PlantCareProps = {
 
 /**
  * Shows information about a plant, its health status, and actions to do on the plant (watering, remove)
- * @returns JSX.Element
+ * @param { plant, showActions }
+ * @returns {JSX.Element} component
  */
 export default function PlantCare({ plant, showActions }: PlantCareProps): JSX.Element {
   const [show, setShow] = useState(false);

@@ -14,7 +14,8 @@ import PLANT_DETAILS_DATA from '../garden-data/data';
 
 /**
  * Displays information about a given plant
- * @returns JSX Element
+ * @param {Plant} plant
+ * @returns {JSX.Element} component
  */
 export default function PlantDetails({ plant }: { plant: Plant }): JSX.Element {
   const [about, setAbout] = useState('');

@@ -19,7 +19,8 @@ import {
 import { Plant } from '../../../../../types/CoveyTownSocket';
 /**
  * Displays actions to perform on a selected plant, such as watering and removing. It also shows a plant's current health status
- * @returns JSX.Element
+ * @param {Plant} plant
+ * @returns {JSX.Element} component
  */
 export default function PlantActions({ plant }: { plant: Plant }): JSX.Element {
   const [statusColor, setStatusColor] = useState('');
