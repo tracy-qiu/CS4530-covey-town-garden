@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 //import PlayerController from '../../../../classes/PlayerController';
 import { useInteractable, useInteractableAreaController } from '../../../../classes/TownController';
 import useTownController from '../../../../hooks/useTownController';
-import { InteractableID } from '../../../../types/CoveyTownSocket';
+import { InteractableID, Plant } from '../../../../types/CoveyTownSocket';
 import GameAreaInteractable from '../GameArea';
 import {
   Modal,
@@ -20,6 +20,7 @@ import {
   HStack,
   VStack,
 } from '@chakra-ui/react';
+import PlantCare from './Plant/PlantCare';
 
 const StyledPlot = chakra(Button, {
   baseStyle: {
@@ -62,12 +63,23 @@ export function GardenPlots(): JSX.Element {
     [1, 1, 0, 1],
   ];
 
+  // const samplePlant: Plant = {
+  //   pid: 'ajsfd',
+  //   name: 'blueberry',
+  //   species: 'Blueberry',
+  //   age: 'Seedling',
+  //   lastWatered: new Date(),
+  //   status: 'Healthy',
+  // };
   return (
     <Box overflowX='auto'>
       <StyledGarden>
         {garden.map((row, rowIndex) => {
           return row.map((plot, colIndex) => {
-            return <StyledPlot key={`${rowIndex}.${colIndex}`}>{plot}</StyledPlot>;
+            return (
+              <StyledPlot key={`${rowIndex}.${colIndex}`}>{plot}</StyledPlot>
+              // <PlantCare plant={samplePlant} showActions={true} key={`${rowIndex}.${colIndex}`} />
+            );
           });
         })}
       </StyledGarden>
