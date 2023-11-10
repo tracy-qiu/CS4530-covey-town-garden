@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import PlantDetails from './PlantDetails';
 import PlantActions from './PlantActions';
-import { Plant } from '../../../../../../../shared/types/garden-types/plant';
+import { Plant } from '../../../../../types/CoveyTownSocket';
 
 export type PlantCareProps = {
   plant: Plant;

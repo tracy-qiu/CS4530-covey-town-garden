@@ -9,8 +9,8 @@ import {
   Container,
   Heading,
 } from '@chakra-ui/react';
-import { Plant, PlantDetailsData } from '../../../../../../../shared/types/garden-types/plant';
-import plantDetailsData from '../../../../../../../shared/garden-data/data';
+import { Plant, PlantDetailsData } from '../../../../../types/CoveyTownSocket';
+import PLANT_DETAILS_DATA from '../garden-data/data';
 
 /**
  * Displays information about a given plant
@@ -26,7 +26,7 @@ export default function PlantDetails({ plant }: { plant: Plant }): JSX.Element {
 
   useEffect(() => {
     const plantInfo: PlantDetailsData | undefined =
-      plantDetailsData.find(info => info.type === plant.species) ?? undefined;
+      PLANT_DETAILS_DATA.find(info => info.type === plant.species) ?? undefined;
     if (plantInfo) {
       setAbout(plantInfo.about);
       setInstructions(plantInfo.instructions);

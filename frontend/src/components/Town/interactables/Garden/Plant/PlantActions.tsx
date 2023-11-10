@@ -9,26 +9,40 @@ import {
   Box,
   Button,
   Container,
-  Heading,
   Badge,
+  Divider,
+  AbsoluteCenter,
+  Heading,
+  Tag,
+  Center,
 } from '@chakra-ui/react';
-import { Plant, PlantHealthStatus } from '../../../../../../../shared/types/garden-types/plant';
-
+import { Plant } from '../../../../../types/CoveyTownSocket';
 /**
  * Displays actions to perform on a selected plant, such as watering and removing. It also shows a plant's current health status
  * @returns JSX.Element
  */
 export default function PlantActions({ plant }: { plant: Plant }): JSX.Element {
   const [statusColor, setStatusColor] = useState('');
+  const [ageColor, setAgeColor] = useState('');
   useEffect(() => {
-    if (plant.status === PlantHealthStatus.Healthy) {
+    if (plant.status === 'Healthy') {
       setStatusColor('green');
-    } else if (plant.status === PlantHealthStatus.Dehydrated) {
+    } else if (plant.status === 'Dehydrated') {
       setStatusColor('yellow');
-    } else if (plant.status === PlantHealthStatus.AboutToDie) {
+    } else if (plant.status === 'About to Die') {
       setStatusColor('red');
-    } else if (plant.status === PlantHealthStatus.Dead) {
-      setStatusColor('purple');
+    } else if (plant.status === 'Dead') {
+      setStatusColor('gray');
+    }
+
+    if (plant.status !== 'Dead') {
+      if (plant.age === 'Adult') {
+        setAgeColor('purple');
+      } else if (plant.age === 'Sprout') {
+        setAgeColor('pink');
+      } else {
+        setAgeColor('teal');
+      }
     }
   }, [plant]);
   const waterPlant = (pid: string) => {
@@ -38,10 +52,40 @@ export default function PlantActions({ plant }: { plant: Plant }): JSX.Element {
   const removePlant = (pid: string) => {};
   return (
     <>
-      <br />
       <Container>
-        <b>Plant Health: </b>
-        <Badge colorScheme={statusColor}>{plant.status}</Badge>
+        <Box position='relative' padding='4'>
+          <Divider />
+          <AbsoluteCenter bg='white' px='4'>
+            <b>Plant Status</b>
+          </AbsoluteCenter>
+        </Box>
+        <Center>
+          <Tag>Hello! My name is {plant.name}</Tag>
+        </Center>
+        <h1>
+          <b>Condition: </b>
+          <Badge colorScheme={statusColor}>{plant.status}</Badge>
+        </h1>
+        <h2>
+          <b>Age: </b>
+          <Badge colorScheme={ageColor}>{plant.age}</Badge>
+        </h2>
+        <h2>
+          <b>Current Date: </b>
+          {new Date().toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+          })}
+        </h2>
+        <h2>
+          <b>Last watered: </b>
+          {plant.lastWatered.toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'numeric',
+            day: 'numeric',
+          })}
+        </h2>
       </Container>
       <br />
 
@@ -50,39 +94,24 @@ export default function PlantActions({ plant }: { plant: Plant }): JSX.Element {
           <Heading as='h3'>
             <AccordionButton>
               <Box as='span' flex='1' textAlign='left'>
-                <b>Water Plant</b>
+                <b>Actions</b>
                 <AccordionIcon />
               </Box>
             </AccordionButton>
           </Heading>
           <AccordionPanel>
-            <Container>
-              <h2>Last watered: {plant.lastWatered}</h2>
-              <Button colorScheme='blue' onClick={() => waterPlant(plant.pid)}>
-                Water me!
-              </Button>
-            </Container>
-          </AccordionPanel>
-        </AccordionItem>
-
-        <AccordionItem>
-          <Heading as='h3'>
-            <AccordionButton>
-              <Box as='span' flex='1' textAlign='left'>
-                <b>Remove Plant</b>
-                <AccordionIcon />
-              </Box>
-            </AccordionButton>
-          </Heading>
-          <AccordionPanel>
-            <Container>
-              <Button colorScheme='red' onClick={() => removePlant(plant.pid)}>
-                Remove Plant
-              </Button>
-            </Container>
+            <Button colorScheme='blue' onClick={() => waterPlant(plant.pid)}>
+              Water me!
+            </Button>
+            <br />
+            <br />
+            <Button colorScheme='red' onClick={() => removePlant(plant.pid)}>
+              Remove Plant
+            </Button>
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
+      <br />
     </>
   );
 }

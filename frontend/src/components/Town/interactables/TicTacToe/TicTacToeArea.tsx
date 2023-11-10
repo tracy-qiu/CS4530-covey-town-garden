@@ -27,12 +27,7 @@ import GameAreaInteractable from '../GameArea';
 import TicTacToeLeaderboard from '../Leaderboard';
 import TicTacToeBoard from './TicTacToeBoard';
 import PlantCare from '../Garden/Plant/PlantCare';
-import {
-  Plant,
-  PlantAge,
-  PlantHealthStatus,
-  PlantType,
-} from '../../../../../../shared/types/garden-types/plant';
+import { Plant, PlantAge, PlantHealthStatus, PlantType } from '../../../../types/CoveyTownSocket';
 
 /**
  * The TicTacToeArea component renders the TicTacToe game area.
@@ -166,10 +161,10 @@ function TicTacToeArea({ interactableID }: { interactableID: InteractableID }): 
   const samplePlant: Plant = {
     pid: 'ajsfd',
     name: 'blueberry',
-    species: PlantType.BLUEBERRY,
-    age: PlantAge.SEEDLING,
+    species: 'Blueberry',
+    age: 'Seedling',
     lastWatered: new Date(),
-    status: PlantHealthStatus.Healthy,
+    status: 'Healthy',
   };
 
   return (
