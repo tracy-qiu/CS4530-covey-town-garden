@@ -1,3 +1,37 @@
+export type PlantId = string;
+
+export type PlantType = 'Carrot' | 'Rose' | 'Blueberry';
+
+// plant age: corresponds to numbers (as in DB)
+export type PlantAge = 'Seedling' | 'Sprout' | 'Adult';
+
+export type PlantHealthStatus = 'Healthy' | 'Dehydrated' | 'About to Die' | 'Dead';
+
+export type Plant = {
+    pid: PlantId;
+
+    name: string;
+
+    species: PlantType;
+
+    age: PlantAge;
+
+    status: PlantHealthStatus;
+
+    lastWatered: Date; // example date: "Tue Feb 05 2019 12:05:22 GMT+0530 (IST)"
+}
+
+export type PlantDetailsData = {
+    type: PlantType;
+    about: string;
+    instructions: string;
+    aboutImg: string;
+    seedImg: string;
+    sproutImg: string;
+    matureImg: string;
+}
+
+
 export type TownJoinResponse = {
   /** Unique ID that represents this player * */
   userID: string;
@@ -79,7 +113,7 @@ export type GameStatus = 'IN_PROGRESS' | 'WAITING_TO_START' | 'OVER';
  */
 export interface GameState {
   status: GameStatus;
-} 
+}
 
 /**
  * Type for the state of a game that can be won
@@ -191,7 +225,7 @@ export interface GameMoveCommand<MoveType> {
   gameID: GameInstanceID;
   move: MoveType;
 }
-export type InteractableCommandReturnType<CommandType extends InteractableCommand> = 
+export type InteractableCommandReturnType<CommandType extends InteractableCommand> =
   CommandType extends JoinGameCommand ? { gameID: string}:
   CommandType extends ViewingAreaUpdateCommand ? undefined :
   CommandType extends GameMoveCommand<TicTacToeMove> ? undefined :
