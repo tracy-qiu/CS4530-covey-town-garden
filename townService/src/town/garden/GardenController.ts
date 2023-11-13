@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Path, Post, Query, Response, Route, Tags } from 'tsoa';
+import { Controller, Get, Path, Route } from 'tsoa';
 import * as db from './GardenManager';
 import { PlantId } from '../../types/CoveyTownSocket';
 
