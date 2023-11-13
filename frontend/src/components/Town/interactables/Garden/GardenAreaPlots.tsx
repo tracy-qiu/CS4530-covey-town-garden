@@ -57,11 +57,19 @@ const StyledGarden = chakra(Container, {
  * to view other plots that do not fit in the view.
  * @returns {JSX.Element} GardenPlots
  */
-export function GardenPlots(): JSX.Element {
+export function GardenAreaPlots(): JSX.Element {
   const garden: number[][] = [
     [1, 1, 0, 0],
     [1, 1, 0, 1],
   ];
+
+  const [viewPlot, setViewPlot] = useState(false);
+
+  //useState -> gardenPlots
+
+  //useState -> pop up another modal on top of first? replace modal?
+
+  //useEffect -> tracks garden controller
 
   // const samplePlant: Plant = {
   //   pid: 'ajsfd',
@@ -77,7 +85,9 @@ export function GardenPlots(): JSX.Element {
         {garden.map((row, rowIndex) => {
           return row.map((plot, colIndex) => {
             return (
-              <StyledPlot key={`${rowIndex}.${colIndex}`}>{plot}</StyledPlot>
+              <StyledPlot key={`${rowIndex}.${colIndex}`} onClick={console.log('clicked a plot!')}>
+                {plot}
+              </StyledPlot>
               // <PlantCare plant={samplePlant} showActions={true} key={`${rowIndex}.${colIndex}`} />
             );
           });

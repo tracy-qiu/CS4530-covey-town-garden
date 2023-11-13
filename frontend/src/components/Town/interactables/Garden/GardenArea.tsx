@@ -21,7 +21,7 @@ import {
   HStack,
   VStack,
 } from '@chakra-ui/react';
-import { GardenPlots } from './GardenPlots';
+import { GardenAreaPlots } from './GardenAreaPlots';
 import { GardenButton } from './GardenButton';
 
 /**
@@ -32,7 +32,7 @@ import { GardenButton } from './GardenButton';
 export function GardenArea({ interactableID }: { interactableID: InteractableID }): JSX.Element {
   return (
     <Container>
-      <GardenPlots></GardenPlots>
+      <GardenAreaPlots></GardenAreaPlots>
     </Container>
   );
 }
