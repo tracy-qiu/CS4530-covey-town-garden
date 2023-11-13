@@ -16,6 +16,7 @@ export const townModel = mongoose.model('TownModel', townSchema);
 const gardenSchema = new mongoose.Schema(
   {
     townId: { type: mongoose.Schema.Types.ObjectId, ref: 'townSchema', required: true },
+    gardenPlots: Array,
   },
   { collection: 'gardens' },
 );
