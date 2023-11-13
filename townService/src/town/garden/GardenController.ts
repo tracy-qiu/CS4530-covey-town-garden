@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Path, Post, Query, Response, Route, Tags } from 'tsoa';
 import * as db from './GardenManager';
-import { PlantId, PlantType, Plant, PlantHealthStatus } from './plants';
+import { PlantId } from '../../types/CoveyTownSocket';
 
 @Route('garden')
 export class GardenController extends Controller {

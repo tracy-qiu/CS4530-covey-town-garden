@@ -1,6 +1,12 @@
 // manage the garden database
 
-import { PlantId, PlantType, Plant, PlantHealthStatus } from './plants';
+import {
+  PlantId,
+  PlantType,
+  PlantAge,
+  Plant,
+  PlantHealthStatus,
+} from '../../types/CoveyTownSocket';
 
 // the database of transcript
 let allPlants: Plant[] = [];
@@ -19,9 +25,9 @@ class PlantIDManager {
 export function addPlant(
   name: string,
   species: PlantType,
-  age: number,
+  age: PlantAge,
   lastWatered: Date,
-  status?: PlantHealthStatus,
+  status: PlantHealthStatus,
 ): PlantId {
   const newID = PlantIDManager.newID();
   allPlants.push({ pid: newID, name, species, age, status, lastWatered });
@@ -31,9 +37,9 @@ export function addPlant(
 // initialize mock data
 export function initialize(): void {
   allPlants = [];
-  addPlant('Carrots', PlantType.CARROT, 1, new Date(), PlantHealthStatus.Healthy);
-  addPlant('Roses', PlantType.ROSE, 3, new Date(), PlantHealthStatus.Dehydrated);
-  addPlant('Blueberries', PlantType.BLUEBERRY, 5, new Date(), PlantHealthStatus.AboutToDie);
+  addPlant('Carrots', 'Carrot', 'Seedling', new Date(), 'Healthy');
+  addPlant('Roses', 'Rose', 'Adult', new Date(), 'Dehydrated');
+  addPlant('Blueberries', 'Blueberry', 'Sprout', new Date(), 'About to Die');
 }
 
 export function getAll(): Plant[] {
