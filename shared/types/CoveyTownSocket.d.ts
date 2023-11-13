@@ -1,5 +1,7 @@
 export type PlantId = string;
 
+export type GardenerId = string;
+
 export type PlantType = 'Carrot' | 'Rose' | 'Blueberry';
 
 // plant age: corresponds to numbers (as in DB)
@@ -8,27 +10,33 @@ export type PlantAge = 'Seedling' | 'Sprout' | 'Adult';
 export type PlantHealthStatus = 'Healthy' | 'Dehydrated' | 'About to Die' | 'Dead';
 
 export type Plant = {
-    pid: PlantId;
+  pid: PlantId;
+  name: string;
+  species: PlantType;
+  age: PlantAge;
+  status: PlantHealthStatus;
+  lastWatered: Date; // example date: "Tue Feb 05 2019 12:05:22 GMT+0530 (IST)"
+}
 
-    name: string;
+export type Garden = {
+  townId: number; // change type if necessary
+  admin: string;
+  plots: GardenPlot[];
+}
 
-    species: PlantType;
-
-    age: PlantAge;
-
-    status: PlantHealthStatus;
-
-    lastWatered: Date; // example date: "Tue Feb 05 2019 12:05:22 GMT+0530 (IST)"
+export type GardenPlot = {
+  gardenerId: GardenerId;
+  plants: Plant[] = [];
 }
 
 export type PlantDetailsData = {
-    type: PlantType;
-    about: string;
-    instructions: string;
-    aboutImg: string;
-    seedImg: string;
-    sproutImg: string;
-    matureImg: string;
+  type: PlantType;
+  about: string;
+  instructions: string;
+  aboutImg: string;
+  seedImg: string;
+  sproutImg: string;
+  matureImg: string;
 }
 
 
