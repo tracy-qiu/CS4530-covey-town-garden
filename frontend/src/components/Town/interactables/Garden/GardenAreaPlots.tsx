@@ -21,6 +21,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import PlantCare from './Plant/PlantCare';
+import PlotButton from './PlotButton';
 
 const StyledPlot = chakra(Button, {
   baseStyle: {
@@ -63,7 +64,20 @@ export function GardenAreaPlots(): JSX.Element {
     [1, 1, 0, 1],
   ];
 
-  const [viewPlot, setViewPlot] = useState(false);
+  const samplePlant: Plant = {
+    pid: 'ajsfd',
+    name: 'blueberry',
+    species: 'Blueberry',
+    age: 'Seedling',
+    lastWatered: new Date(),
+    status: 'Healthy',
+  };
+
+  const [clicked, setClick] = useState(false);
+
+  const handleClick = () => {
+    setClick(true);
+  };
 
   //useState -> gardenPlots
 
@@ -71,24 +85,15 @@ export function GardenAreaPlots(): JSX.Element {
 
   //useEffect -> tracks garden controller
 
-  // const samplePlant: Plant = {
-  //   pid: 'ajsfd',
-  //   name: 'blueberry',
-  //   species: 'Blueberry',
-  //   age: 'Seedling',
-  //   lastWatered: new Date(),
-  //   status: 'Healthy',
-  // };
   return (
     <Box overflowX='auto'>
       <StyledGarden>
         {garden.map((row, rowIndex) => {
           return row.map((plot, colIndex) => {
             return (
-              <StyledPlot key={`${rowIndex}.${colIndex}`} onClick={console.log('clicked a plot!')}>
-                {plot}
+              <StyledPlot key={`${rowIndex}.${colIndex}`} onClick={handleClick}>
+                {clicked && <PlantCare plant={samplePlant} showActions={true} key='sample' />}
               </StyledPlot>
-              // <PlantCare plant={samplePlant} showActions={true} key={`${rowIndex}.${colIndex}`} />
             );
           });
         })}
