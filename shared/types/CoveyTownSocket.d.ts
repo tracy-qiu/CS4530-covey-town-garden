@@ -1,6 +1,6 @@
 export type PlantId = string;
 
-export type GardenerId = string;
+export type GardenerId = number;
 
 export type PlantType = 'Carrot' | 'Rose' | 'Blueberry';
 
