@@ -59,12 +59,7 @@ const StyledGarden = chakra(Container, {
  * @returns {JSX.Element} GardenPlots
  */
 export function GardenAreaPlots(): JSX.Element {
-  const garden: number[][] = [
-    [1, 1, 0, 0],
-    [1, 1, 0, 1],
-  ];
-
-  const samplePlant: Plant = {
+  const samplePlant1: Plant = {
     pid: 'ajsfd',
     name: 'blueberry',
     species: 'Blueberry',
@@ -72,6 +67,38 @@ export function GardenAreaPlots(): JSX.Element {
     lastWatered: new Date(),
     status: 'Healthy',
   };
+
+  const samplePlant2: Plant = {
+    pid: 'smth',
+    name: 'Rosalina',
+    species: 'Rose',
+    age: 'Sprout',
+    lastWatered: new Date(),
+    status: 'Dehydrated',
+  };
+
+  const samplePlant3: Plant = {
+    pid: 'blahblah',
+    name: 'Bugs',
+    species: 'Carrot',
+    age: 'Adult',
+    lastWatered: new Date(),
+    status: 'About to Die',
+  };
+
+  const samplePlant4: Plant = {
+    pid: 'dead',
+    name: 'Dead',
+    species: 'Blueberry',
+    age: 'Seedling',
+    lastWatered: new Date(),
+    status: 'Dead',
+  };
+
+  const garden: Plant[][] = [
+    [samplePlant1, samplePlant2, samplePlant3, samplePlant1],
+    [samplePlant4, samplePlant3, samplePlant2, samplePlant2],
+  ];
 
   const [clicked, setClick] = useState(false);
 
@@ -89,10 +116,10 @@ export function GardenAreaPlots(): JSX.Element {
     <Box overflowX='auto'>
       <StyledGarden>
         {garden.map((row, rowIndex) => {
-          return row.map((plot, colIndex) => {
+          return row.map((plant, colIndex) => {
             return (
               <StyledPlot key={`${rowIndex}.${colIndex}`}>
-                <PlantCare plant={samplePlant} showActions={true} key='sample' />
+                <PlantCare plant={plant} showActions={true} key='sample' />
               </StyledPlot>
             );
           });
