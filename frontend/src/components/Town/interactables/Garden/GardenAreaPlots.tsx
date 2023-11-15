@@ -91,8 +91,8 @@ export function GardenAreaPlots(): JSX.Element {
         {garden.map((row, rowIndex) => {
           return row.map((plot, colIndex) => {
             return (
-              <StyledPlot key={`${rowIndex}.${colIndex}`} onClick={handleClick}>
-                {clicked && <PlantCare plant={samplePlant} showActions={true} key='sample' />}
+              <StyledPlot key={`${rowIndex}.${colIndex}`}>
+                <PlantCare plant={samplePlant} showActions={true} key='sample' />
               </StyledPlot>
             );
           });

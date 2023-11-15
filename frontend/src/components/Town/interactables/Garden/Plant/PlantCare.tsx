@@ -10,6 +10,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  chakra,
 } from '@chakra-ui/react';
 import PlantDetails from './PlantDetails';
 import PlantActions from './PlantActions';
