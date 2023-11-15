@@ -544,7 +544,7 @@
                 {
                     "height": 92.2796984663374,
                     "id": 39,
-                    "name": "Tic Tac Toe",
+                    "name": "Tic Tac Toe 2",
                     "properties": [{
                         "name": "type",
                         "type": "string",
@@ -560,11 +560,11 @@
                 {
                     "height": 83.8442547785938,
                     "id": 43,
-                    "name": "Garden",
+                    "name": "Tic Tac Toe 1",
                     "properties": [{
                         "name": "type",
                         "type": "string",
-                        "value": "Garden"
+                        "value": "TicTacToe"
                     }],
                     "rotation": 0,
                     "type": "GameArea",
@@ -606,6 +606,22 @@
                     "width": 1.33529176124966,
                     "x": 3296.83535852584,
                     "y": 1068.23340899987
+                },
+                {
+                    "height": 74.1002117148906,
+                    "id": 56,
+                    "name": "Community Garden",
+                    "properties": [{
+                        "name": "type",
+                        "type": "string",
+                        "value": "Garden"
+                    }],
+                    "rotation": 0,
+                    "type": "GameArea",
+                    "visible": true,
+                    "width": 130.557515878617,
+                    "x": 2815.80804516584,
+                    "y": 504.587155963303
                 }
             ],
             "opacity": 1,
@@ -616,7 +632,7 @@
         }
     ],
     "nextlayerid": 8,
-    "nextobjectid": 52,
+    "nextobjectid": 57,
     "orientation": "orthogonal",
     "renderorder": "right-down",
     "tiledversion": "1.10.2",
