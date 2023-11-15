@@ -25,3 +25,9 @@ export function isTicTacToeArea(
 ): interactable is GameArea<TicTacToeGameState> {
   return interactable.type === 'TicTacToeArea';
 }
+
+export function isGardenArea(
+  interactable: Interactable,
+): interactable is GameArea<TicTacToeGameState> {
+  return interactable.type === 'GardenArea';
+}

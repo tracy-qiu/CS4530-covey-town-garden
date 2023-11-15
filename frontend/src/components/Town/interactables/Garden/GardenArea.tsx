@@ -42,7 +42,7 @@ export function GardenArea({ interactableID }: { interactableID: InteractableID 
  * renders the GardenArea component in a modal with the appropriate content.
  *
  */
-export default function TicTacToeAreaWrapper(): JSX.Element {
+export default function GardenAreaWrapper(): JSX.Element {
   const gameArea = useInteractable<GameAreaInteractable>('gameArea');
   const townController = useTownController();
   const closeModal = useCallback(() => {
@@ -53,7 +53,8 @@ export default function TicTacToeAreaWrapper(): JSX.Element {
     }
   }, [townController, gameArea]);
 
-  if (gameArea && gameArea.getData('type') === 'TicTacToe') {
+  if (gameArea && gameArea.getData('type') === 'Garden') {
+    // CHANGE TO GARDEN TYPE
     return (
       <Modal isOpen={true} onClose={closeModal} closeOnOverlayClick={false} size='xl'>
         <ModalOverlay />
