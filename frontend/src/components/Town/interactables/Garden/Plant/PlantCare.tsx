@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import {
+  Box,
   Button,
   Container,
   Modal,
@@ -30,7 +31,7 @@ export default function PlantCare({ plant, showActions }: PlantCareProps): JSX.E
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const StyledPlot = chakra(Button, {
+  const StyledUsername = chakra(Button, {
     baseStyle: {
       borderRadius: 0,
       justifyContent: 'center',
@@ -38,20 +39,23 @@ export default function PlantCare({ plant, showActions }: PlantCareProps): JSX.E
       flexBasis: '25%',
       borderColor: '#EDD4B2',
       borderWidth: '2px',
-      bgColor: '#793D00',
+      bgColor: 'rgba(255, 255, 255, 0.0)',
       height: '25%',
       width: '25%',
-      fontSize: '50px',
+      color: 'black',
+      fontSize: '20px',
       _disabled: {
         opacity: '100%',
       },
-      _hover: { backgroundColor: '#C4A484' },
+      _hover: { backgroundColor: 'rgba(255, 255, 255, 0.0)' },
     },
   });
 
   return (
     <div>
-      <StyledPlot onClick={handleShow}></StyledPlot>
+      <Box>
+        <StyledUsername onClick={handleShow}>Some user</StyledUsername>
+      </Box>
 
       <Modal isOpen={show} onClose={handleClose} closeOnOverlayClick={false}>
         <ModalOverlay />
