@@ -8,6 +8,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
+  chakra,
 } from '@chakra-ui/react';
 import PlantDetails from './PlantDetails';
 import PlantActions from './PlantActions';
@@ -28,11 +29,29 @@ export default function PlantCare({ plant, showActions }: PlantCareProps): JSX.E
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const StyledPlot = chakra(Button, {
+    baseStyle: {
+      borderRadius: 0,
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexBasis: '25%',
+      borderColor: '#EDD4B2',
+      borderWidth: '2px',
+      bgColor: '#793D00',
+      height: '25%',
+      width: '25%',
+      fontSize: '50px',
+      _disabled: {
+        opacity: '100%',
+      },
+      _hover: { backgroundColor: '#C4A484' },
+    },
+  });
+
   return (
     <div>
-      <Button colorScheme='teal' onClick={handleShow}>
-        Show Modal
-      </Button>
+      <StyledPlot onClick={handleShow}></StyledPlot>
 
       <Modal isOpen={show} onClose={handleClose} closeOnOverlayClick={false}>
         <ModalOverlay />
