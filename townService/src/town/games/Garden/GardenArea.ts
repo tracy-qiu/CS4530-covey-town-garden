@@ -6,25 +6,25 @@ import InvalidParametersError, {
 import Player from '../../../lib/Player';
 import {
   GameInstance,
+  GardenGameState,
   InteractableCommand,
   InteractableCommandReturnType,
   InteractableType,
-  TicTacToeGameState,
 } from '../../../types/CoveyTownSocket';
 import GameArea from '../GameArea';
-import TicTacToeGame from '../TicTacToeGame';
+import GardenGame from './GardenGame';
 
 /**
  * A GardenArea is a GameArea that hosts a community garden.
  * @see Garden
  * @see GardenArea
  */
-export default class GardenArea extends GameArea<TicTacToeGame> {
+export default class GardenArea extends GameArea<GardenGame> {
   protected getType(): InteractableType {
     return 'GardenArea';
   }
 
-  private _stateUpdated(updatedState: GameInstance<TicTacToeGameState>) {
+  private _stateUpdated(updatedState: GameInstance<GardenGameState>) {
     // if (updatedState.state.status === 'OVER') {
     //   // If we haven't yet recorded the outcome, do so now.
     //   const gameID = this._game?.id;
