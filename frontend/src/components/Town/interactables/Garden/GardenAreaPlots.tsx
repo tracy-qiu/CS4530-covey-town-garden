@@ -1,46 +1,45 @@
-import React, { useCallback, useEffect, useState } from 'react';
-//import PlayerController from '../../../../classes/PlayerController';
-import { useInteractable, useInteractableAreaController } from '../../../../classes/TownController';
-import useTownController from '../../../../hooks/useTownController';
-import { InteractableID, Plant } from '../../../../types/CoveyTownSocket';
-import GameAreaInteractable from '../GameArea';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  Container,
-  Spacer,
-  Grid,
-  GridItem,
-  Box,
-  chakra,
-  Button,
-  HStack,
-  VStack,
-} from '@chakra-ui/react';
-import PlantCare from './Plant/PlantCare';
-import PlotButton from './PlotButton';
+import React from 'react';
+import { Container, Box, chakra, Button } from '@chakra-ui/react';
+import { GardenPlotButton } from './PlotButton';
+import { Plant } from '../../../../types/CoveyTownSocket';
 
-const StyledPlot = chakra(Button, {
-  baseStyle: {
-    borderRadius: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexBasis: '25%',
-    borderColor: '#EDD4B2',
-    borderWidth: '2px',
-    bgColor: '#793D00',
-    height: '25%',
-    width: '25%',
-    fontSize: '50px',
-    _disabled: {
-      opacity: '100%',
-    },
-    _hover: { backgroundColor: '#C4A484' },
-  },
-});
+const samplePlant1: Plant = {
+  pid: 'ajsfd',
+  name: 'blueberry',
+  species: 'Blueberry',
+  age: 'Seedling',
+  lastWatered: new Date(),
+  status: 'Healthy',
+};
+
+const samplePlant2: Plant = {
+  pid: 'smth',
+  name: 'Rosalina',
+  species: 'Rose',
+  age: 'Sprout',
+  lastWatered: new Date(),
+  status: 'Dehydrated',
+};
+
+const samplePlant3: Plant = {
+  pid: 'blahblah',
+  name: 'Bugs',
+  species: 'Carrot',
+  age: 'Adult',
+  lastWatered: new Date(),
+  status: 'About to Die',
+};
+
+const samplePlant4: Plant = {
+  pid: 'dead',
+  name: 'Dead',
+  species: 'Blueberry',
+  age: 'Seedling',
+  lastWatered: new Date(),
+  status: 'Dead',
+};
+
+const PLANTS: Plant[] = [samplePlant1, samplePlant2, samplePlant3, samplePlant4];
 
 const StyledGarden = chakra(Container, {
   baseStyle: {
@@ -59,68 +58,22 @@ const StyledGarden = chakra(Container, {
  * @returns {JSX.Element} GardenPlots
  */
 export function GardenAreaPlots(): JSX.Element {
-  const samplePlant1: Plant = {
-    pid: 'ajsfd',
-    name: 'blueberry',
-    species: 'Blueberry',
-    age: 'Seedling',
-    lastWatered: new Date(),
-    status: 'Healthy',
-  };
-
-  const samplePlant2: Plant = {
-    pid: 'smth',
-    name: 'Rosalina',
-    species: 'Rose',
-    age: 'Sprout',
-    lastWatered: new Date(),
-    status: 'Dehydrated',
-  };
-
-  const samplePlant3: Plant = {
-    pid: 'blahblah',
-    name: 'Bugs',
-    species: 'Carrot',
-    age: 'Adult',
-    lastWatered: new Date(),
-    status: 'About to Die',
-  };
-
-  const samplePlant4: Plant = {
-    pid: 'dead',
-    name: 'Dead',
-    species: 'Blueberry',
-    age: 'Seedling',
-    lastWatered: new Date(),
-    status: 'Dead',
-  };
-
-  const garden: Plant[][] = [
-    [samplePlant1, samplePlant2, samplePlant3, samplePlant1],
-    [samplePlant4, samplePlant3, samplePlant2, samplePlant2],
+  const users: string[][] = [
+    ['user1', 'user2', 'user3', 'user4'],
+    ['katherine', 'tracy', 'surabhi', 'madison'],
   ];
-
-  const [clicked, setClick] = useState(false);
-
-  const handleClick = () => {
-    setClick(true);
-  };
-
-  //useState -> gardenPlots
-
-  //useState -> pop up another modal on top of first? replace modal?
-
-  //useEffect -> tracks garden controller
 
   return (
     <Box overflowX='auto'>
       <StyledGarden>
-        {garden.map((row, rowIndex) => {
-          return row.map((plant, colIndex) => {
+        {users.map((row, rowIndex) => {
+          return row.map((username, colIndex) => {
             return (
-              <StyledPlot key={`${rowIndex}.${colIndex}`}>
-                <PlantCare plant={plant} showActions={true} key='sample' />
-              </StyledPlot>
+              <GardenPlotButton
+                fontSize='20px'
+                key={`${rowIndex}.${colIndex}`}
+                username={username}
+                plants={PLANTS}></GardenPlotButton>
             );
           });
         })}
