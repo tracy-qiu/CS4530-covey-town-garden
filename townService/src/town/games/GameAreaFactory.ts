@@ -2,7 +2,7 @@ import { ITiledMapObject } from '@jonbell/tiled-map-type-guard';
 import { BoundingBox, TownEmitter } from '../../types/CoveyTownSocket';
 import InteractableArea from '../InteractableArea';
 import TicTacToeGameArea from './TicTacToeGameArea';
-import GardenArea from './Garden/GardenArea';
+import GardenGameArea from './Garden/GardenGameArea';
 
 /**
  * Creates a new GameArea from a map object
@@ -25,7 +25,7 @@ export default function GameAreaFactory(
     return new TicTacToeGameArea(name, rect, broadcastEmitter);
   }
   if (gameType === 'Garden') {
-    return new GardenArea(name, rect, broadcastEmitter);
+    return new GardenGameArea(name, rect, broadcastEmitter);
   }
   throw new Error(`Unknown game area type ${mapObject.class}`);
 }

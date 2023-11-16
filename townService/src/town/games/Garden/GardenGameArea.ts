@@ -19,7 +19,7 @@ import GardenGame from './GardenGame';
  * @see Garden
  * @see GardenArea
  */
-export default class GardenArea extends GameArea<GardenGame> {
+export default class GardenGameArea extends GameArea<GardenGame> {
   protected getType(): InteractableType {
     return 'GardenArea';
   }
