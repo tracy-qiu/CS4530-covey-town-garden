@@ -19,7 +19,6 @@ import Game from '../Game';
 
 /**
  * A GardenGame is a Game that implements the rules of our community garden.
- * @see https://en.wikipedia.org/wiki/Tic-tac-toe
  */
 export default class GardenGame extends Game<GardenGameState, MyGardenMove> {
   public applyMove(move: GameMove<MyGardenMove>): void {
