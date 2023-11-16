@@ -37,24 +37,22 @@ export default function PlantCare({ plant, showActions }: PlantCareProps): JSX.E
       justifyContent: 'center',
       alignItems: 'center',
       flexBasis: '25%',
-      borderColor: '#EDD4B2',
-      borderWidth: '2px',
       bgColor: 'rgba(255, 255, 255, 0.0)',
-      height: '25%',
-      width: '25%',
+      height: '100%',
+      width: '100%',
       color: 'black',
       fontSize: '20px',
       _disabled: {
         opacity: '100%',
       },
-      _hover: { backgroundColor: 'rgba(255, 255, 255, 0.0)' },
+      _hover: { backgroundColor: '#C4A484' },
     },
   });
 
   return (
     <div>
       <Box>
-        <StyledUsername onClick={handleShow}>Some user</StyledUsername>
+        <StyledUsername onClick={handleShow}>hello</StyledUsername>
       </Box>
 
       <Modal isOpen={show} onClose={handleClose} closeOnOverlayClick={false}>
