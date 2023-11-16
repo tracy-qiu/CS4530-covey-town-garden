@@ -38,8 +38,6 @@ export function MyGarden(
       <ModalOverlay />
       <ModalContent>
         <Container>
-          <ModalHeader>Plant Care</ModalHeader>
-          <ModalCloseButton />
           <VStack>
             <HStack align='center' justify='center'>
               <ModalHeader textAlign='center'>{username + "'s" + 'Garden'}</ModalHeader>
@@ -51,6 +49,7 @@ export function MyGarden(
             </HStack>
             <MyGardenPlots plants={plants}></MyGardenPlots>
           </VStack>
+          <ModalCloseButton />
         </Container>
       </ModalContent>
     </Modal>
