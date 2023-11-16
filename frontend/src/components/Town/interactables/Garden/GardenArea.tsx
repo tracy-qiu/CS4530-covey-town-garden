@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 //import PlayerController from '../../../../classes/PlayerController';
-import { useInteractable, useInteractableAreaController } from '../../../../classes/TownController';
+import { useInteractable } from '../../../../classes/TownController';
 import useTownController from '../../../../hooks/useTownController';
 import { InteractableID } from '../../../../types/CoveyTownSocket';
 import GameAreaInteractable from '../GameArea';
@@ -12,9 +12,6 @@ import {
   ModalCloseButton,
   Container,
   Spacer,
-  Grid,
-  GridItem,
-  chakra,
   Button,
   ModalBody,
   Box,
@@ -22,20 +19,33 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { GardenAreaPlots } from './GardenAreaPlots';
-import { GardenButton } from './GardenButton';
 
 /**
- * Renders the plots and other components of the garden area.
+ * Renders the plots and other components of the overall community garden area.
  * @param {InteractableID} interactableID
  * @returns {JSX.Element} GardenArea
  */
 export function GardenArea({ interactableID }: { interactableID: InteractableID }): JSX.Element {
   return (
     <Container>
-      <GardenAreaPlots></GardenAreaPlots>
+      <VStack>
+        <HStack align='center' justify='center'>
+          <ModalHeader textAlign='center'>{'Community Garden'}</ModalHeader>
+          <Button color={'#395941'} bgColor={'#7ED191'} _hover={{ backgroundColor: '#87E752' }}>
+            My Garden
+          </Button>
+        </HStack>
+        <HStack>
+          <Box border='1px solid black'>{'Users: '}</Box>
+          <ModalBody textAlign='center'>{'Welcome, username!'}</ModalBody>
+          <Spacer />
+        </HStack>
+        <GardenAreaPlots></GardenAreaPlots>
+      </VStack>
     </Container>
   );
 }
+
 /**
  * A wrapper component for the GardenArea component.
  * Determines if the player is currently in a community garden area on the map, and if so,
@@ -59,19 +69,8 @@ export default function GardenAreaWrapper(): JSX.Element {
       <Modal isOpen={true} onClose={closeModal} closeOnOverlayClick={false} size='xl'>
         <ModalOverlay />
         <ModalContent>
-          <VStack>
-            <HStack align='center' justify='center'>
-              <ModalHeader textAlign='center'>{'Community Garden'}</ModalHeader>
-              <GardenButton></GardenButton>
-            </HStack>
-            <HStack>
-              <Box border='1px solid black'>{'Users: '}</Box>
-              <ModalBody textAlign='center'>{'Welcome, username!'}</ModalBody>
-              <Spacer />
-            </HStack>
-            <ModalCloseButton />
-            <GardenArea interactableID={gameArea.name} />
-          </VStack>
+          <GardenArea interactableID={''}></GardenArea>
+          <ModalCloseButton />
         </ModalContent>
       </Modal>
     );
