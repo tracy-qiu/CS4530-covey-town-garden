@@ -41,7 +41,7 @@ export default function PlantDetails({ plant }: { plant: Plant }): JSX.Element {
     <>
       <Box position='relative' padding='4'>
         <Divider />
-        <AbsoluteCenter bg='white' px='4'>
+        <AbsoluteCenter bg='#FFFEF6' px='4'>
           <b>{plant.species}</b>
         </AbsoluteCenter>
       </Box>

@@ -4,12 +4,12 @@ import {
   Box,
   Button,
   Container,
+  Divider,
   Modal,
   ModalCloseButton,
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  chakra,
 } from '@chakra-ui/react';
 import PlantDetails from './PlantDetails';
 import PlantActions from './PlantActions';
@@ -25,52 +25,28 @@ export type PlantCareProps = {
  * @param { plant, showActions }
  * @returns {JSX.Element} component
  */
-export default function PlantCare({ plant, showActions }: PlantCareProps): JSX.Element {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const StyledUsername = chakra(Button, {
-    baseStyle: {
-      borderRadius: 0,
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexBasis: '25%',
-      bgColor: 'rgba(255, 255, 255, 0.0)',
-      height: '100%',
-      width: '100%',
-      color: 'black',
-      fontSize: '20px',
-      _disabled: {
-        opacity: '100%',
-      },
-      _hover: { backgroundColor: '#C4A484' },
-    },
-  });
-
+export default function PlantCare(
+  isOpen: boolean,
+  onClose: () => void,
+  { plant, showActions }: PlantCareProps,
+): JSX.Element {
   return (
-    <div>
-      <Box>
-        <StyledUsername onClick={handleShow}>hello</StyledUsername>
-      </Box>
-
-      <Modal isOpen={show} onClose={handleClose} closeOnOverlayClick={false}>
-        <ModalOverlay />
-        <ModalContent>
-          <Container>
-            <ModalHeader>Plant Care</ModalHeader>
-            <ModalCloseButton />
-            <PlantDetails plant={plant} />
-            <br />
-            {showActions && (
-              <>
-                <PlantActions plant={plant} />
-              </>
-            )}
-          </Container>
-        </ModalContent>
-      </Modal>
-    </div>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+      <ModalOverlay />
+      <ModalContent bgColor='#FFFEF6'>
+        <Container>
+          <ModalHeader>Plant Care</ModalHeader>
+          <Divider borderColor='black'></Divider>
+          <ModalCloseButton />
+          <PlantDetails plant={plant} />
+          <br />
+          {showActions && (
+            <>
+              <PlantActions plant={plant} />
+            </>
+          )}
+        </Container>
+      </ModalContent>
+    </Modal>
   );
 }
