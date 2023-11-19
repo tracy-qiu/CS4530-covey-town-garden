@@ -13,8 +13,9 @@ const StyledPlot = chakra(Button, {
     borderColor: '#EDD4B2',
     borderWidth: '2px',
     bgColor: '#793D00',
-    height: '100%',
+    height: '100px',
     width: '100%',
+    minWidth: '100px',
     fontSize: '20px',
     _disabled: {
       opacity: '100%',
@@ -36,7 +37,7 @@ interface PlantPlotButtonProps extends ButtonProps {
 
 export function PlantPlotButton({
   children,
-  plantCareProps,
+  plantCareProps: { plant, showActions },
   ...rest
 }: PlantPlotButtonProps): JSX.Element {
   const [show, setShow] = useState(false);
@@ -46,13 +47,8 @@ export function PlantPlotButton({
 
   return (
     <Box>
-      {show && (
-        <PlantCare
-          plant={plantCareProps.plant}
-          showActions={plantCareProps.showActions}
-          key='sample'></PlantCare>
-      )}
-      <StyledPlot onClick={handleClick} {...rest}></StyledPlot>
+      {show && <PlantCare plant={plant} showActions={showActions}></PlantCare>}
+      <StyledPlot onClick={handleClick} {...rest} />
     </Box>
   );
 }
@@ -88,10 +84,7 @@ export function GardenPlotButton({
         MyGarden(username, {
           isOpen: show,
           onClose: handleClose,
-          plants: [
-            [plants[0], plants[1]],
-            [plants[2], plants[3]],
-          ],
+          plants: plants,
         })}
       <StyledPlot onClick={handleClick} {...rest}>
         {username}
