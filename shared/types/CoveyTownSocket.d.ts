@@ -1,5 +1,7 @@
 export type PlantId = string;
 
+export type GardenPlotId = string;
+
 export type GardenerId = string;
 
 export type PlantType = 'Carrot' | 'Rose' | 'Blueberry' | undefined;
@@ -25,6 +27,7 @@ export type Garden = {
 }
 
 export type GardenPlot = {
+  gid: GardenPlotId;
   gardenerId: GardenerId;
   plants: PlotPlant[] = [];
 }
