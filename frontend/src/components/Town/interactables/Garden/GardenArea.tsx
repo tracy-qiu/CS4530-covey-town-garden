@@ -10,12 +10,19 @@ import {
   ModalContent,
   ModalHeader,
   ModalCloseButton,
+<<<<<<< HEAD
+=======
+  Spacer,
+>>>>>>> made some updates
   Button,
   Box,
   HStack,
   VStack,
   ModalBody,
+<<<<<<< HEAD
   Container,
+=======
+>>>>>>> made some updates
 } from '@chakra-ui/react';
 import { GardenAreaPlots } from './GardenAreaPlots';
 import { GardenButton } from './GardenButton';

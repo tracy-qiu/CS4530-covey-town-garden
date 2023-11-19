@@ -6,7 +6,11 @@ import {
   ModalContent,
   ModalHeader,
   ModalCloseButton,
+<<<<<<< HEAD
   Button,
+=======
+  Spacer,
+>>>>>>> made some updates
   Box,
   HStack,
   VStack,
