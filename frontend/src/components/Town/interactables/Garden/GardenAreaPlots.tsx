@@ -44,7 +44,7 @@ const PLANTS: Plant[] = [samplePlant1, samplePlant2, samplePlant3, samplePlant4]
 const StyledGarden = chakra(Container, {
   baseStyle: {
     display: 'flex',
-    width: '400px',
+    width: '75%',
     height: '400px',
     padding: '0px',
     flexWrap: 'wrap',
@@ -62,11 +62,16 @@ export function GardenAreaPlots(): JSX.Element {
     'user1',
     'user2',
     'user3',
-    'user4',
+    'me',
+    'long username',
     'katherine',
     'tracy',
     'surabhi',
     'madison',
+    'user5',
+    'user6',
+    'user7',
+    'user8',
   ];
 
   return (

@@ -13,10 +13,11 @@ const StyledPlot = chakra(Button, {
     borderColor: '#EDD4B2',
     borderWidth: '2px',
     bgColor: '#793D00',
+    color: '#FFFEF6',
     height: '100px',
     width: '100%',
     minWidth: '100px',
-    fontSize: '20px',
+    fontSize: '16px',
     _disabled: {
       opacity: '100%',
     },
@@ -45,10 +46,14 @@ export function PlantPlotButton({
     setShow(true);
   };
 
+  const handleClose = () => setShow(false);
+
   return (
     <Box>
-      {show && <PlantCare plant={plant} showActions={showActions}></PlantCare>}
-      <StyledPlot onClick={handleClick} {...rest} />
+      {show && PlantCare(show, handleClose, { plant: plant, showActions: showActions })}
+      <StyledPlot onClick={handleClick} {...rest}>
+        {plant.name}
+      </StyledPlot>
     </Box>
   );
 }

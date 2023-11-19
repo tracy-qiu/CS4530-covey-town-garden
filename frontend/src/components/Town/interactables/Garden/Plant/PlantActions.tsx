@@ -51,12 +51,13 @@ export default function PlantActions({ plant }: { plant: Plant }): JSX.Element {
   };
 
   const removePlant = (pid: string) => {};
+
   return (
     <>
       <Container>
         <Box position='relative' padding='4'>
           <Divider />
-          <AbsoluteCenter bg='white' px='4'>
+          <AbsoluteCenter bg='#FFFEF6' px='4'>
             <b>Plant Status</b>
           </AbsoluteCenter>
         </Box>

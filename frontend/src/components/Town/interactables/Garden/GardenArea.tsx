@@ -10,13 +10,12 @@ import {
   ModalContent,
   ModalHeader,
   ModalCloseButton,
-  Container,
   Spacer,
   Button,
-  ModalBody,
   Box,
   HStack,
   VStack,
+  ModalBody,
 } from '@chakra-ui/react';
 import { GardenAreaPlots } from './GardenAreaPlots';
 
@@ -27,23 +26,22 @@ import { GardenAreaPlots } from './GardenAreaPlots';
  */
 export function GardenArea({ interactableID }: { interactableID: InteractableID }): JSX.Element {
   return (
-    <Container>
-      <VStack>
-        <HStack align='center' justify='center'>
-          <Spacer></Spacer>
-          <ModalHeader textAlign='center'>{'Community Garden'}</ModalHeader>
-          <Button color={'#395941'} bgColor={'#7ED191'} _hover={{ backgroundColor: '#87E752' }}>
-            My Garden
-          </Button>
-        </HStack>
-        <HStack>
-          <Box border='1px solid black'>{'Users: '}</Box>
-          <ModalBody textAlign='center'>{'Welcome, username!'}</ModalBody>
-          <Spacer></Spacer>
-        </HStack>
-        <GardenAreaPlots></GardenAreaPlots>
-      </VStack>
-    </Container>
+    <VStack>
+      <HStack align='center' justify='center'>
+        <Spacer></Spacer>
+        <ModalHeader textAlign='center'>{'Community Garden'}</ModalHeader>
+        <Button color={'#395941'} bgColor={'#7ED191'} _hover={{ backgroundColor: '#87E752' }}>
+          My Garden
+        </Button>
+      </HStack>
+      <HStack>
+        <Box border='1px solid black'>{'Users: '}</Box>
+        <ModalBody textAlign='center'>{'Welcome, username!'}</ModalBody>
+        <Spacer />
+      </HStack>
+      <GardenAreaPlots></GardenAreaPlots>
+      <Spacer></Spacer>
+    </VStack>
   );
 }
 
@@ -65,11 +63,10 @@ export default function GardenAreaWrapper(): JSX.Element {
   }, [townController, gameArea]);
 
   if (gameArea && gameArea.getData('type') === 'Garden') {
-    // CHANGE TO GARDEN TYPE
     return (
       <Modal isOpen={true} onClose={closeModal} closeOnOverlayClick={false} size='xl'>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bgColor='#FFFEF6'>
           <GardenArea interactableID={''}></GardenArea>
           <ModalCloseButton />
         </ModalContent>

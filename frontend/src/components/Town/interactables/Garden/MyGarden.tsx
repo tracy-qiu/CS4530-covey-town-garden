@@ -6,7 +6,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalCloseButton,
-  Container,
   Spacer,
   Box,
   HStack,
@@ -34,13 +33,15 @@ export function MyGarden(
   { isOpen, onClose, plants }: MyGardenAreaProps,
 ): JSX.Element {
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} size='xl'>
       <ModalOverlay />
-      <ModalContent>
-        <Container>
+      <ModalContent bgColor='#FFFEF6'>
+        <ModalBody>
           <VStack>
             <HStack align='center' justify='center'>
-              <ModalHeader textAlign='center'>{username + "'s" + ' Garden'}</ModalHeader>
+              <ModalHeader textAlign='center'>
+                {username == 'me' ? 'My Garden' : username + "'s" + ' Garden'}
+              </ModalHeader>
             </HStack>
             <HStack>
               <Box border='1px solid black'>{'Status Guide: '}</Box>
@@ -49,8 +50,8 @@ export function MyGarden(
             </HStack>
             <MyGardenPlots plants={plants}></MyGardenPlots>
           </VStack>
-          <ModalCloseButton />
-        </Container>
+        </ModalBody>
+        <ModalCloseButton />
       </ModalContent>
     </Modal>
   );
