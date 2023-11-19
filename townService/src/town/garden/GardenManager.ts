@@ -15,9 +15,9 @@ let allPlants: Plant[] = [];
 class PlantIDManager {
   private static _lastUsedID = 0;
 
-  public static newID(): number {
+  public static newID(): string {
     this._lastUsedID++;
-    return this._lastUsedID;
+    return this._lastUsedID.toString();
   }
 }
 
