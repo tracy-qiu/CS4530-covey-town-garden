@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Box, chakra, Button } from '@chakra-ui/react';
+import { Container, Box, chakra } from '@chakra-ui/react';
 import { GardenPlotButton } from './PlotButton';
 import { Plant } from '../../../../types/CoveyTownSocket';
 
@@ -58,24 +58,28 @@ const StyledGarden = chakra(Container, {
  * @returns {JSX.Element} GardenPlots
  */
 export function GardenAreaPlots(): JSX.Element {
-  const users: string[][] = [
-    ['user1', 'user2', 'user3', 'user4'],
-    ['katherine', 'tracy', 'surabhi', 'madison'],
+  const users: string[] = [
+    'user1',
+    'user2',
+    'user3',
+    'user4',
+    'katherine',
+    'tracy',
+    'surabhi',
+    'madison',
   ];
 
   return (
     <Box overflowX='auto'>
       <StyledGarden>
-        {users.map((row, rowIndex) => {
-          return row.map((username, colIndex) => {
-            return (
-              <GardenPlotButton
-                fontSize='20px'
-                key={`${rowIndex}.${colIndex}`}
-                username={username}
-                plants={PLANTS}></GardenPlotButton>
-            );
-          });
+        {users.map((username, index) => {
+          return (
+            <GardenPlotButton
+              fontSize='20px'
+              key={`${index}`}
+              username={username}
+              plants={PLANTS}></GardenPlotButton>
+          );
         })}
       </StyledGarden>
     </Box>

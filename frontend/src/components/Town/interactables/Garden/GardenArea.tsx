@@ -30,6 +30,7 @@ export function GardenArea({ interactableID }: { interactableID: InteractableID 
     <Container>
       <VStack>
         <HStack align='center' justify='center'>
+          <Spacer></Spacer>
           <ModalHeader textAlign='center'>{'Community Garden'}</ModalHeader>
           <Button color={'#395941'} bgColor={'#7ED191'} _hover={{ backgroundColor: '#87E752' }}>
             My Garden
@@ -38,7 +39,7 @@ export function GardenArea({ interactableID }: { interactableID: InteractableID 
         <HStack>
           <Box border='1px solid black'>{'Users: '}</Box>
           <ModalBody textAlign='center'>{'Welcome, username!'}</ModalBody>
-          <Spacer />
+          <Spacer></Spacer>
         </HStack>
         <GardenAreaPlots></GardenAreaPlots>
       </VStack>

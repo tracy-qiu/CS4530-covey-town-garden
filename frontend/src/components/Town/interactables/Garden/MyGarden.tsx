@@ -18,7 +18,7 @@ import { MyGardenPlots } from './MyGardenPlots';
 export type MyGardenAreaProps = {
   isOpen: boolean;
   onClose: () => void;
-  plants: Plant[][];
+  plants: Plant[];
 };
 
 /**
@@ -26,7 +26,7 @@ export type MyGardenAreaProps = {
  * The plots display as two across, two down and are clickable for information and actions.
  * The user can also choose to return to the overall garden.
  * @param username user's name to be displayed
- * @param { boolean, () => void, Plant[][] } props to represent user's plants and conditionally show user's garden
+ * @param { boolean, () => void, Plant[] } props to represent user's plants and conditionally show user's garden
  * @returns { JSX.Element } user garden modal
  */
 export function MyGarden(
@@ -40,7 +40,7 @@ export function MyGarden(
         <Container>
           <VStack>
             <HStack align='center' justify='center'>
-              <ModalHeader textAlign='center'>{username + "'s" + 'Garden'}</ModalHeader>
+              <ModalHeader textAlign='center'>{username + "'s" + ' Garden'}</ModalHeader>
             </HStack>
             <HStack>
               <Box border='1px solid black'>{'Status Guide: '}</Box>
