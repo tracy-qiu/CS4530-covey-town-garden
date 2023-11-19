@@ -1,4 +1,4 @@
-export type PlantId = int;
+export type PlantId = string;
 
 export type GardenerId = number;
 

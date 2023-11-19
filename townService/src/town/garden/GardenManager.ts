@@ -15,9 +15,9 @@ let allPlants: Plant[] = [];
 class PlantIDManager {
   private static _lastUsedID = 0;
 
-  public static newID(): number {
+  public static newID(): string {
     this._lastUsedID++;
-    return this._lastUsedID;
+    return this._lastUsedID.toString();
   }
 }
 
@@ -47,6 +47,6 @@ export function getAll(): Plant[] {
 }
 
 // gets transcript for given ID.  Returns undefined if missing
-export function getPlant(plantID: number): Plant | undefined {
+export function getPlant(plantID: string): Plant | undefined {
   return allPlants.find(plant => plant.pid === plantID);
 }
