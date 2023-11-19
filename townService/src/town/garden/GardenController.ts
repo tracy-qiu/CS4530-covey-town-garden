@@ -17,6 +17,12 @@ export function connectToGardenDB() {
   mongoose.connect(connectionString);
 }
 
+// replace with env variable ( ref docs )
+const CONNECTION_STRING =
+  'mongodb+srv://surabhiKeesara:garden@garden-cluster.jhykp3h.mongodb.net/garden-area?retryWrites=true&w=majority';
+
+mongoose.connect(CONNECTION_STRING);
+
 @Route('garden')
 export class GardenController extends Controller {
   /**
