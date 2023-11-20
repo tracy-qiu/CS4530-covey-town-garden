@@ -98,5 +98,36 @@ export class GardenController extends Controller {
     const plot = await gardenPlotDao.findGardenPlotById(plotId);
     return plot;
   }
+
+  /**
+   * Create a new plant
+   * @param requestBody
+   * @returns the ID of the newly created plant
+   */
+  @Post()
+  public addPlant(
+    @Body() requestBody: { gardenId: string; gardenPlotId: string; name: string; species: string },
+  ) {
+    const gardenIdObject = new mongoose.Types.ObjectId(requestBody.gardenId);
+    const gardenPlotIdObject = new mongoose.Types.ObjectId(requestBody.gardenPlotId);
+    const speciesObject = new mongoose.Types.ObjectId(requestBody.species);
+    return plantDao.createPlant({
+      gardenId: gardenIdObject,
+      gardenPlotId: gardenPlotIdObject,
+      name: requestBody.name,
+      age: 0,
+      lastWatered: new Date(),
+      species: speciesObject,
+    });
+  }
+
+  /**
+   * Deletes a student's transcript
+   * @param studentID The ID of the student to delete
+   *
+   */
+  public deleteStudent(@Body() requestBody: { plantId: number }) {
+    return plantDao.deletePlant(requestBody.plantId);
+  }
 }
 export default GardenController;
