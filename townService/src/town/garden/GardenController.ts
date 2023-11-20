@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 import { PlantId, PlantType } from '../../types/CoveyTownSocket';
 import * as plantDao from '../../database/dao/plant-dao';
 import * as gardenDao from '../../database/dao/garden-dao';
-import * as gardenerDao from '../../database/dao/gardener-dao';
 import * as gardenPlotDao from '../../database/dao/gardenPlot-dao';
 import { validateTownExists, validateGardenDoesNotExistInTown } from './GardenUtil';
 import { GardenCreateParams } from '../../api/Model';
@@ -11,15 +10,6 @@ import { GardenCreateParams } from '../../api/Model';
 // replace with env variable ( ref docs )
 
 export function connectToGardenDB() {
-  const connectionString =
-    'mongodb+srv://surabhiKeesara:garden@garden-cluster.jhykp3h.mongodb.net/garden-area?retryWrites=true&w=majority';
-
-  mongoose.connect(connectionString);
-}
-
-// replace with env variable ( ref docs )
-
-function connectToDB() {
   const connectionString =
     'mongodb+srv://surabhiKeesara:garden@garden-cluster.jhykp3h.mongodb.net/garden-area?retryWrites=true&w=majority';
 
