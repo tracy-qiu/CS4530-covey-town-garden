@@ -1,16 +1,15 @@
 import { Controller, Get, Path, Route, Post, Body } from 'tsoa';
 import mongoose from 'mongoose';
-import * as db from './GardenManager';
-import { PlantId, Plant } from '../../types/CoveyTownSocket';
+import { PlantId } from '../../types/CoveyTownSocket';
 import * as plantDao from '../../database/dao/plant-dao';
 import * as gardenDao from '../../database/dao/garden-dao';
-import * as gardenerDao from '../../database/dao/gardener-dao';
 import * as gardenPlotDao from '../../database/dao/gardenPlot-dao';
-import * as townDao from '../../database/dao/town-dao';
+import { validateTownExists, validateGardenDoesNotExistInTown } from './GardenUtil';
+import { GardenCreateParams } from '../../api/Model';
 
 // replace with env variable ( ref docs )
 
-function connectToDB() {
+export function connectToGardenDB() {
   const connectionString =
     'mongodb+srv://surabhiKeesara:garden@garden-cluster.jhykp3h.mongodb.net/garden-area?retryWrites=true&w=majority';
 
@@ -25,13 +24,13 @@ export class GardenController extends Controller {
    */
   @Get()
   public async getAllGardens() {
-    connectToDB();
+    connectToGardenDB();
     const gardens = gardenDao.findGardens();
     return gardens;
   }
 
   /**
-   * Retrieves the garden for a given town ID
+   * Retrieves a given garden by ID
    * @returns garden
    */
   @Get('{gardenId}')
@@ -39,7 +38,7 @@ export class GardenController extends Controller {
     @Path()
     gardenId: string,
   ) {
-    connectToDB();
+    connectToGardenDB();
     const garden = await gardenDao.findGardenById(gardenId);
     return garden;
   }
@@ -53,7 +52,7 @@ export class GardenController extends Controller {
     @Path()
     gardenId: string,
   ) {
-    connectToDB();
+    connectToGardenDB();
     const plants = await plantDao.findPlants();
     return plants.filter(plant => plant.gardenId.toHexString() === gardenId);
   }
@@ -67,7 +66,7 @@ export class GardenController extends Controller {
     @Path()
     plantId: PlantId,
   ) {
-    connectToDB();
+    connectToGardenDB();
     const plant = await plantDao.findPlantById(plantId);
     return plant;
   }
@@ -81,7 +80,7 @@ export class GardenController extends Controller {
     @Path()
     gardenId: string,
   ) {
-    connectToDB();
+    connectToGardenDB();
     const plots = await gardenPlotDao.findGardenPlots();
     return plots.filter(plot => plot.gardenId.toHexString() === gardenId);
   }
@@ -95,30 +94,9 @@ export class GardenController extends Controller {
     @Path()
     plotId: PlantId,
   ) {
-    connectToDB();
+    connectToGardenDB();
     const plot = await gardenPlotDao.findGardenPlotById(plotId);
     return plot;
   }
-
-  // /**
-  //  * Create a new plant
-  //  * @param requestBody
-  //  * @returns the ID of the newly created plant
-  //  */
-  // @Post()
-  // public addStudent(@Body() requestBody: { species: string }) {
-  //   // TODO make this be the handler for POST /transcripts
-  //   return db.addStudent(requestBody.studentName, requestBody.grades);
-  // }
-
-  // /**
-  //  * Deletes a student's transcript
-  //  * @param studentID The ID of the student to delete
-  //  *
-  //  */
-  // public deleteStudent(studentID: db.StudentID) {
-  //   // TODO make this be the handler for DELETE /transcripts/:ID
-  //   db.deleteStudent(studentID);
-  // }
 }
 export default GardenController;
