@@ -48,16 +48,11 @@ export function MyGarden(
   //   setShowManual(true);
   // };
 
-  // const closeManual = () => {
-  //   setShowManual(false);
-  // };
-
   return (
     <>
       {/* {showManual && (
-        <GrowPlantManual username={username} isOpen={showManual} onClose={closeManual} />
+        <SeedManual username={username} isOpen={showManual} onClose={onClose} />
       )} */}
-      {/* <SeedManual username={username} isOpen={true} onClose={onClose} /> */}
       <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} size='xl'>
         <ModalOverlay />
 

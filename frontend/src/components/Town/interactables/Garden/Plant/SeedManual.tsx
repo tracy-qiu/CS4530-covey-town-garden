@@ -22,13 +22,13 @@ import {
 } from '@chakra-ui/react';
 import PlantDetails from './PlantDetails';
 
-type GrowPlantManualProps = {
+type SeedManualProps = {
   username: string;
   isOpen: boolean;
   onClose: () => void;
 };
 
-export function GrowPlantManual({ username, isOpen, onClose }: GrowPlantManualProps): JSX.Element {
+export function SeedManual({ username, isOpen, onClose }: SeedManualProps): JSX.Element {
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} size='xl'>
