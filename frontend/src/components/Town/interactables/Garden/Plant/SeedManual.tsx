@@ -20,14 +20,15 @@ import {
   Heading,
   Badge,
 } from '@chakra-ui/react';
+import PlantDetails from './PlantDetails';
 
-export function GrowPlantManual(
-  username: string,
-  isOpen: boolean,
-  onClose: () => void,
-): JSX.Element {
-  const [growPlant, setGrowPlant] = useState(false);
+type GrowPlantManualProps = {
+  username: string;
+  isOpen: boolean;
+  onClose: () => void;
+};
 
+export function GrowPlantManual({ username, isOpen, onClose }: GrowPlantManualProps): JSX.Element {
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} size='xl'>
@@ -36,6 +37,7 @@ export function GrowPlantManual(
         <ModalContent bgColor='#FFFEF6'>
           <ModalBody>
             <Container>
+              <ModalHeader>Seed Manual</ModalHeader>
               <Accordion allowToggle>
                 <AccordionItem>
                   <AccordionButton>
@@ -45,7 +47,7 @@ export function GrowPlantManual(
                     </Box>
                   </AccordionButton>
                   <AccordionPanel>
-                    <p>Rose</p>
+                    <PlantDetails plantType={'Rose'} />
                   </AccordionPanel>
                 </AccordionItem>
                 <AccordionItem>
@@ -56,7 +58,7 @@ export function GrowPlantManual(
                     </Box>
                   </AccordionButton>
                   <AccordionPanel>
-                    <p>Blueberry</p>
+                    <PlantDetails plantType={'Blueberry'} />
                   </AccordionPanel>
                 </AccordionItem>
                 <AccordionItem>
@@ -67,7 +69,7 @@ export function GrowPlantManual(
                     </Box>
                   </AccordionButton>
                   <AccordionPanel>
-                    <p>Carrot</p>
+                    <PlantDetails plantType={'Carrot'} />
                   </AccordionPanel>
                 </AccordionItem>
               </Accordion>

@@ -38,7 +38,7 @@ export default function PlantCare(
           <ModalHeader>Plant Care</ModalHeader>
           <Divider borderColor='black'></Divider>
           <ModalCloseButton />
-          <PlantDetails plant={plant} />
+          <PlantDetails plantType={plant.species} />
           <br />
           {showActions && (
             <>

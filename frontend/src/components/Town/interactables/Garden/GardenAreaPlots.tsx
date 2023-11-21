@@ -4,7 +4,7 @@ import { GardenPlotButton } from './PlotButton';
 import { Plant } from '../../../../types/CoveyTownSocket';
 
 const samplePlant1: Plant = {
-  pid: 'ajsfd',
+  pid: 1,
   name: 'blueberry',
   species: 'Blueberry',
   age: 'Seedling',
@@ -13,7 +13,7 @@ const samplePlant1: Plant = {
 };
 
 const samplePlant2: Plant = {
-  pid: 'smth',
+  pid: 2,
   name: 'Rosalina',
   species: 'Rose',
   age: 'Sprout',
@@ -22,7 +22,7 @@ const samplePlant2: Plant = {
 };
 
 const samplePlant3: Plant = {
-  pid: 'blahblah',
+  pid: 3,
   name: 'Bugs',
   species: 'Carrot',
   age: 'Adult',
@@ -31,7 +31,7 @@ const samplePlant3: Plant = {
 };
 
 const samplePlant4: Plant = {
-  pid: 'dead',
+  pid: 4,
   name: 'Dead',
   species: 'Blueberry',
   age: 'Seedling',

@@ -21,7 +21,7 @@ import {
   Badge,
 } from '@chakra-ui/react';
 import { MyGardenPlots } from './MyGardenPlots';
-import { GrowPlantManual } from './Plant/GrowPlantManual';
+import { SeedManual } from './Plant/SeedManual';
 import PlantCare from './Plant/PlantCare';
 
 export type MyGardenAreaProps = {
@@ -42,10 +42,22 @@ export function MyGarden(
   username: string,
   { isOpen, onClose, plants }: MyGardenAreaProps,
 ): JSX.Element {
-  // const [growPlant, setGrowPlant] = useState(false);
+  // const [showManual, setShowManual] = useState(false);
+
+  // const handleClick = () => {
+  //   setShowManual(true);
+  // };
+
+  // const closeManual = () => {
+  //   setShowManual(false);
+  // };
 
   return (
     <>
+      {/* {showManual && (
+        <GrowPlantManual username={username} isOpen={showManual} onClose={closeManual} />
+      )} */}
+      {/* <SeedManual username={username} isOpen={true} onClose={onClose} /> */}
       <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} size='xl'>
         <ModalOverlay />
 
@@ -80,14 +92,13 @@ export function MyGarden(
                     <Badge colorScheme={'pink'}>{'Sprout'}</Badge>
                     <Badge colorScheme={'teal'}>{'Seedling'}</Badge>
                     <br />
-                    <Button
+                    {/* <Button
                       color={'black'}
                       bgColor={'#7ED191'}
                       _hover={{ backgroundColor: '#87E752' }}
-                      // onClick={() => setGrowPlant(true)}
-                    >
+                      onClick={handleClick}>
                       Grow New Plant
-                    </Button>
+                    </Button> */}
                   </AccordionPanel>
                 </AccordionItem>
               </Accordion>
@@ -97,7 +108,6 @@ export function MyGarden(
           <ModalCloseButton />
         </ModalContent>
       </Modal>
-      {/* {growPlant && GrowPlantManual(username, growPlant, () => setGrowPlant(false))} */}
     </>
   );
 }
