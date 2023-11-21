@@ -10,12 +10,12 @@ import {
   ModalContent,
   ModalHeader,
   ModalCloseButton,
-  Spacer,
   Button,
   Box,
   HStack,
   VStack,
   ModalBody,
+  Container,
 } from '@chakra-ui/react';
 import { GardenAreaPlots } from './GardenAreaPlots';
 
@@ -26,22 +26,22 @@ import { GardenAreaPlots } from './GardenAreaPlots';
  */
 export function GardenArea({ interactableID }: { interactableID: InteractableID }): JSX.Element {
   return (
-    <VStack>
-      <HStack align='center' justify='center'>
-        <Spacer></Spacer>
+    <Container>
+      <VStack>
         <ModalHeader textAlign='center'>{'Community Garden'}</ModalHeader>
-        <Button color={'#395941'} bgColor={'#7ED191'} _hover={{ backgroundColor: '#87E752' }}>
-          My Garden
-        </Button>
-      </HStack>
-      <HStack>
-        <Box border='1px solid black'>{'Users: '}</Box>
-        <ModalBody textAlign='center'>{'Welcome, username!'}</ModalBody>
-        <Spacer />
-      </HStack>
-      <GardenAreaPlots></GardenAreaPlots>
-      <Spacer></Spacer>
-    </VStack>
+        <ModalBody textAlign='center'>
+          <b>Welcome, username!</b>
+        </ModalBody>
+        <HStack>
+          {/* <Box border='1px solid black'>{'Users: '}</Box> */}
+          <Button color={'black'} bgColor={'#7ED191'} _hover={{ backgroundColor: '#87E752' }}>
+            My Garden
+          </Button>
+        </HStack>
+        <GardenAreaPlots></GardenAreaPlots>
+        <br />
+      </VStack>
+    </Container>
   );
 }
 

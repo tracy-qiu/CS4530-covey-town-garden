@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Box, chakra } from '@chakra-ui/react';
+import { Container, Box, chakra, SimpleGrid } from '@chakra-ui/react';
 import { GardenPlotButton } from './PlotButton';
 import { Plant } from '../../../../types/CoveyTownSocket';
 
@@ -41,15 +41,15 @@ const samplePlant4: Plant = {
 
 const PLANTS: Plant[] = [samplePlant1, samplePlant2, samplePlant3, samplePlant4];
 
-const StyledGarden = chakra(Container, {
-  baseStyle: {
-    display: 'flex',
-    width: '75%',
-    height: '400px',
-    padding: '0px',
-    flexWrap: 'wrap',
-  },
-});
+// const StyledGarden = chakra(Container, {
+//   baseStyle: {
+//     display: 'flex',
+//     width: '75%',
+//     height: '400px',
+//     padding: '0px',
+//     flexWrap: 'wrap',
+//   },
+// });
 
 /**
  * Renders each individual plot styled for the garden together as one component.
@@ -75,18 +75,20 @@ export function GardenAreaPlots(): JSX.Element {
   ];
 
   return (
-    <Box overflowX='auto'>
-      <StyledGarden>
+    <Container>
+      <SimpleGrid spacing={3} columns={4}>
         {users.map((username, index) => {
           return (
-            <GardenPlotButton
-              fontSize='20px'
-              key={`${index}`}
-              username={username}
-              plants={PLANTS}></GardenPlotButton>
+            <Box>
+              <GardenPlotButton
+                fontSize='20px'
+                key={`${index}`}
+                username={username}
+                plants={PLANTS}></GardenPlotButton>
+            </Box>
           );
         })}
-      </StyledGarden>
-    </Box>
+      </SimpleGrid>
+    </Container>
   );
 }

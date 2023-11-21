@@ -1,17 +1,17 @@
 import React from 'react';
 import { Plant } from '../../../../types/CoveyTownSocket';
-import { Container, Box, chakra, Button } from '@chakra-ui/react';
+import { Container, Box, chakra, Button, SimpleGrid } from '@chakra-ui/react';
 import { PlantPlotButton } from './PlotButton';
 
-const StyledGarden = chakra(Container, {
-  baseStyle: {
-    display: 'flex',
-    width: '400px',
-    height: '400px',
-    padding: '0px',
-    flexWrap: 'wrap',
-  },
-});
+// const StyledGarden = chakra(Container, {
+//   baseStyle: {
+//     display: 'flex',
+//     width: '400px',
+//     height: '400px',
+//     padding: '0px',
+//     flexWrap: 'wrap',
+//   },
+// });
 
 export type MyGardenPlotsProps = {
   plants: Plant[];
@@ -26,17 +26,20 @@ export function MyGardenPlots({ plants }: MyGardenPlotsProps): JSX.Element {
   //useEffect -> tracks garden controller
 
   return (
-    <Box overflowX='auto'>
-      <StyledGarden>
+    <Container>
+      <SimpleGrid spacing={3} columns={2}>
         {plants.map((plant, index) => {
           return (
-            <PlantPlotButton
-              key={`${index}`}
-              plantCareProps={{ plant: plant, showActions: true }}
-            />
+            <Box>
+              <PlantPlotButton
+                key={`${index}`}
+                plantCareProps={{ plant: plant, showActions: true }}
+              />
+            </Box>
           );
         })}
-      </StyledGarden>
-    </Box>
+      </SimpleGrid>
+      <br />
+    </Container>
   );
 }

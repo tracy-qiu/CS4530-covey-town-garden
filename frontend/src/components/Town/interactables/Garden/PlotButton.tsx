@@ -12,7 +12,7 @@ const StyledPlot = chakra(Button, {
     flexBasis: '25%',
     borderColor: '#EDD4B2',
     borderWidth: '2px',
-    bgColor: '#793D00',
+    // bgColor: '#793D00',
     color: '#FFFEF6',
     height: '100px',
     width: '100%',
@@ -51,7 +51,12 @@ export function PlantPlotButton({
   return (
     <Box>
       {show && PlantCare(show, handleClose, { plant: plant, showActions: showActions })}
-      <StyledPlot onClick={handleClick} {...rest}>
+      <StyledPlot
+        bgImage={
+          'https://www.wikihow.com/images/thumb/a/a2/Grow-Vegetables-in-the-South-%28USA%29-Step-11.jpg/v4-460px-Grow-Vegetables-in-the-South-%28USA%29-Step-11.jpg.webp'
+        }
+        onClick={handleClick}
+        {...rest}>
         {plant.name}
       </StyledPlot>
     </Box>
@@ -91,7 +96,12 @@ export function GardenPlotButton({
           onClose: handleClose,
           plants: plants,
         })}
-      <StyledPlot onClick={handleClick} {...rest}>
+      <StyledPlot
+        bgImage={
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_L2aMkVO--A_GOxD08fP9FygAX8rEBDnPWw&usqp=CAU'
+        }
+        onClick={handleClick}
+        {...rest}>
         {username}
       </StyledPlot>
     </Box>

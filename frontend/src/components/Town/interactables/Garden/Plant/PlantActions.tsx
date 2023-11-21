@@ -46,11 +46,11 @@ export default function PlantActions({ plant }: { plant: Plant }): JSX.Element {
       }
     }
   }, [plant]);
-  const waterPlant = (pid: string) => {
+  const waterPlant = (pid: number) => {
     //waterPlant
   };
 
-  const removePlant = (pid: string) => {};
+  const removePlant = (pid: number) => {};
 
   return (
     <>
@@ -88,31 +88,23 @@ export default function PlantActions({ plant }: { plant: Plant }): JSX.Element {
             day: 'numeric',
           })}
         </h2>
-      </Container>
-      <br />
+        <br />
 
-      <Accordion allowToggle>
-        <AccordionItem>
-          <Heading as='h3'>
-            <AccordionButton>
-              <Box as='span' flex='1' textAlign='left'>
-                <b>Actions</b>
-                <AccordionIcon />
-              </Box>
-            </AccordionButton>
-          </Heading>
-          <AccordionPanel>
-            <Button colorScheme='blue' onClick={() => waterPlant(plant.pid)}>
-              Water me!
-            </Button>
-            <br />
-            <br />
-            <Button colorScheme='red' onClick={() => removePlant(plant.pid)}>
-              Remove Plant
-            </Button>
-          </AccordionPanel>
-        </AccordionItem>
-      </Accordion>
+        <Box position='relative' padding='4'>
+          <Divider />
+          <AbsoluteCenter bg='#FFFEF6' px='4'>
+            <b>Actions</b>
+          </AbsoluteCenter>
+        </Box>
+        <Button colorScheme='blue' onClick={() => waterPlant(plant.pid)}>
+          Water me!
+        </Button>
+        <br />
+        <br />
+        <Button colorScheme='red' onClick={() => removePlant(plant.pid)}>
+          Remove Plant
+        </Button>
+      </Container>
       <br />
     </>
   );
