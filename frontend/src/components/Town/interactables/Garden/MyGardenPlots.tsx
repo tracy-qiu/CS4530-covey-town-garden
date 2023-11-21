@@ -30,7 +30,7 @@ export function MyGardenPlots({ plants }: MyGardenPlotsProps): JSX.Element {
       <SimpleGrid spacing={3} columns={2}>
         {plants.map((plant, index) => {
           return (
-            <Box>
+            <Box key={plant.pid}>
               <PlantPlotButton
                 key={`${index}`}
                 plantCareProps={{ plant: plant, showActions: true }}

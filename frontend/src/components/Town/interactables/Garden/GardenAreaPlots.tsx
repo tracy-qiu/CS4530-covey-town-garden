@@ -79,7 +79,7 @@ export function GardenAreaPlots(): JSX.Element {
       <SimpleGrid spacing={3} columns={4}>
         {users.map((username, index) => {
           return (
-            <Box>
+            <Box key={username}>
               <GardenPlotButton
                 fontSize='20px'
                 key={`${index}`}
