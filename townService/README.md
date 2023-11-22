@@ -49,6 +49,8 @@ town collection
 garden collection 
 - post /garden 
   - requestBody: {townId: string}
+- update garden /garden
+  - requestBody: { plotNumber: number, }
 - delete /garden/{gardenId} 
 
 plant collection 
