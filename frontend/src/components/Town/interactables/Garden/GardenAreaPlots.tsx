@@ -4,6 +4,7 @@ import { GardenPlotButton } from './PlotButton';
 import { Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
 
 const samplePlant1: PlotPlant = {
+  plantId: '12',
   plant: {
     pid: '1',
     name: 'blueberry',
@@ -15,6 +16,7 @@ const samplePlant1: PlotPlant = {
 };
 
 const samplePlant2: PlotPlant = {
+  plantId: '13',
   plant: {
     pid: '2',
     name: 'Rosalina',
@@ -26,6 +28,7 @@ const samplePlant2: PlotPlant = {
 };
 
 const samplePlant3: PlotPlant = {
+  plantId: '14',
   plant: {
     pid: '3',
     name: 'Bugs',
@@ -36,7 +39,7 @@ const samplePlant3: PlotPlant = {
   },
 };
 
-const undefinedPlant: PlotPlant = { plant: undefined };
+const undefinedPlant: PlotPlant = { plantId: '16', plant: undefined };
 
 const PLANTS: PlotPlant[] = [samplePlant1, samplePlant2, samplePlant3, undefinedPlant];
 

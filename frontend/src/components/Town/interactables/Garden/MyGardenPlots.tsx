@@ -31,8 +31,11 @@ export function MyGardenPlots({ plants }: MyGardenPlotsProps): JSX.Element {
         {plants.map((plant, index) => {
           return (
             <PlantPlotButton
-              key={`${index}`}
-              plantCareProps={{ plant: plant.plant }}
+              key={plant.plantId}
+              plotPlant={{
+                plantId: plant.plantId,
+                plant: plant.plant,
+              }}
             />
           );
         })}

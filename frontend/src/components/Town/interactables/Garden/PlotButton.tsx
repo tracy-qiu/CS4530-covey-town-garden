@@ -3,6 +3,7 @@ import { Box, Button, ButtonProps, chakra } from '@chakra-ui/react';
 import PlantCare, { PlantCareProps } from './Plant/PlantCare';
 import { Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
 import { MyGarden } from './MyGarden';
+import { SeedManual } from './Plant/SeedManual';
 
 const StyledPlot = chakra(Button, {
   baseStyle: {
@@ -26,7 +27,7 @@ const StyledPlot = chakra(Button, {
 });
 
 interface PlantPlotButtonProps extends ButtonProps {
-  plantCareProps: PlantCareProps;
+  plotPlant: PlotPlant;
 }
 
 /**
@@ -38,7 +39,7 @@ interface PlantPlotButtonProps extends ButtonProps {
 
 export function PlantPlotButton({
   children,
-  plantCareProps: { plant },
+  plotPlant: { plant },
   ...rest
 }: PlantPlotButtonProps): JSX.Element {
   const [show, setShow] = useState(false);
@@ -50,7 +51,11 @@ export function PlantPlotButton({
 
   return (
     <Box>
-      {show && PlantCare(show, handleClose, { plant: plant })}
+      {show && plant !== undefined ? (
+        PlantCare(show, handleClose, { plant: plant })
+      ) : (
+        <SeedManual isOpen={show} onClose={handleClose} />
+      )}
       {plant !== undefined ? (
         <StyledPlot
           bgImage={

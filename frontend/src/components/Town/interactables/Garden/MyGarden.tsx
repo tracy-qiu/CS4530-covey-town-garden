@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Plant } from '../../../../types/CoveyTownSocket';
+import { Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
 import {
   Modal,
   ModalOverlay,
