@@ -10,7 +10,6 @@ import { RegisterRoutes } from '../generated/routes';
 import TownsStore from './lib/TownsStore';
 import { ClientToServerEvents, ServerToClientEvents } from './types/CoveyTownSocket';
 import { TownsController } from './town/TownsController';
-import { initialize } from './town/garden/GardenManager';
 import { logError } from './Utils';
 
 // Create the server instances
@@ -23,8 +22,6 @@ const socketServer = new SocketServer<ClientToServerEvents, ServerToClientEvents
 
 // Initialize the towns store with a factory that creates a broadcast emitter for a town
 TownsStore.initializeTownsStore((townID: string) => socketServer.to(townID));
-
-initialize();
 
 // Connect the socket server to the TownsController. We use here the same pattern as tsoa
 // (the library that we use for REST), which creates a new controller instance for each request

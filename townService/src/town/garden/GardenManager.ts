@@ -29,7 +29,7 @@ export function addPlant(
   lastWatered: Date,
   status: PlantHealthStatus,
 ): PlantId {
-  const newID = PlantIDManager.newID();
+  const newID = PlantIDManager.newID().toString();
   allPlants.push({ pid: newID, name, species, age, status, lastWatered });
   return newID;
 }
