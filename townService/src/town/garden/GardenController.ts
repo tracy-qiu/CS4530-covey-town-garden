@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import { PlantId, PlantType } from '../../types/CoveyTownSocket';
 import * as plantDao from '../../database/dao/plant-dao';
 import * as gardenDao from '../../database/dao/garden-dao';
+import * as plotDao from '../../database/dao/gardenPlot-dao';
+import * as gardenerDao from '../../database/dao/gardener-dao';
 import * as gardenPlotDao from '../../database/dao/gardenPlot-dao';
 import { validateTownExists, validateGardenDoesNotExistInTown } from './GardenUtil';
 import { GardenCreateParams } from '../../api/Model';
@@ -184,6 +186,9 @@ export class GardenController extends Controller {
     const gardener = await gardenerDao.createGardener({
       gardenPlotId: gardenPlotIdObject,
       name: requestBody.name,
+      age: 'SEEDLING',
+      lastWatered: new Date(),
+      species: speciesObject,
     });
     return gardener;
   }
