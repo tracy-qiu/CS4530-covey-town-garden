@@ -1,8 +1,10 @@
-import { Controller, Get, Path, Route, Post, Body } from 'tsoa';
+import { Controller, Get, Path, Route, Post, Body, Delete } from 'tsoa';
 import mongoose from 'mongoose';
 import { PlantId } from '../../types/CoveyTownSocket';
 import * as plantDao from '../../database/dao/plant-dao';
 import * as gardenDao from '../../database/dao/garden-dao';
+import * as plotDao from '../../database/dao/gardenPlot-dao';
+import * as gardenerDao from '../../database/dao/gardener-dao';
 import * as gardenPlotDao from '../../database/dao/gardenPlot-dao';
 import { validateTownExists, validateGardenDoesNotExistInTown } from './GardenUtil';
 import { GardenCreateParams } from '../../api/Model';
@@ -115,18 +117,48 @@ export class GardenController extends Controller {
       gardenId: gardenIdObject,
       gardenPlotId: gardenPlotIdObject,
       name: requestBody.name,
-      age: 0,
+      age: 'SEEDLING',
       lastWatered: new Date(),
       species: speciesObject,
     });
   }
 
   /**
-   * Deletes a student's transcript
-   * @param studentID The ID of the student to delete
+   * Create a new plant
+   * @param requestBody
+   * @returns the ID of the newly created plant
+   */
+  @Post()
+  public addPlot(@Body() requestBody: { gardenId: string, gardenerId:  }) {
+    const gardenIdObject = new mongoose.Types.ObjectId(requestBody.gardenId);
+    return plotDao.createGardenPlot({
+      gardenId: gardenIdObject,
+      bottomLeftPlantId: null,
+      bottomRightPlantId: null,
+      gardenerId: null,
+      topLeftPlantId: null,
+      topRightPlantId: null,
+    });
+  }
+
+  /**
+   * Create a new plant
+   * @param requestBody
+   * @returns the ID of the newly created plant
+   */
+  @Post()
+  public addGardener(@Body() requestBody: { name: string }) {
+    return gardenerDao.createGardener({
+      name: requestBody.name,
+    });
+  }
+
+  @Delete()
+  /**
+   * @param requestBody
    *
    */
-  public deleteStudent(@Body() requestBody: { plantId: number }) {
+  public deletePlant(@Body() requestBody: { plantId: number }) {
     return plantDao.deletePlant(requestBody.plantId);
   }
 }
