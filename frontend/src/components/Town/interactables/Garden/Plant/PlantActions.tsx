@@ -17,6 +17,7 @@ import {
   Center,
 } from '@chakra-ui/react';
 import { Plant } from '../../../../../types/CoveyTownSocket';
+import { GardenButton } from '../GardenButton';
 /**
  * Displays actions to perform on a selected plant, such as watering and removing. It also shows a plant's current health status
  * @param {Plant} plant
@@ -48,9 +49,12 @@ export default function PlantActions({ plant }: { plant: Plant }): JSX.Element {
   }, [plant]);
   const waterPlant = (pid: number) => {
     //waterPlant
+    alert('watered!');
   };
 
-  const removePlant = (pid: number) => {};
+  const removePlant = (pid: number) => {
+    alert('removed!');
+  };
 
   return (
     <>
@@ -82,7 +86,7 @@ export default function PlantActions({ plant }: { plant: Plant }): JSX.Element {
         </h2>
         <h2>
           <b>Last watered: </b>
-          {plant.lastWatered.toLocaleString('en-US', {
+          {plant.lastWatered?.toLocaleString('en-US', {
             year: 'numeric',
             month: 'numeric',
             day: 'numeric',
@@ -96,14 +100,20 @@ export default function PlantActions({ plant }: { plant: Plant }): JSX.Element {
             <b>Actions</b>
           </AbsoluteCenter>
         </Box>
-        <Button colorScheme='blue' onClick={() => waterPlant(plant.pid)}>
-          Water me!
-        </Button>
+        <GardenButton
+          label={'Water me!'}
+          color={'#77E5EC'}
+          hoverColor={'#3EC4FE'}
+          fn={() => waterPlant(plant.pid)}
+        />
         <br />
         <br />
-        <Button colorScheme='red' onClick={() => removePlant(plant.pid)}>
-          Remove Plant
-        </Button>
+        <GardenButton
+          label={'Remove Plant'}
+          color={'#F27459'}
+          hoverColor={'#F34E4E'}
+          fn={() => removePlant(plant.pid)}
+        />
       </Container>
       <br />
     </>

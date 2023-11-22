@@ -33,7 +33,7 @@ export function MyGardenPlots({ plants }: MyGardenPlotsProps): JSX.Element {
             <Box key={plant.pid}>
               <PlantPlotButton
                 key={`${index}`}
-                plantCareProps={{ plant: plant, showActions: true }}
+                plantCareProps={{ plant: plant, plantExists: plant.status !== undefined }}
               />
             </Box>
           );

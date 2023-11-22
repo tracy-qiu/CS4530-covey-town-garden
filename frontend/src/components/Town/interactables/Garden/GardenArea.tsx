@@ -18,6 +18,7 @@ import {
   Container,
 } from '@chakra-ui/react';
 import { GardenAreaPlots } from './GardenAreaPlots';
+import { GardenButton } from './GardenButton';
 
 /**
  * Renders the plots and other components of the overall community garden area.
@@ -25,6 +26,10 @@ import { GardenAreaPlots } from './GardenAreaPlots';
  * @returns {JSX.Element} GardenArea
  */
 export function GardenArea({ interactableID }: { interactableID: InteractableID }): JSX.Element {
+  const enterYourGarden = () => {
+    alert('entering my garden');
+  };
+
   return (
     <Container>
       <VStack>
@@ -34,9 +39,12 @@ export function GardenArea({ interactableID }: { interactableID: InteractableID 
         </ModalBody>
         <HStack>
           {/* <Box border='1px solid black'>{'Users: '}</Box> */}
-          <Button color={'black'} bgColor={'#7ED191'} _hover={{ backgroundColor: '#87E752' }}>
-            My Garden
-          </Button>
+          <GardenButton
+            label={'My Garden'}
+            color={'#7ED191'}
+            hoverColor={'#87E752'}
+            fn={enterYourGarden}
+          />
         </HStack>
         <GardenAreaPlots></GardenAreaPlots>
         <br />

@@ -2,12 +2,12 @@ export type PlantId = number;
 
 export type GardenerId = number;
 
-export type PlantType = 'Carrot' | 'Rose' | 'Blueberry';
+export type PlantType = 'Carrot' | 'Rose' | 'Blueberry' | undefined;
 
 // plant age: corresponds to numbers (as in DB)
-export type PlantAge = 'Seedling' | 'Sprout' | 'Adult';
+export type PlantAge = 'Seedling' | 'Sprout' | 'Adult' | undefined;
 
-export type PlantHealthStatus = 'Healthy' | 'Dehydrated' | 'About to Die' | 'Dead';
+export type PlantHealthStatus = 'Healthy' | 'Dehydrated' | 'About to Die' | 'Dead' | undefined;
 
 export type Plant = {
   pid: PlantId;
@@ -15,7 +15,7 @@ export type Plant = {
   species: PlantType;
   age: PlantAge;
   status: PlantHealthStatus;
-  lastWatered: Date; // example date: "Tue Feb 05 2019 12:05:22 GMT+0530 (IST)"
+  lastWatered: Date | undefined; // example date: "Tue Feb 05 2019 12:05:22 GMT+0530 (IST)"
 }
 
 export type Garden = {

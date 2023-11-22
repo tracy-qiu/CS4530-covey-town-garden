@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Plant } from '../../../../../types/CoveyTownSocket';
+import { Plant, PlantType } from '../../../../../types/CoveyTownSocket';
 import {
   Modal,
   ModalOverlay,
@@ -21,14 +21,18 @@ import {
   Badge,
 } from '@chakra-ui/react';
 import PlantDetails from './PlantDetails';
+import { GardenButton } from '../GardenButton';
 
 type SeedManualProps = {
-  username: string;
   isOpen: boolean;
   onClose: () => void;
 };
 
-export function SeedManual({ username, isOpen, onClose }: SeedManualProps): JSX.Element {
+export function SeedManual({ isOpen, onClose }: SeedManualProps): JSX.Element {
+  const plantSeed = (plantType: PlantType) => {
+    alert('Planting ' + plantType);
+  };
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} size='xl'>
@@ -48,6 +52,16 @@ export function SeedManual({ username, isOpen, onClose }: SeedManualProps): JSX.
                   </AccordionButton>
                   <AccordionPanel>
                     <PlantDetails plantType={'Rose'} />
+                    <br />
+                    <div
+                      style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <GardenButton
+                        label={'Plant Me!'}
+                        color={'#C4A484'}
+                        hoverColor={'#CCC5AD'}
+                        fn={() => plantSeed('Rose')}
+                      />
+                    </div>
                   </AccordionPanel>
                 </AccordionItem>
                 <AccordionItem>
@@ -59,6 +73,16 @@ export function SeedManual({ username, isOpen, onClose }: SeedManualProps): JSX.
                   </AccordionButton>
                   <AccordionPanel>
                     <PlantDetails plantType={'Blueberry'} />
+                    <br />
+                    <div
+                      style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <GardenButton
+                        label={'Plant Me!'}
+                        color={'#C4A484'}
+                        hoverColor={'#CCC5AD'}
+                        fn={() => plantSeed('Blueberry')}
+                      />
+                    </div>
                   </AccordionPanel>
                 </AccordionItem>
                 <AccordionItem>
@@ -70,6 +94,16 @@ export function SeedManual({ username, isOpen, onClose }: SeedManualProps): JSX.
                   </AccordionButton>
                   <AccordionPanel>
                     <PlantDetails plantType={'Carrot'} />
+                    <br />
+                    <div
+                      style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                      <GardenButton
+                        label={'Plant Me!'}
+                        color={'#C4A484'}
+                        hoverColor={'#CCC5AD'}
+                        fn={() => plantSeed('Carrot')}
+                      />
+                    </div>
                   </AccordionPanel>
                 </AccordionItem>
               </Accordion>

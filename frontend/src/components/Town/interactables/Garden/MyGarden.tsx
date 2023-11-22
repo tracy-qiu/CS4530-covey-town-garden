@@ -87,13 +87,6 @@ export function MyGarden(
                     <Badge colorScheme={'pink'}>{'Sprout'}</Badge>
                     <Badge colorScheme={'teal'}>{'Seedling'}</Badge>
                     <br />
-                    {/* <Button
-                      color={'black'}
-                      bgColor={'#7ED191'}
-                      _hover={{ backgroundColor: '#87E752' }}
-                      onClick={handleClick}>
-                      Grow New Plant
-                    </Button> */}
                   </AccordionPanel>
                 </AccordionItem>
               </Accordion>

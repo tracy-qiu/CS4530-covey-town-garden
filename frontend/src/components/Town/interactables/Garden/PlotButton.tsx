@@ -38,7 +38,7 @@ interface PlantPlotButtonProps extends ButtonProps {
 
 export function PlantPlotButton({
   children,
-  plantCareProps: { plant, showActions },
+  plantCareProps: { plant, plantExists },
   ...rest
 }: PlantPlotButtonProps): JSX.Element {
   const [show, setShow] = useState(false);
@@ -50,15 +50,21 @@ export function PlantPlotButton({
 
   return (
     <Box>
-      {show && PlantCare(show, handleClose, { plant: plant, showActions: showActions })}
-      <StyledPlot
-        bgImage={
-          'https://www.wikihow.com/images/thumb/a/a2/Grow-Vegetables-in-the-South-%28USA%29-Step-11.jpg/v4-460px-Grow-Vegetables-in-the-South-%28USA%29-Step-11.jpg.webp'
-        }
-        onClick={handleClick}
-        {...rest}>
-        {plant.name}
-      </StyledPlot>
+      {show && PlantCare(show, handleClose, { plant: plant, plantExists: plantExists })}
+      {plant.name !== '' ? (
+        <StyledPlot
+          bgImage={
+            'https://www.wikihow.com/images/thumb/a/a2/Grow-Vegetables-in-the-South-%28USA%29-Step-11.jpg/v4-460px-Grow-Vegetables-in-the-South-%28USA%29-Step-11.jpg.webp'
+          }
+          onClick={handleClick}
+          {...rest}>
+          {plant.name}
+        </StyledPlot>
+      ) : (
+        <StyledPlot bgColor={'#793D00'} onClick={handleClick} {...rest}>
+          {'PLANT ME'}
+        </StyledPlot>
+      )}
     </Box>
   );
 }

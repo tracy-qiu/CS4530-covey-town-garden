@@ -30,16 +30,16 @@ const samplePlant3: Plant = {
   status: 'About to Die',
 };
 
-const samplePlant4: Plant = {
+const undefinedPlant: Plant = {
   pid: 4,
-  name: 'Dead',
-  species: 'Blueberry',
-  age: 'Seedling',
-  lastWatered: new Date(),
-  status: 'Dead',
+  name: '',
+  species: undefined,
+  age: undefined,
+  lastWatered: undefined,
+  status: undefined,
 };
 
-const PLANTS: Plant[] = [samplePlant1, samplePlant2, samplePlant3, samplePlant4];
+const PLANTS: Plant[] = [samplePlant1, samplePlant2, samplePlant3, undefinedPlant];
 
 // const StyledGarden = chakra(Container, {
 //   baseStyle: {
