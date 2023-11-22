@@ -41,3 +41,45 @@ You should now see a "Swagger" transcript-server-openapi documentation page, wit
 ```
 
 This demonstrates that this endpoint of your REST API is functional.
+
+town collection 
+- post /town 
+- get one garden by townId /town/{townId}/garden
+
+garden collection 
+- post /garden 
+  - requestBody: {townId: string}
+- delete /garden/{gardenId} 
+
+plant collection 
+- post /garden/plant 
+  - requestBody: { gardenId: string; gardenPlotId: string; name: string; species: string }
+- update plant age by plantId /garden/plants/age
+  - requestBody: {plantId: string, age : string}
+- update plant last watered /garden/plant/lastWatered 
+  - requestBody: {plantId: string}
+- get one plant by plantId /garden/plants/{plantId}
+- get plants by gardenId /garden/{gardenId}/plants -might not need it 
+- get plants by plotId /garden/plots/{plotId}/plants
+- delete plant by plantId /garden/plants/{plantId}
+
+plot collection 
+- post /garden/plot
+  - requestBody: { gardenId: string; gardenerId: string; }
+- update plot /garden/plot
+  - requestBody: {gardenId: string, plotNumber: number, plantId: string}
+- get plots by gardenId /garden/{gardenId}/plots
+- get plots by gardenerId /garden/{gardenerId}/plots
+- get one plot by plotId /garden/plots/{plotId}
+- delete plot by plotId /garden/plots/{plotId}
+
+gardener collection 
+- post /garden/gardener
+  - requestBody: { name: string, gardenId: string }
+- update gardener /garden/gardner
+  - requestBody: { gardenId: string, name: string }
+- get gardeners by gardenId /garden/{gardenId}/gardener
+- get one gardener by gardener /garden/gardeners/{gardenerId}
+- delete gardener by gardenerId /garden/gardeners/{gardener}
+
+delete action deletes all items associated with the thing you are deleting 

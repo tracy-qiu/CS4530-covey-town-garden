@@ -1,6 +1,6 @@
 import { Controller, Get, Path, Route, Post, Body, Delete } from 'tsoa';
 import mongoose from 'mongoose';
-import { PlantId } from '../../types/CoveyTownSocket';
+import { PlantId, PlantType } from '../../types/CoveyTownSocket';
 import * as plantDao from '../../database/dao/plant-dao';
 import * as gardenDao from '../../database/dao/garden-dao';
 import * as gardenerDao from '../../database/dao/gardener-dao';
@@ -101,28 +101,51 @@ export class GardenController extends Controller {
   }
 
   /**
-   * Create a new plant
+   * Create a new garden
    * @param requestBody
    * @returns the ID of the newly created plant
    */
   @Post()
+  public addGarden(@Body() requestBody: { townId: string }) {
+    const townIdObject = new mongoose.Types.ObjectId(requestBody.townId);
+    connectToGardenDB();
+    return gardenDao.createGarden({
+      townId: townIdObject,
+      gardenPlots: [],
+    });
+  }
+
+  /**
+   * Create a new plant
+   * @param requestBody
+   * @returns the ID of the newly created plant
+   */
+  @Post('/plant')
   public async addPlant(
-    @Body() requestBody: { gardenId: string; gardenPlotId: string; name: string; species: string },
+    @Body()
+    requestBody: {
+      gardenId: string;
+      gardenPlotId: string;
+      name: string;
+      species: PlantType;
+    },
   ) {
     try {
       const gardenIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.gardenId);
       const gardenPlotIdObject = mongoose.Types.ObjectId.createFromHexString(
         requestBody.gardenPlotId,
       );
-      const speciesObject = mongoose.Types.ObjectId.createFromHexString(requestBody.species);
+      if (!['carrot', 'rose', 'blueberry'].includes(requestBody.species.toLowerCase())) {
+        throw new Error('Invalid value for species.');
+      }
       connectToGardenDB();
       const plant = await plantDao.createPlant({
         gardenId: gardenIdObject,
         gardenPlotId: gardenPlotIdObject,
         name: requestBody.name,
-        age: 'SEEDLING',
+        age: 'Seedling',
         lastWatered: new Date(),
-        species: speciesObject,
+        species: requestBody.species,
       });
       return plant;
     } catch (error: unknown) {
@@ -132,10 +155,11 @@ export class GardenController extends Controller {
   }
 
   /**
-   * Create a new plant
+   * Create a new plot
    * @param requestBody
    * @returns the ID of the newly created plant
    */
+  @Post('/plot')
   public addPlot(@Body() requestBody: { gardenId: string; gardenerId: string }) {
     const gardenIdObject = new mongoose.Types.ObjectId(requestBody.gardenId);
     const gardenerIdObject = new mongoose.Types.ObjectId(requestBody.gardenerId);
@@ -150,26 +174,32 @@ export class GardenController extends Controller {
     });
   }
 
-  // /**
-  //  * Create a new plant
-  //  * @param requestBody
-  //  * @returns the ID of the newly created plant
-  //  */
-  // @Post()
-  // public addGardener(@Body() requestBody: { name: string }) {
-  //   return gardenerDao.createGardener({
-  //     name: requestBody.name,
-  //   });
-  // }
+  /**
+   * Create a new gardener
+   * @param requestBody
+   * @returns the ID of the newly created gardener
+   */
+  @Post('/gardener')
+  public async addGardener(@Body() requestBody: { name: string; gardenPlotId: string }) {
+    const gardenPlotIdObject = new mongoose.Types.ObjectId(requestBody.gardenPlotId);
+    const gardener = await gardenerDao.createGardener({
+      gardenPlotId: gardenPlotIdObject,
+      name: requestBody.name,
+    });
+    return gardener;
+  }
 
-  @Delete()
+  @Delete('{plantId}')
   /**
    * @param requestBody
    *
    */
-  public async deletePlant(@Body() requestBody: { plantId: string }) {
+  public async deletePlant(
+    @Path()
+    plantId: string,
+  ) {
     connectToGardenDB();
-    const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
+    const plantIdObject = mongoose.Types.ObjectId.createFromHexString(plantId);
     const response = await plantDao.deletePlant(plantIdObject);
     return response;
   }
