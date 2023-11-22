@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { Box, Button, ButtonProps, chakra } from '@chakra-ui/react';
-import PlantCare from './Plant/PlantCare';
-import { PlotPlant } from '../../../../types/CoveyTownSocket';
+import React, { useEffect, useState } from 'react';
+import { Box, Button, ButtonProps, Text, Image, Spacer, VStack, chakra } from '@chakra-ui/react';
+import PlantCare, { PlantCareProps } from './Plant/PlantCare';
+import { Plant, PlantDetailsData, PlotPlant } from '../../../../types/CoveyTownSocket';
 import { MyGarden } from './MyGarden';
 import { SeedManual } from './Plant/SeedManual';
-import useTownController from '../../../../hooks/useTownController';
 
 const StyledPlot = chakra(Button, {
   baseStyle: {
@@ -15,9 +14,10 @@ const StyledPlot = chakra(Button, {
     borderColor: '#EDD4B2',
     borderWidth: '2px',
     whiteSpace: 'normal',
+    //bgColor: '#793D00',
     color: '#FFFEF6',
     height: '100px',
-    width: '100%',
+    width: '100px',
     minWidth: '100px',
     fontSize: '16px',
     _disabled: {
@@ -58,16 +58,20 @@ export function PlantPlotButton({
         <SeedManual isOpen={show} onClose={handleClose} username={username} />
       )}
       {plant !== undefined ? (
-        <StyledPlot
-          bgImage={
-            'https://www.wikihow.com/images/thumb/a/a2/Grow-Vegetables-in-the-South-%28USA%29-Step-11.jpg/v4-460px-Grow-Vegetables-in-the-South-%28USA%29-Step-11.jpg.webp'
-          }
-          onClick={handleClick}
-          {...rest}>
-          {plant.name}
+        <StyledPlot onClick={handleClick} {...rest}>
+          <VStack maxHeight='95%' maxWidth='95%' padding='2px' shouldWrapChildren={true}>
+            <Text>{plant.name}</Text>
+            <Image
+              maxHeight='50px'
+              maxWidth='50px'
+              src={displayImg}
+              alt={plant.species + ' age image in plot'}
+            />
+            <Spacer />
+          </VStack>
         </StyledPlot>
       ) : (
-        <StyledPlot bgColor={'#793D00'} onClick={handleClick} {...rest}>
+        <StyledPlot onClick={handleClick} {...rest}>
           {'PLANT ME'}
         </StyledPlot>
       )}
