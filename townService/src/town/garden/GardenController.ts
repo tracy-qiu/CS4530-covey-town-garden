@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 import { PlantId } from '../../types/CoveyTownSocket';
 import * as plantDao from '../../database/dao/plant-dao';
 import * as gardenDao from '../../database/dao/garden-dao';
-import * as plotDao from '../../database/dao/gardenPlot-dao';
 import * as gardenerDao from '../../database/dao/gardener-dao';
 import * as gardenPlotDao from '../../database/dao/gardenPlot-dao';
 import { validateTownExists, validateGardenDoesNotExistInTown } from './GardenUtil';
@@ -107,20 +106,29 @@ export class GardenController extends Controller {
    * @returns the ID of the newly created plant
    */
   @Post()
-  public addPlant(
+  public async addPlant(
     @Body() requestBody: { gardenId: string; gardenPlotId: string; name: string; species: string },
   ) {
-    const gardenIdObject = new mongoose.Types.ObjectId(requestBody.gardenId);
-    const gardenPlotIdObject = new mongoose.Types.ObjectId(requestBody.gardenPlotId);
-    const speciesObject = new mongoose.Types.ObjectId(requestBody.species);
-    return plantDao.createPlant({
-      gardenId: gardenIdObject,
-      gardenPlotId: gardenPlotIdObject,
-      name: requestBody.name,
-      age: 'SEEDLING',
-      lastWatered: new Date(),
-      species: speciesObject,
-    });
+    try {
+      const gardenIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.gardenId);
+      const gardenPlotIdObject = mongoose.Types.ObjectId.createFromHexString(
+        requestBody.gardenPlotId,
+      );
+      const speciesObject = mongoose.Types.ObjectId.createFromHexString(requestBody.species);
+      connectToGardenDB();
+      const plant = await plantDao.createPlant({
+        gardenId: gardenIdObject,
+        gardenPlotId: gardenPlotIdObject,
+        name: requestBody.name,
+        age: 'SEEDLING',
+        lastWatered: new Date(),
+        species: speciesObject,
+      });
+      return plant;
+    } catch (error: unknown) {
+      console.error('Error creating ObjectId ', error);
+      return { error: 'Invalid ObjectId format' };
+    }
   }
 
   /**
@@ -128,38 +136,42 @@ export class GardenController extends Controller {
    * @param requestBody
    * @returns the ID of the newly created plant
    */
-  @Post()
-  public addPlot(@Body() requestBody: { gardenId: string, gardenerId:  }) {
+  public addPlot(@Body() requestBody: { gardenId: string; gardenerId: string }) {
     const gardenIdObject = new mongoose.Types.ObjectId(requestBody.gardenId);
-    return plotDao.createGardenPlot({
+    const gardenerIdObject = new mongoose.Types.ObjectId(requestBody.gardenerId);
+    connectToGardenDB();
+    return gardenPlotDao.createGardenPlot({
       gardenId: gardenIdObject,
-      bottomLeftPlantId: null,
-      bottomRightPlantId: null,
-      gardenerId: null,
-      topLeftPlantId: null,
-      topRightPlantId: null,
+      bottomLeftPid: null,
+      bottomRightPid: null,
+      gardenerId: gardenerIdObject,
+      topLeftPid: null,
+      topRightPid: null,
     });
   }
 
-  /**
-   * Create a new plant
-   * @param requestBody
-   * @returns the ID of the newly created plant
-   */
-  @Post()
-  public addGardener(@Body() requestBody: { name: string }) {
-    return gardenerDao.createGardener({
-      name: requestBody.name,
-    });
-  }
+  // /**
+  //  * Create a new plant
+  //  * @param requestBody
+  //  * @returns the ID of the newly created plant
+  //  */
+  // @Post()
+  // public addGardener(@Body() requestBody: { name: string }) {
+  //   return gardenerDao.createGardener({
+  //     name: requestBody.name,
+  //   });
+  // }
 
   @Delete()
   /**
    * @param requestBody
    *
    */
-  public deletePlant(@Body() requestBody: { plantId: number }) {
-    return plantDao.deletePlant(requestBody.plantId);
+  public async deletePlant(@Body() requestBody: { plantId: string }) {
+    connectToGardenDB();
+    const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
+    const response = await plantDao.deletePlant(plantIdObject);
+    return response;
   }
 }
 export default GardenController;
