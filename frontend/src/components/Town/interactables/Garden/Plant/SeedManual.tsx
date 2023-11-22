@@ -22,6 +22,7 @@ import {
 } from '@chakra-ui/react';
 import PlantDetails from './PlantDetails';
 import { GardenButton } from '../GardenButton';
+import { useToast } from '@chakra-ui/react';
 
 type SeedManualProps = {
   isOpen: boolean;
@@ -29,8 +30,15 @@ type SeedManualProps = {
 };
 
 export function SeedManual({ isOpen, onClose }: SeedManualProps): JSX.Element {
+  const toast = useToast();
+
   const plantSeed = (plantType: PlantType) => {
-    alert('Planting ' + plantType);
+    toast({
+      title: 'Planting ' + plantType,
+      status: 'success',
+      duration: 4000,
+      isClosable: true,
+    });
   };
 
   return (

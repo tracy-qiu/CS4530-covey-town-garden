@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/react';
 import { Plant } from '../../../../../types/CoveyTownSocket';
 import { GardenButton } from '../GardenButton';
+import { useToast } from '@chakra-ui/react';
 /**
  * Displays actions to perform on a selected plant, such as watering and removing. It also shows a plant's current health status
  * @param {Plant} plant
@@ -47,13 +48,25 @@ export default function PlantActions({ plant }: { plant: Plant }): JSX.Element {
       }
     }
   }, [plant]);
-  const waterPlant = (pid: number) => {
-    //waterPlant
-    alert('watered!');
+
+  const toast = useToast();
+
+  const waterPlant = (pid: string) => {
+    toast({
+      title: 'Plants are watered',
+      status: 'success',
+      duration: 4000,
+      isClosable: true,
+    });
   };
 
-  const removePlant = (pid: number) => {
-    alert('removed!');
+  const removePlant = (pid: string) => {
+    toast({
+      title: 'Plants are removed',
+      status: 'success',
+      duration: 4000,
+      isClosable: true,
+    });
   };
 
   return (

@@ -19,6 +19,7 @@ import {
 } from '@chakra-ui/react';
 import { GardenAreaPlots } from './GardenAreaPlots';
 import { GardenButton } from './GardenButton';
+import { useToast } from '@chakra-ui/react';
 
 /**
  * Renders the plots and other components of the overall community garden area.
@@ -26,8 +27,14 @@ import { GardenButton } from './GardenButton';
  * @returns {JSX.Element} GardenArea
  */
 export function GardenArea({ interactableID }: { interactableID: InteractableID }): JSX.Element {
+  const toast = useToast();
   const enterYourGarden = () => {
-    alert('entering my garden');
+    toast({
+      title: 'Entering your garden',
+      status: 'success',
+      duration: 4000,
+      isClosable: true,
+    });
   };
 
   return (
