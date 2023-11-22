@@ -65,7 +65,14 @@ const plantSchema = new mongoose.Schema<PlantDocument>(
   { collection: 'plants' },
 );
 
-export type PlantDB = InferSchemaType<typeof plantSchema>;
+export type PlantDB = {
+  gardenId: Types.ObjectId;
+  gardenPlotId: Types.ObjectId;
+  name: string;
+  age: PlantAge;
+  lastWatered: Date;
+  species: PlantType;
+};
 
 export const plantModel = mongoose.model('PlantModel', plantSchema);
 
