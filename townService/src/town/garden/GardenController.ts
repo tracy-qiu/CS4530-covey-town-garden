@@ -31,17 +31,17 @@ export class GardenController extends Controller {
   }
 
   /**
-   * Retrieves a given garden by ID
+   * Retrieves a given garden by town ID
    * @returns garden
    */
-  @Get('{gardenId}')
+  @Get('{townId}')
   public async getGarden(
     @Path()
-    gardenId: string,
+    townId: string,
   ) {
     connectToGardenDB();
-    const garden = await gardenDao.findGardenById(gardenId);
-    return garden;
+    const gardens = await gardenDao.findGardens();
+    return gardens.find(garden => garden.townId.toHexString() === townId);
   }
 
   /**
