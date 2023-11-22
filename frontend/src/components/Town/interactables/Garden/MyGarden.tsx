@@ -27,7 +27,7 @@ import PlantCare from './Plant/PlantCare';
 export type MyGardenAreaProps = {
   isOpen: boolean;
   onClose: () => void;
-  plants: Plant[];
+  plants: PlotPlant[];
 };
 
 /**
@@ -35,7 +35,7 @@ export type MyGardenAreaProps = {
  * The plots display as two across, two down and are clickable for information and actions.
  * The user can also choose to return to the overall garden.
  * @param username user's name to be displayed
- * @param { boolean, () => void, Plant[] } props to represent user's plants and conditionally show user's garden
+ * @param { boolean, () => void, PlotPlant[] } props to represent user's plants and conditionally show user's garden
  * @returns { JSX.Element } user garden modal
  */
 export function MyGarden(
@@ -50,9 +50,6 @@ export function MyGarden(
 
   return (
     <>
-      {/* {showManual && (
-        <SeedManual username={username} isOpen={showManual} onClose={onClose} />
-      )} */}
       <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} size='xl'>
         <ModalOverlay />
 

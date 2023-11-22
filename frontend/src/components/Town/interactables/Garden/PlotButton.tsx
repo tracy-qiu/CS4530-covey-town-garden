@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, ButtonProps, chakra } from '@chakra-ui/react';
 import PlantCare, { PlantCareProps } from './Plant/PlantCare';
-import { Plant } from '../../../../types/CoveyTownSocket';
+import { Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
 import { MyGarden } from './MyGarden';
 
 const StyledPlot = chakra(Button, {
@@ -38,7 +38,7 @@ interface PlantPlotButtonProps extends ButtonProps {
 
 export function PlantPlotButton({
   children,
-  plantCareProps: { plant, plantExists },
+  plantCareProps: { plant },
   ...rest
 }: PlantPlotButtonProps): JSX.Element {
   const [show, setShow] = useState(false);
@@ -50,8 +50,8 @@ export function PlantPlotButton({
 
   return (
     <Box>
-      {show && PlantCare(show, handleClose, { plant: plant, plantExists: plantExists })}
-      {plant.name !== '' ? (
+      {show && PlantCare(show, handleClose, { plant: plant })}
+      {plant !== undefined ? (
         <StyledPlot
           bgImage={
             'https://www.wikihow.com/images/thumb/a/a2/Grow-Vegetables-in-the-South-%28USA%29-Step-11.jpg/v4-460px-Grow-Vegetables-in-the-South-%28USA%29-Step-11.jpg.webp'
@@ -71,13 +71,13 @@ export function PlantPlotButton({
 
 interface GardenPlotButtonProps extends ButtonProps {
   username: string;
-  plants: Plant[];
+  plants: PlotPlant[];
 }
 
 /**
  * Button representing a user's plot of the community garden. Clicking will
  * access their personal garden plot.
- * @param { string, Plant[] } username of the user and their list of plants
+ * @param { string, PlotPlant[] } username of the user and their list of plants
  * @returns { JSX.Element } plot button
  */
 

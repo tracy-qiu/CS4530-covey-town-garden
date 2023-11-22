@@ -26,7 +26,12 @@ export type Garden = {
 
 export type GardenPlot = {
   gardenerId: GardenerId;
-  plants: Plant[] = [];
+  plants: PlotPlant[] = [];
+}
+
+export type PlotPlant = {
+  plantId: string;
+  plant: Plant | undefined;
 }
 
 export type PlantDetailsData = {

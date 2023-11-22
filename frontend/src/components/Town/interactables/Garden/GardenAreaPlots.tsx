@@ -1,45 +1,44 @@
 import React from 'react';
 import { Container, Box, chakra, SimpleGrid } from '@chakra-ui/react';
 import { GardenPlotButton } from './PlotButton';
-import { Plant } from '../../../../types/CoveyTownSocket';
+import { Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
 
-const samplePlant1: Plant = {
-  pid: '1',
-  name: 'blueberry',
-  species: 'Blueberry',
-  age: 'Seedling',
-  lastWatered: new Date(),
-  status: 'Healthy',
+const samplePlant1: PlotPlant = {
+  plant: {
+    pid: '1',
+    name: 'blueberry',
+    species: 'Blueberry',
+    age: 'Seedling',
+    lastWatered: new Date(),
+    status: 'Healthy',
+  },
 };
 
-const samplePlant2: Plant = {
-  pid: '2',
-  name: 'Rosalina',
-  species: 'Rose',
-  age: 'Sprout',
-  lastWatered: new Date(),
-  status: 'Dehydrated',
+const samplePlant2: PlotPlant = {
+  plant: {
+    pid: '2',
+    name: 'Rosalina',
+    species: 'Rose',
+    age: 'Sprout',
+    lastWatered: new Date(),
+    status: 'Dehydrated',
+  },
 };
 
-const samplePlant3: Plant = {
-  pid: '3',
-  name: 'Bugs',
-  species: 'Carrot',
-  age: 'Adult',
-  lastWatered: new Date(),
-  status: 'About to Die',
+const samplePlant3: PlotPlant = {
+  plant: {
+    pid: '3',
+    name: 'Bugs',
+    species: 'Carrot',
+    age: 'Adult',
+    lastWatered: new Date(),
+    status: 'About to Die',
+  },
 };
 
-const undefinedPlant: Plant = {
-  pid: '4',
-  name: '',
-  species: undefined,
-  age: undefined,
-  lastWatered: undefined,
-  status: undefined,
-};
+const undefinedPlant: PlotPlant = { plant: undefined };
 
-const PLANTS: Plant[] = [samplePlant1, samplePlant2, samplePlant3, undefinedPlant];
+const PLANTS: PlotPlant[] = [samplePlant1, samplePlant2, samplePlant3, undefinedPlant];
 
 // const StyledGarden = chakra(Container, {
 //   baseStyle: {

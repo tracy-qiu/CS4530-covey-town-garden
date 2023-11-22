@@ -1,5 +1,5 @@
 import React from 'react';
-import { Plant } from '../../../../types/CoveyTownSocket';
+import { GardenPlot, Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
 import { Container, Box, chakra, Button, SimpleGrid } from '@chakra-ui/react';
 import { PlantPlotButton } from './PlotButton';
 
@@ -14,12 +14,12 @@ import { PlantPlotButton } from './PlotButton';
 // });
 
 export type MyGardenPlotsProps = {
-  plants: Plant[];
+  plants: PlotPlant[];
 };
 
 /**
  * Renders plant plots for user's garden as one component.
- * @param {Plant[]} list of plants to display in user's garden
+ * @param {PlotPlant[]} list of plants to display in user's garden
  * @returns {JSX.Element} GardenPlots
  */
 export function MyGardenPlots({ plants }: MyGardenPlotsProps): JSX.Element {
@@ -30,12 +30,10 @@ export function MyGardenPlots({ plants }: MyGardenPlotsProps): JSX.Element {
       <SimpleGrid spacing={3} columns={2}>
         {plants.map((plant, index) => {
           return (
-            <Box key={plant.pid}>
-              <PlantPlotButton
-                key={`${index}`}
-                plantCareProps={{ plant: plant, plantExists: plant.status !== undefined }}
-              />
-            </Box>
+            <PlantPlotButton
+              key={`${index}`}
+              plantCareProps={{ plant: plant.plant }}
+            />
           );
         })}
       </SimpleGrid>
