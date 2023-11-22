@@ -1,4 +1,5 @@
-import mongoose, { InferSchemaType } from 'mongoose';
+import mongoose, { Document, Types, InferSchemaType } from 'mongoose';
+import { PlantAge, PlantType } from '../types/CoveyTownSocket';
 
 // Towns
 const townSchema = new mongoose.Schema(
@@ -42,27 +43,24 @@ export type GardenPlotDB = InferSchemaType<typeof gardenPlotSchema>;
 
 export const gardenPlotModel = mongoose.model('GardenPlotModel', gardenPlotSchema);
 
-// Plant Type
-const plantTypeSchema = new mongoose.Schema(
-  {
-    speciesName: { type: String, required: true },
-  },
-  { collection: 'PlantType' },
-);
-
-export type PlantTypeDB = InferSchemaType<typeof plantTypeSchema>;
-
-export const plantTypeModel = mongoose.model('PlantTypeModel', plantTypeSchema);
+export interface PlantDocument extends Document {
+  gardenId: Types.ObjectId;
+  gardenPlotId: Types.ObjectId;
+  name: string;
+  age: PlantAge;
+  lastWatered: Date;
+  species: PlantType;
+}
 
 // Plant
-const plantSchema = new mongoose.Schema(
+const plantSchema = new mongoose.Schema<PlantDocument>(
   {
     gardenId: { type: mongoose.Schema.Types.ObjectId, ref: 'gardenSchema', required: true },
     gardenPlotId: { type: mongoose.Schema.Types.ObjectId, ref: 'gardenPlotSchema', required: true },
     name: { type: String, required: true },
-    age: String, // should be of type plant age (fix after merge)
-    lastWatered: Date,
-    species: { type: mongoose.Schema.Types.ObjectId, ref: 'PlantType', required: true },
+    age: { type: String, enum: ['Seedling', 'Sprout', 'Adult'], required: true }, // should be of type plant age (fix after merge)
+    lastWatered: { type: Date, required: true },
+    species: { type: String, enum: ['Carrot', 'Rose', 'Blueberry'], required: true },
   },
   { collection: 'plants' },
 );
