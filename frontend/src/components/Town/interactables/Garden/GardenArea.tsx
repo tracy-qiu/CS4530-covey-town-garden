@@ -10,14 +10,16 @@ import {
   ModalContent,
   ModalHeader,
   ModalCloseButton,
-  Spacer,
   Button,
   Box,
   HStack,
   VStack,
   ModalBody,
+  Container,
 } from '@chakra-ui/react';
 import { GardenAreaPlots } from './GardenAreaPlots';
+import { GardenButton } from './GardenButton';
+import { useToast } from '@chakra-ui/react';
 
 /**
  * Renders the plots and other components of the overall community garden area.
@@ -25,23 +27,36 @@ import { GardenAreaPlots } from './GardenAreaPlots';
  * @returns {JSX.Element} GardenArea
  */
 export function GardenArea({ interactableID }: { interactableID: InteractableID }): JSX.Element {
+  const toast = useToast();
+  const enterYourGarden = () => {
+    toast({
+      title: 'Entering your garden',
+      status: 'success',
+      duration: 4000,
+      isClosable: true,
+    });
+  };
+
   return (
-    <VStack>
-      <HStack align='center' justify='center'>
-        <Spacer></Spacer>
+    <Container>
+      <VStack>
         <ModalHeader textAlign='center'>{'Community Garden'}</ModalHeader>
-        <Button color={'#395941'} bgColor={'#7ED191'} _hover={{ backgroundColor: '#87E752' }}>
-          My Garden
-        </Button>
-      </HStack>
-      <HStack>
-        <Box border='1px solid black'>{'Users: '}</Box>
-        <ModalBody textAlign='center'>{'Welcome, username!'}</ModalBody>
-        <Spacer />
-      </HStack>
-      <GardenAreaPlots></GardenAreaPlots>
-      <Spacer></Spacer>
-    </VStack>
+        <ModalBody textAlign='center'>
+          <b>Welcome, username!</b>
+        </ModalBody>
+        <HStack>
+          {/* <Box border='1px solid black'>{'Users: '}</Box> */}
+          <GardenButton
+            label={'My Garden'}
+            color={'#7ED191'}
+            hoverColor={'#87E752'}
+            fn={enterYourGarden}
+          />
+        </HStack>
+        <GardenAreaPlots></GardenAreaPlots>
+        <br />
+      </VStack>
+    </Container>
   );
 }
 

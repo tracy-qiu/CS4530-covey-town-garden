@@ -17,6 +17,8 @@ import {
   Center,
 } from '@chakra-ui/react';
 import { Plant } from '../../../../../types/CoveyTownSocket';
+import { GardenButton } from '../GardenButton';
+import { useToast } from '@chakra-ui/react';
 /**
  * Displays actions to perform on a selected plant, such as watering and removing. It also shows a plant's current health status
  * @param {Plant} plant
@@ -46,11 +48,26 @@ export default function PlantActions({ plant }: { plant: Plant }): JSX.Element {
       }
     }
   }, [plant]);
+
+  const toast = useToast();
+
   const waterPlant = (pid: string) => {
-    //waterPlant
+    toast({
+      title: 'Plants are watered',
+      status: 'success',
+      duration: 4000,
+      isClosable: true,
+    });
   };
 
-  const removePlant = (pid: string) => {};
+  const removePlant = (pid: string) => {
+    toast({
+      title: 'Plants are removed',
+      status: 'success',
+      duration: 4000,
+      isClosable: true,
+    });
+  };
 
   return (
     <>
@@ -82,37 +99,35 @@ export default function PlantActions({ plant }: { plant: Plant }): JSX.Element {
         </h2>
         <h2>
           <b>Last watered: </b>
-          {plant.lastWatered.toLocaleString('en-US', {
+          {plant.lastWatered?.toLocaleString('en-US', {
             year: 'numeric',
             month: 'numeric',
             day: 'numeric',
           })}
         </h2>
-      </Container>
-      <br />
+        <br />
 
-      <Accordion allowToggle>
-        <AccordionItem>
-          <Heading as='h3'>
-            <AccordionButton>
-              <Box as='span' flex='1' textAlign='left'>
-                <b>Actions</b>
-                <AccordionIcon />
-              </Box>
-            </AccordionButton>
-          </Heading>
-          <AccordionPanel>
-            <Button colorScheme='blue' onClick={() => waterPlant(plant.pid)}>
-              Water me!
-            </Button>
-            <br />
-            <br />
-            <Button colorScheme='red' onClick={() => removePlant(plant.pid)}>
-              Remove Plant
-            </Button>
-          </AccordionPanel>
-        </AccordionItem>
-      </Accordion>
+        <Box position='relative' padding='4'>
+          <Divider />
+          <AbsoluteCenter bg='#FFFEF6' px='4'>
+            <b>Actions</b>
+          </AbsoluteCenter>
+        </Box>
+        <GardenButton
+          label={'Water me!'}
+          color={'#77E5EC'}
+          hoverColor={'#3EC4FE'}
+          fn={() => waterPlant(plant.pid)}
+        />
+        <br />
+        <br />
+        <GardenButton
+          label={'Remove Plant'}
+          color={'#F27459'}
+          hoverColor={'#F34E4E'}
+          fn={() => removePlant(plant.pid)}
+        />
+      </Container>
       <br />
     </>
   );

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Box, Button, ButtonProps, chakra } from '@chakra-ui/react';
 import PlantCare, { PlantCareProps } from './Plant/PlantCare';
-import { Plant } from '../../../../types/CoveyTownSocket';
+import { Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
 import { MyGarden } from './MyGarden';
+import { SeedManual } from './Plant/SeedManual';
 
 const StyledPlot = chakra(Button, {
   baseStyle: {
@@ -12,7 +13,7 @@ const StyledPlot = chakra(Button, {
     flexBasis: '25%',
     borderColor: '#EDD4B2',
     borderWidth: '2px',
-    bgColor: '#793D00',
+    // bgColor: '#793D00',
     color: '#FFFEF6',
     height: '100px',
     width: '100%',
@@ -26,7 +27,7 @@ const StyledPlot = chakra(Button, {
 });
 
 interface PlantPlotButtonProps extends ButtonProps {
-  plantCareProps: PlantCareProps;
+  plotPlant: PlotPlant;
 }
 
 /**
@@ -38,7 +39,7 @@ interface PlantPlotButtonProps extends ButtonProps {
 
 export function PlantPlotButton({
   children,
-  plantCareProps: { plant, showActions },
+  plotPlant: { plant },
   ...rest
 }: PlantPlotButtonProps): JSX.Element {
   const [show, setShow] = useState(false);
@@ -50,23 +51,38 @@ export function PlantPlotButton({
 
   return (
     <Box>
-      {show && PlantCare(show, handleClose, { plant: plant, showActions: showActions })}
-      <StyledPlot onClick={handleClick} {...rest}>
-        {plant.name}
-      </StyledPlot>
+      {show && plant !== undefined ? (
+        PlantCare(show, handleClose, { plant: plant })
+      ) : (
+        <SeedManual isOpen={show} onClose={handleClose} />
+      )}
+      {plant !== undefined ? (
+        <StyledPlot
+          bgImage={
+            'https://www.wikihow.com/images/thumb/a/a2/Grow-Vegetables-in-the-South-%28USA%29-Step-11.jpg/v4-460px-Grow-Vegetables-in-the-South-%28USA%29-Step-11.jpg.webp'
+          }
+          onClick={handleClick}
+          {...rest}>
+          {plant.name}
+        </StyledPlot>
+      ) : (
+        <StyledPlot bgColor={'#793D00'} onClick={handleClick} {...rest}>
+          {'PLANT ME'}
+        </StyledPlot>
+      )}
     </Box>
   );
 }
 
 interface GardenPlotButtonProps extends ButtonProps {
   username: string;
-  plants: Plant[];
+  plants: PlotPlant[];
 }
 
 /**
  * Button representing a user's plot of the community garden. Clicking will
  * access their personal garden plot.
- * @param { string, Plant[] } username of the user and their list of plants
+ * @param { string, PlotPlant[] } username of the user and their list of plants
  * @returns { JSX.Element } plot button
  */
 
@@ -91,7 +107,12 @@ export function GardenPlotButton({
           onClose: handleClose,
           plants: plants,
         })}
-      <StyledPlot onClick={handleClick} {...rest}>
+      <StyledPlot
+        bgImage={
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_L2aMkVO--A_GOxD08fP9FygAX8rEBDnPWw&usqp=CAU'
+        }
+        onClick={handleClick}
+        {...rest}>
         {username}
       </StyledPlot>
     </Box>

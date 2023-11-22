@@ -9,7 +9,7 @@ import {
   Container,
   Heading,
 } from '@chakra-ui/react';
-import { Plant, PlantDetailsData } from '../../../../../types/CoveyTownSocket';
+import { PlantDetailsData, PlantType } from '../../../../../types/CoveyTownSocket';
 import PLANT_DETAILS_DATA from '../garden-data/data';
 
 /**
@@ -17,7 +17,7 @@ import PLANT_DETAILS_DATA from '../garden-data/data';
  * @param {Plant} plant
  * @returns {JSX.Element} component
  */
-export default function PlantDetails({ plant }: { plant: Plant }): JSX.Element {
+export default function PlantDetails({ plantType }: { plantType: PlantType }): JSX.Element {
   const [about, setAbout] = useState('');
   const [instructions, setInstructions] = useState('');
   const [aboutImg, setAboutImg] = useState('');
@@ -27,7 +27,7 @@ export default function PlantDetails({ plant }: { plant: Plant }): JSX.Element {
 
   useEffect(() => {
     const plantInfo: PlantDetailsData | undefined =
-      PLANT_DETAILS_DATA.find(info => info.type === plant.species) ?? undefined;
+      PLANT_DETAILS_DATA.find(info => info.type === plantType) ?? undefined;
     if (plantInfo) {
       setAbout(plantInfo.about);
       setInstructions(plantInfo.instructions);
@@ -36,19 +36,19 @@ export default function PlantDetails({ plant }: { plant: Plant }): JSX.Element {
       setSproutImg(plantInfo.sproutImg);
       setPlantImg(plantInfo.matureImg);
     }
-  }, [plant.species]);
+  }, [plantType]);
   return (
     <>
       <Box position='relative' padding='4'>
         <Divider />
         <AbsoluteCenter bg='#FFFEF6' px='4'>
-          <b>{plant.species}</b>
+          <b>{plantType}</b>
         </AbsoluteCenter>
       </Box>
       <Container>
         <Grid templateColumns='1fr 2fr' gap={3}>
           <GridItem w='100%' h='40' display='flex'>
-            <Image src={aboutImg} alt={plant.species + ' about image'} />
+            <Image src={aboutImg} alt={plantType + ' about image'} />
           </GridItem>
           <GridItem w='100%' h='40' display='flex'>
             <p>{about}</p>
@@ -65,13 +65,13 @@ export default function PlantDetails({ plant }: { plant: Plant }): JSX.Element {
         </Heading>
         <Grid templateColumns='1fr 1fr 1fr' gap={1}>
           <GridItem w='100%' h='20' display='flex'>
-            <Image src={seedImg} alt={plant.species + ' seed image'} />
+            <Image src={seedImg} alt={plantType + ' seed image'} />
           </GridItem>
           <GridItem w='100%' h='20' display='flex'>
-            <Image src={sproutImg} alt={plant.species + ' sprout image'} />
+            <Image src={sproutImg} alt={plantType + ' sprout image'} />
           </GridItem>
           <GridItem w='100%' h='20' display='flex'>
-            <Image src={plantImg} alt={plant.species + ' mature image'} />
+            <Image src={plantImg} alt={plantType + ' mature image'} />
           </GridItem>
         </Grid>
       </Container>

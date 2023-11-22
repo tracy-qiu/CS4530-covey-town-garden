@@ -1,55 +1,57 @@
 import React from 'react';
-import { Container, Box, chakra } from '@chakra-ui/react';
+import { Container, Box, chakra, SimpleGrid } from '@chakra-ui/react';
 import { GardenPlotButton } from './PlotButton';
-import { Plant } from '../../../../types/CoveyTownSocket';
+import { Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
 
-const samplePlant1: Plant = {
-  pid: 'ajsfd',
-  name: 'blueberry',
-  species: 'Blueberry',
-  age: 'Seedling',
-  lastWatered: new Date(),
-  status: 'Healthy',
-};
-
-const samplePlant2: Plant = {
-  pid: 'smth',
-  name: 'Rosalina',
-  species: 'Rose',
-  age: 'Sprout',
-  lastWatered: new Date(),
-  status: 'Dehydrated',
-};
-
-const samplePlant3: Plant = {
-  pid: 'blahblah',
-  name: 'Bugs',
-  species: 'Carrot',
-  age: 'Adult',
-  lastWatered: new Date(),
-  status: 'About to Die',
-};
-
-const samplePlant4: Plant = {
-  pid: 'dead',
-  name: 'Dead',
-  species: 'Blueberry',
-  age: 'Seedling',
-  lastWatered: new Date(),
-  status: 'Dead',
-};
-
-const PLANTS: Plant[] = [samplePlant1, samplePlant2, samplePlant3, samplePlant4];
-
-const StyledGarden = chakra(Container, {
-  baseStyle: {
-    display: 'flex',
-    width: '75%',
-    height: '400px',
-    padding: '0px',
-    flexWrap: 'wrap',
+const samplePlant1: PlotPlant = {
+  plantId: '12',
+  plant: {
+    pid: '1',
+    name: 'blueberry',
+    species: 'Blueberry',
+    age: 'Seedling',
+    lastWatered: new Date(),
+    status: 'Healthy',
   },
-});
+};
+
+const samplePlant2: PlotPlant = {
+  plantId: '13',
+  plant: {
+    pid: '2',
+    name: 'Rosalina',
+    species: 'Rose',
+    age: 'Sprout',
+    lastWatered: new Date(),
+    status: 'Dehydrated',
+  },
+};
+
+const samplePlant3: PlotPlant = {
+  plantId: '14',
+  plant: {
+    pid: '3',
+    name: 'Bugs',
+    species: 'Carrot',
+    age: 'Adult',
+    lastWatered: new Date(),
+    status: 'About to Die',
+  },
+};
+
+const undefinedPlant: PlotPlant = { plantId: '16', plant: undefined };
+
+const PLANTS: PlotPlant[] = [samplePlant1, samplePlant2, samplePlant3, undefinedPlant];
+
+// const StyledGarden = chakra(Container, {
+//   baseStyle: {
+//     display: 'flex',
+//     width: '75%',
+//     height: '400px',
+//     padding: '0px',
+//     flexWrap: 'wrap',
+//   },
+// });
 
 /**
  * Renders each individual plot styled for the garden together as one component.
@@ -75,18 +77,20 @@ export function GardenAreaPlots(): JSX.Element {
   ];
 
   return (
-    <Box overflowX='auto'>
-      <StyledGarden>
+    <Container>
+      <SimpleGrid spacing={3} columns={4}>
         {users.map((username, index) => {
           return (
-            <GardenPlotButton
-              fontSize='20px'
-              key={`${index}`}
-              username={username}
-              plants={PLANTS}></GardenPlotButton>
+            <Box key={username}>
+              <GardenPlotButton
+                fontSize='20px'
+                key={`${index}`}
+                username={username}
+                plants={PLANTS}></GardenPlotButton>
+            </Box>
           );
         })}
-      </StyledGarden>
-    </Box>
+      </SimpleGrid>
+    </Container>
   );
 }
