@@ -45,7 +45,7 @@ export default function PlantCare(
               <PlantActions plant={plant} />
             </>
           ) : (
-            <SeedManual isOpen={isOpen} onClose={onClose}/>
+            <SeedManual isOpen={isOpen} onClose={onClose} />
           )}
         </Container>
       </ModalContent>
