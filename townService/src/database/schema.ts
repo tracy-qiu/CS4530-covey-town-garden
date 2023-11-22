@@ -60,7 +60,7 @@ const plantSchema = new mongoose.Schema(
     gardenId: { type: mongoose.Schema.Types.ObjectId, ref: 'gardenSchema', required: true },
     gardenPlotId: { type: mongoose.Schema.Types.ObjectId, ref: 'gardenPlotSchema', required: true },
     name: { type: String, required: true },
-    age: Number, // should be of type plant age (fix after merge)
+    age: String, // should be of type plant age (fix after merge)
     lastWatered: Date,
     species: { type: mongoose.Schema.Types.ObjectId, ref: 'PlantType', required: true },
   },
