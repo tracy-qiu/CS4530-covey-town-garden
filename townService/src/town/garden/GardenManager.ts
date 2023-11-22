@@ -29,7 +29,7 @@ export function addPlant(
   lastWatered: Date,
   status: PlantHealthStatus,
 ): PlantId {
-  const newID = PlantIDManager.newID();
+  const newID = PlantIDManager.newID().toString();
   allPlants.push({ pid: newID, name, species, age, status, lastWatered });
   return newID;
 }
@@ -47,6 +47,6 @@ export function getAll(): Plant[] {
 }
 
 // gets transcript for given ID.  Returns undefined if missing
-export function getPlant(plantID: number): Plant | undefined {
+export function getPlant(plantID: string): Plant | undefined {
   return allPlants.find(plant => plant.pid === plantID);
 }
