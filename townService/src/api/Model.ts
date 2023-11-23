@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongoose.Schema.Types';
+
 /**
  * The public-facing model that represents a town. More information about the town
  * is available for users who join it.
@@ -57,4 +59,11 @@ export interface TownCreateParams {
    * Not currently used on frontend
    */
   mapFile?: string;
+}
+
+/**
+ * Request body that specifies how to create a new garden
+ */
+export interface GardenCreateParams {
+  townId: string;
 }
