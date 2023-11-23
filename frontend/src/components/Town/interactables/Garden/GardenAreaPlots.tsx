@@ -43,7 +43,7 @@ const samplePlantDead: PlotPlant = {
   plantId: '100',
   plant: {
     pid: '4',
-    name: 'Yoyo',
+    name: 'Yolo',
     species: 'Carrot',
     age: 'Adult',
     lastWatered: new Date(),

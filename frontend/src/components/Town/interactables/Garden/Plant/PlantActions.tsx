@@ -60,6 +60,9 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
   };
 
   // decides colors to display for status
+  const [ageColor, setAgeColor] = useState('');
+  const [showWater, setShowWater] = useState(true);
+
   useEffect(() => {
     if (plant.status === 'Healthy') {
       setStatusColor('green');
@@ -69,6 +72,18 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
       setStatusColor('red');
     } else if (plant.status === 'Dead') {
       setStatusColor('gray');
+    }
+
+    if (plant.status !== 'Dead') {
+      if (plant.age === 'Adult') {
+        setAgeColor('purple');
+      } else if (plant.age === 'Sprout') {
+        setAgeColor('pink');
+      } else {
+        setAgeColor('teal');
+      }
+    } else {
+      setShowWater(false);
     }
   }, [plant]);
 
@@ -137,20 +152,10 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
         </AbsoluteCenter>
       </Box>
       <HStack spacing={20} justifyContent='center' alignItems='center'>
-        <GardenButton
-          textColor='#002994'
-          label={'Water me!'}
-          color={'#77E5EC'}
-          hoverColor={'#3EC4FE'}
-          onClick={waterPlant}
-        />
-        <GardenButton
-          textColor='#8A0606'
-          label={'Remove Plant'}
-          color={'#FD8971'}
-          hoverColor={'#F34E4E'}
-          onClick={removePlant}
-        />
+        {showWater && (
+          <GardenButton label={'Water me!'} type='Water' fn={() => waterPlant(plant.pid)} />
+        )}
+        <GardenButton label={'Remove Plant'} type='Remove' fn={() => removePlant(plant.pid)} />
       </HStack>
     </Container>
   );
