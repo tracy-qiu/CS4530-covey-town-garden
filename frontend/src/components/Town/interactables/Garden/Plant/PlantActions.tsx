@@ -138,14 +138,16 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
       </Box>
       <HStack spacing={20} justifyContent='center' alignItems='center'>
         <GardenButton
-          label={'Water Me!'}
+          textColor='#002994'
+          label={'Water me!'}
           color={'#77E5EC'}
           hoverColor={'#3EC4FE'}
           onClick={waterPlant}
         />
         <GardenButton
+          textColor='#8A0606'
           label={'Remove Plant'}
-          color={'#F27459'}
+          color={'#FD8971'}
           hoverColor={'#F34E4E'}
           onClick={removePlant}
         />

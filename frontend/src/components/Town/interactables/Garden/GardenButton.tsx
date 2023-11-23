@@ -4,7 +4,8 @@ import { Button } from '@chakra-ui/react';
 // TO FILL OUT -> for use on main garden screen, could be used for returning
 // to main garden from my garden
 
-type GardenButtonProps = {
+export type GardenButtonProps = {
+  textColor: string;
   label: string;
   color: string;
   hoverColor: string;
@@ -19,6 +20,7 @@ type GardenButtonProps = {
  */
 
 export function GardenButton({
+  textColor,
   label,
   color,
   hoverColor,
@@ -27,7 +29,7 @@ export function GardenButton({
 }: GardenButtonProps): JSX.Element {
   return (
     <Button
-      color={'black'}
+      color={textColor}
       bgColor={color}
       _hover={{ backgroundColor: hoverColor }}
       onClick={onClick}

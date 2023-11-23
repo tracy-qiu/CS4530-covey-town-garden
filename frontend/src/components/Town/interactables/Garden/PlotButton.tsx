@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, ButtonProps, Text, Image, Spacer, VStack, chakra } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  ButtonProps,
+  Text,
+  Image,
+  Spacer,
+  VStack,
+  chakra,
+  Center,
+} from '@chakra-ui/react';
 import PlantCare, { PlantCareProps } from './Plant/PlantCare';
 import { Plant, PlantDetailsData, PlotPlant } from '../../../../types/CoveyTownSocket';
 import { MyGarden } from './MyGarden';
@@ -14,16 +24,16 @@ const StyledPlot = chakra(Button, {
     borderColor: '#EDD4B2',
     borderWidth: '2px',
     whiteSpace: 'normal',
-    //bgColor: '#793D00',
+    //bgColor: '#6C3701',
     color: '#FFFEF6',
-    height: '100px',
-    width: '100px',
+    height: '110px',
+    width: '100%',
     minWidth: '100px',
     fontSize: '16px',
     _disabled: {
       opacity: '100%',
     },
-    _hover: { backgroundColor: '#C4A484' },
+    _hover: { backgroundColor: '#985510' },
   },
 });
 
@@ -47,8 +57,25 @@ export function PlantPlotButton({
   const handleClick = () => {
     setShow(true);
   };
-
   const handleClose = () => setShow(false);
+
+  const [displayImg, setDisplayImg] = useState('');
+
+  useEffect(() => {
+    if (plant !== undefined) {
+      const plantInfo: PlantDetailsData | undefined =
+        PLANT_DETAILS_DATA.find(info => info.type === plant.species) ?? undefined;
+      if (plantInfo && plant !== undefined) {
+        if (plant.age == 'Seedling') {
+          setDisplayImg(plantInfo.seedImg);
+        } else if (plant.age == 'Sprout') {
+          setDisplayImg(plantInfo.sproutImg);
+        } else if (plant.age == 'Adult') {
+          setDisplayImg(plantInfo.matureImg);
+        }
+      }
+    }
+  }, [plant]);
 
   return (
     <Box>
@@ -59,14 +86,21 @@ export function PlantPlotButton({
       )}
       {plant !== undefined ? (
         <StyledPlot onClick={handleClick} {...rest}>
-          <VStack maxHeight='95%' maxWidth='95%' padding='2px' shouldWrapChildren={true}>
+          <VStack maxHeight='95%' maxWidth='95%' shouldWrapChildren={true}>
             <Text>{plant.name}</Text>
-            <Image
-              maxHeight='50px'
-              maxWidth='50px'
-              src={displayImg}
-              alt={plant.species + ' age image in plot'}
-            />
+            <Center>
+              {plant.status === 'Dead' ? (
+                <Text>R.I.P</Text>
+              ) : (
+                <Image
+                  maxHeight='50px'
+                  maxWidth='50px'
+                  src={displayImg}
+                  alt={plant.species + ' age image in plot'}
+                />
+              )}
+            </Center>
+
             <Spacer />
           </VStack>
         </StyledPlot>

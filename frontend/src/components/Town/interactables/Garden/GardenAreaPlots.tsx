@@ -39,6 +39,18 @@ const samplePlant3: PlotPlant = {
   },
 };
 
+const samplePlantDead: PlotPlant = {
+  plantId: '100',
+  plant: {
+    pid: '4',
+    name: 'Yoyo',
+    species: 'Carrot',
+    age: 'Adult',
+    lastWatered: new Date(),
+    status: 'Dead',
+  },
+};
+
 const undefinedPlant: PlotPlant = { plantId: '16', plant: undefined };
 
 export const PLANTS: PlotPlant[] = [samplePlant1, samplePlant2, samplePlant3, undefinedPlant];

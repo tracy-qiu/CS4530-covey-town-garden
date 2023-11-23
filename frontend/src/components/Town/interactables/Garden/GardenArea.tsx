@@ -14,6 +14,7 @@ import {
   Tag,
   TagLabel,
   Avatar,
+  HStack,
   VStack,
   ModalBody,
   Container,
