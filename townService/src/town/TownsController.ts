@@ -14,7 +14,8 @@ import {
   Tags,
 } from 'tsoa';
 
-import { Town, TownCreateParams, TownCreateResponse } from '../api/Model';
+import mongoose from 'mongoose';
+import { Town, TownCreateParams, TownCreateResponse, GardenCreateParams } from '../api/Model';
 import InvalidParametersError from '../lib/InvalidParametersError';
 import CoveyTownsStore from '../lib/TownsStore';
 import {
@@ -23,6 +24,9 @@ import {
   TownSettingsUpdate,
   ViewingArea,
 } from '../types/CoveyTownSocket';
+import { validateGardenDoesNotExistInTown, validateTownExists } from './garden/GardenUtil';
+import { connectToGardenDB } from './garden/GardenController';
+import * as gardenDao from '../database/dao/garden-dao';
 
 /**
  * This is the town route
@@ -192,5 +196,18 @@ export class TownsController extends Controller {
       isPubliclyListed: town.isPubliclyListed,
       interactables: town.interactables.map(eachInteractable => eachInteractable.toModel()),
     });
+  }
+
+  @Post('{townId}/garden')
+  @Response<InvalidParametersError>(400, 'Invalid values specified')
+  public async createGarden(@Path() townId: string) {
+    connectToGardenDB();
+    await validateTownExists(townId);
+    await validateGardenDoesNotExistInTown(townId);
+    const garden = await gardenDao.createGarden({
+      gardenPlots: [],
+      townId: new mongoose.Types.ObjectId(townId),
+    });
+    return garden;
   }
 }
