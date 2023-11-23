@@ -116,26 +116,6 @@ export class GardenController extends Controller {
   }
 
   /**
-   * Create a new plot
-   * @param requestBody
-   * @returns the ID of the newly created plant
-   */
-  @Post('/plot')
-  public addPlot(@Body() requestBody: { gardenId: string; gardenerId: string }) {
-    const gardenIdObject = new mongoose.Types.ObjectId(requestBody.gardenId);
-    const gardenerIdObject = new mongoose.Types.ObjectId(requestBody.gardenerId);
-    connectToGardenDB();
-    return gardenPlotDao.createGardenPlot({
-      gardenId: gardenIdObject,
-      bottomLeftPid: null,
-      bottomRightPid: null,
-      gardenerId: gardenerIdObject,
-      topLeftPid: null,
-      topRightPid: null,
-    });
-  }
-
-  /**
    * Create a new plant
    * @param requestBody
    * @returns the ID of the newly created plant
@@ -172,6 +152,41 @@ export class GardenController extends Controller {
       console.error('Error creating ObjectId ', error);
       return { error: 'Invalid ObjectId format' };
     }
+  }
+
+  /**
+   * Create a new plot
+   * @param requestBody
+   * @returns the ID of the newly created plant
+   */
+  @Post('/plot')
+  public addPlot(@Body() requestBody: { gardenId: string; gardenerId: string }) {
+    const gardenIdObject = new mongoose.Types.ObjectId(requestBody.gardenId);
+    const gardenerIdObject = new mongoose.Types.ObjectId(requestBody.gardenerId);
+    connectToGardenDB();
+    return gardenPlotDao.createGardenPlot({
+      gardenId: gardenIdObject,
+      bottomLeftPid: null,
+      bottomRightPid: null,
+      gardenerId: gardenerIdObject,
+      topLeftPid: null,
+      topRightPid: null,
+    });
+  }
+
+  /**
+   * Create a new gardener
+   * @param requestBody
+   * @returns the ID of the newly created gardener
+   */
+  @Post('/gardener')
+  public async addGardener(@Body() requestBody: { name: string; gardenPlotId: string }) {
+    const gardenPlotIdObject = new mongoose.Types.ObjectId(requestBody.gardenPlotId);
+    const gardener = await gardenerDao.createGardener({
+      gardenPlotId: gardenPlotIdObject,
+      name: requestBody.name,
+    });
+    return gardener;
   }
 
   @Delete('{plantId}')
