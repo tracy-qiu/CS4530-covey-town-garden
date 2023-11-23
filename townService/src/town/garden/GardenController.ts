@@ -135,7 +135,7 @@ export class GardenController extends Controller {
       const gardenPlotIdObject = mongoose.Types.ObjectId.createFromHexString(
         requestBody.gardenPlotId,
       );
-      if (!['carrot', 'rose', 'blueberry'].includes(requestBody.species.toLowerCase())) {
+      if (!['Carrot', 'Rose', 'Blueberry'].includes(requestBody.species)) {
         throw new Error('Invalid value for species.');
       }
       connectToGardenDB();
