@@ -12,8 +12,6 @@ import {
   Tag,
   TagLabel,
   HStack,
-  Spacer,
-  VStack,
 } from '@chakra-ui/react';
 import { Plant } from '../../../../../types/CoveyTownSocket';
 import { GardenButton } from '../GardenButton';
