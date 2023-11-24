@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { GardenPlot, Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
-import { Container, Box, chakra, Button, SimpleGrid, useToast } from '@chakra-ui/react';
+import React from 'react';
+import { PlotPlant } from '../../../../types/CoveyTownSocket';
+import { Container, SimpleGrid } from '@chakra-ui/react';
 import { PlantPlotButton } from './PlotButton';
 
 export type MyGardenPlotsProps = {

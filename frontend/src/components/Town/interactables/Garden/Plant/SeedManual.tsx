@@ -1,16 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Plant, PlantType } from '../../../../../types/CoveyTownSocket';
+import React, { useState } from 'react';
+import { PlantType } from '../../../../../types/CoveyTownSocket';
 import {
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
   ModalCloseButton,
-  Button,
   Box,
-  HStack,
-  VStack,
-  Tag,
   ModalBody,
   Container,
   Accordion,
@@ -21,14 +17,11 @@ import {
   InputGroup,
   Input,
   InputRightElement,
-  Heading,
-  Badge,
 } from '@chakra-ui/react';
 import PlantDetails from './PlantDetails';
 import { GardenButton } from '../GardenButton';
 import { useToast } from '@chakra-ui/react';
 import useTownController from '../../../../../hooks/useTownController';
-import { userInfo } from 'os';
 
 type SeedManualProps = {
   isOpen: boolean;

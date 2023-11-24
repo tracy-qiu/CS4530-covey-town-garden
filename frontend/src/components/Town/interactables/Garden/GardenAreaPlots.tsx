@@ -1,7 +1,7 @@
 import React from 'react';
-import { Container, Box, chakra, SimpleGrid } from '@chakra-ui/react';
+import { Container, Box, SimpleGrid } from '@chakra-ui/react';
 import { GardenPlotButton } from './PlotButton';
-import { Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
+import { PlotPlant } from '../../../../types/CoveyTownSocket';
 
 const samplePlant1: PlotPlant = {
   plantId: '12',

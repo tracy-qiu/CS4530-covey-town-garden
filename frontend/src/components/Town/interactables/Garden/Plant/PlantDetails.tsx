@@ -10,7 +10,7 @@ import {
   Heading,
   Badge,
 } from '@chakra-ui/react';
-import { PlantDetailsData, Plant, PlantType, PlantAge } from '../../../../../types/CoveyTownSocket';
+import { PlantDetailsData, PlantType, PlantAge } from '../../../../../types/CoveyTownSocket';
 import PLANT_DETAILS_DATA from '../garden-data/data';
 
 type PlantDetailsProp = {

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
+import React from 'react';
+import { PlotPlant } from '../../../../types/CoveyTownSocket';
 import {
   Modal,
   ModalOverlay,
@@ -19,7 +19,6 @@ import {
   Tag,
 } from '@chakra-ui/react';
 import { MyGardenPlots } from './MyGardenPlots';
-import { PLANTS } from './GardenAreaPlots';
 import useTownController from '../../../../hooks/useTownController';
 
 export type MyGardenAreaProps = {

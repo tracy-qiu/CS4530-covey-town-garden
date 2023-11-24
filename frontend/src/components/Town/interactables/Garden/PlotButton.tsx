@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, ButtonProps, chakra } from '@chakra-ui/react';
-import PlantCare, { PlantCareProps } from './Plant/PlantCare';
-import { Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
+import PlantCare from './Plant/PlantCare';
+import { PlotPlant } from '../../../../types/CoveyTownSocket';
 import { MyGarden } from './MyGarden';
 import { SeedManual } from './Plant/SeedManual';
 import useTownController from '../../../../hooks/useTownController';

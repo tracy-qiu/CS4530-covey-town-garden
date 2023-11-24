@@ -1,19 +1,11 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
   Box,
-  Button,
   Container,
   Badge,
   Divider,
   AbsoluteCenter,
-  Heading,
-  Tag,
   Center,
   Grid,
   GridItem,
