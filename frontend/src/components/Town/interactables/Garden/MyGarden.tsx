@@ -52,7 +52,6 @@ export function MyGarden(
             <Container>
               {username !== curUsername && <Tag>View Only</Tag>}
               <VStack>
-
                 <ModalHeader>
                   {username == curUsername ? 'My Garden' : username + "'s" + ' Garden'}
                 </ModalHeader>

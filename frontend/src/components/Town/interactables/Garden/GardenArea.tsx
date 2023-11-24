@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useCallback, useEffect, useState } from 'react';
 //import PlayerController from '../../../../classes/PlayerController';
 import TownController, { useInteractable } from '../../../../classes/TownController';
