@@ -9,7 +9,7 @@ type GardenButtonProps = {
   color: string;
   hoverColor: string;
   fn: any;
-  disabled: boolean;
+  disabled?: boolean;
 };
 
 /**

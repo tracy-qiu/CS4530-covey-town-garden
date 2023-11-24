@@ -11,6 +11,7 @@ import {
 import PlantDetails from './PlantDetails';
 import PlantActions from './PlantActions';
 import { Plant } from '../../../../../types/CoveyTownSocket';
+import useTownController from '../../../../../hooks/useTownController';
 
 export type PlantCareProps = {
   username: string;
@@ -19,7 +20,9 @@ export type PlantCareProps = {
 
 /**
  * Shows information about a plant, its health status, and actions to do on the plant (watering, remove)
- * @param { plant, showActions }
+ * @param isOpen boolean to open modal
+ * @param onClose function to close modal
+ * @param { username, plant } PlantCareProps username of the owner and plant
  * @returns {JSX.Element} component
  */
 export default function PlantCare(
@@ -27,6 +30,7 @@ export default function PlantCare(
   onClose: () => void,
   { username, plant }: PlantCareProps,
 ): JSX.Element {
+  const currUsername = useTownController().ourPlayer.userName;
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} size='xl'>
       <ModalOverlay />
@@ -37,7 +41,7 @@ export default function PlantCare(
           <ModalCloseButton />
           <PlantDetails species={plant.species} age={plant.age} />
           <br />
-          <PlantActions plant={plant} username={username} />
+          {currUsername === username && <PlantActions plant={plant} />}
         </Container>
       </ModalContent>
     </Modal>

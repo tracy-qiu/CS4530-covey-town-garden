@@ -10,7 +10,7 @@ export type MyGardenPlotsProps = {
 
 /**
  * Renders plant plots for user's garden as one component.
- * @param {PlotPlant[]} list of plants to display in user's garden
+ * @param { username, plants } MyGardenPlotsProps username of gardener and list of plants to display in user's garden
  * @returns {JSX.Element} GardenPlots
  */
 export function MyGardenPlots({ username, plants }: MyGardenPlotsProps): JSX.Element {
@@ -19,7 +19,7 @@ export function MyGardenPlots({ username, plants }: MyGardenPlotsProps): JSX.Ele
   return (
     <Container>
       <SimpleGrid spacing={3} columns={2}>
-        {plants.map((plant, index) => {
+        {plants.map(plant => {
           return (
             <PlantPlotButton
               key={plant.plantId}

@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useCallback, useEffect, useState } from 'react';
-//import PlayerController from '../../../../classes/PlayerController';
 import TownController, { useInteractable } from '../../../../classes/TownController';
 import useTownController from '../../../../hooks/useTownController';
 import { InteractableID } from '../../../../types/CoveyTownSocket';
@@ -37,107 +36,112 @@ import { MyGarden } from './MyGarden';
 export function GardenArea({ interactableID }: { interactableID: InteractableID }): JSX.Element {
   const toast = useToast();
   const townController: TownController = useTownController();
-  const curUsername = townController.ourPlayer.userName;
-
+  const currUsername = townController.ourPlayer.userName;
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
 
-  const enterYourGarden = () => {
-    setShow(true);
+  const toastMsg = (
+    title: string,
+    status: 'info' | 'warning' | 'success' | 'error' | undefined,
+    duration: number,
+  ) => {
     toast({
-      title: 'Entering your garden',
-      status: 'success',
-      duration: 4000,
+      title,
+      status,
+      duration,
       isClosable: true,
     });
   };
 
+  const enterYourGarden = () => {
+    setShow(true);
+    toastMsg('Entering your garden', 'success', 4000);
+  };
+
   useEffect(() => {
-    const definedPlants = PLANTS.map(p => p.plant).filter(p => p !== undefined);
-    definedPlants.forEach(p => {
-      if (p?.status === 'Dehydrated') {
-        toast({
-          title: p.name + ' (' + p.species + ') is dehydrated! Please add water!',
-          status: 'warning',
-          duration: 9000,
-          isClosable: true,
-        });
+    const definedPlants = PLANTS.map(plant => plant.plant).filter(plant => plant !== undefined);
+    definedPlants.forEach(plant => {
+      if (plant?.status === 'Dehydrated') {
+        toastMsg(
+          plant.name + ' (' + plant.species + ') is dehydrated! Please add water!',
+          'warning',
+          9000,
+        );
       }
-      if (p?.status === 'About to Die') {
-        toast({
-          title: p.name + ' (' + p.species + ') is about to die! Please add water!',
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        });
+      if (plant?.status === 'About to Die') {
+        toastMsg(
+          plant.name + ' (' + plant.species + ') is about to die! Please add water!',
+          'error',
+          9000,
+        );
       }
-      if (p?.status === 'Dead') {
-        toast({
-          title: p.name + ' (' + p.species + ') is dead! Please remove plant!',
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        });
+      if (plant?.status === 'Dead') {
+        toastMsg(
+          plant.name + ' (' + plant.species + ') is dead! Please remove plant!',
+          'error',
+          9000,
+        );
       }
     });
-  }, [toast]);
+  }, [toastMsg]);
 
   return (
-    <>
+    <Container>
       {show &&
-        MyGarden(curUsername, {
+        MyGarden(currUsername, {
           isOpen: show,
           onClose: handleClose,
           plants: PLANTS,
         })}
-
-      <Container>
-        <VStack>
-          <ModalHeader textAlign='center'>{'Community Garden'}</ModalHeader>
-          <ModalBody textAlign='center'>
-            <Tag size='lg' colorScheme='green' variant='solid' borderRadius='full'>
-              <Avatar
-                size='xs'
-                ml={-1}
-                mr={2}
-                src='https://dinopixel.com/preload/0223/-profile-pic-1676795544.png'
+      <VStack>
+        <ModalHeader textAlign='center'>{'Community Garden'}</ModalHeader>
+        <ModalBody textAlign='center'>
+          <Tag
+            size='lg'
+            colorScheme='green'
+            variant='solid'
+            borderRadius='full'
+            marginBottom={'0.8em'}>
+            <Avatar
+              size='xs'
+              ml={-1}
+              mr={2}
+              src='https://dinopixel.com/preload/0223/-profile-pic-1676795544.png'
+            />
+            <TagLabel>Welcome, {currUsername}!</TagLabel>
+          </Tag>
+        </ModalBody>
+      </VStack>
+      <Accordion allowToggle>
+        <AccordionItem>
+          <AccordionButton>
+            <Box as='span' flex='1' textAlign='left'>
+              <b>Garden Instructions</b>
+              <AccordionIcon />
+            </Box>
+          </AccordionButton>
+          <AccordionPanel>
+            <VStack>
+              <p>
+                To see your garden, select this button or find your highlighted garden in the grid
+                below. You will be able to take care of your plants only in your garden. While you
+                can view other user's gardens, you cannot tend their plants. Make sure to water your
+                plants on time so they don't die!
+              </p>
+              <GardenButton
+                label={'My Garden'}
+                color={'#7ED191'}
+                hoverColor={'#87E752'}
+                fn={enterYourGarden}
               />
-              <TagLabel>Welcome, {curUsername}!</TagLabel>
-            </Tag>
-          </ModalBody>
-        </VStack>
-        <Accordion allowToggle>
-          <AccordionItem>
-            <AccordionButton>
-              <Box as='span' flex='1' textAlign='left'>
-                <b>Game Info</b>
-                <AccordionIcon />
-              </Box>
-            </AccordionButton>
-            <AccordionPanel>
-              <VStack>
-                <p>
-                  To see your garden, select this button or find your highlighted garden in the grid
-                  below. You will be able to take care of your plants only in your garden. While you
-                  can view other user's gardens, you cannot tend their plants. Make sure to water
-                  your plants on time so they don't die!
-                </p>
-                <GardenButton
-                  label={'My Garden'}
-                  color={'#7ED191'}
-                  hoverColor={'#87E752'}
-                  fn={enterYourGarden}
-                  disabled={false}
-                />
-              </VStack>
-            </AccordionPanel>
-          </AccordionItem>
-        </Accordion>
-        <GardenAreaPlots></GardenAreaPlots>
-        <br />
-      </Container>
-    </>
+            </VStack>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
+      <br />
+      <GardenAreaPlots></GardenAreaPlots>
+      <br />
+    </Container>
   );
 }
 

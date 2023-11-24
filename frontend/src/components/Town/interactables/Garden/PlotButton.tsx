@@ -33,12 +33,10 @@ interface PlantPlotButtonProps extends ButtonProps {
 }
 
 /**
- * Button representing a plant of the user's garden. Clicking will
- * access the plant's details and actions.
- * @param { PlantCareProps } username of the user and their list of plants
+ * Button representing a plant of the user's garden. Clicking will access the plant's details and actions.
+ * @param {username, plotPlant} PlantPlotButtonProps username of the user and their list of plants
  * @returns { JSX.Element } plot button
  */
-
 export function PlantPlotButton({
   children,
   username,
@@ -77,15 +75,9 @@ export function PlantPlotButton({
   );
 }
 
-interface GardenPlotButtonProps extends ButtonProps {
-  username: string;
-  plants: PlotPlant[];
-}
-
 /**
- * Button representing a user's plot of the community garden. Clicking will
- * access their personal garden plot.
- * @param { string, PlotPlant[] } username of the user and their list of plants
+ * Button representing a user's plot of the community garden. Clicking will access their personal garden plot.
+ * @param { string, PlotPlant[] } GardenPlotButtonProps username of the user and their list of plants
  * @returns { JSX.Element } plot button
  */
 
@@ -102,7 +94,7 @@ export function GardenPlotButton({
 
   const handleClose = () => setShow(false);
 
-  const curUsername = useTownController().ourPlayer.userName;
+  const currUsername = useTownController().ourPlayer.userName;
 
   return (
     <Box>
@@ -113,15 +105,15 @@ export function GardenPlotButton({
           plants: plants,
         })}
       <StyledPlot
-        bgColor={curUsername === username ? '#65B891' : undefined}
+        bgColor={currUsername === username ? '#65B891' : undefined}
         bgImage={
-          curUsername !== username
+          currUsername !== username
             ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_L2aMkVO--A_GOxD08fP9FygAX8rEBDnPWw&usqp=CAU'
             : undefined
         }
         onClick={handleClick}
         {...rest}>
-        {curUsername === username ? username + ' (Me)' : username}
+        {currUsername === username ? username + ' (Me)' : username}
       </StyledPlot>
     </Box>
   );

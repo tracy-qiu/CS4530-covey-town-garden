@@ -9,22 +9,25 @@ import {
   Center,
   Grid,
   GridItem,
+  Tag,
+  TagLabel,
+  HStack,
 } from '@chakra-ui/react';
 import { Plant } from '../../../../../types/CoveyTownSocket';
 import { GardenButton } from '../GardenButton';
 import { useToast } from '@chakra-ui/react';
-import useTownController from '../../../../../hooks/useTownController';
 
 type PlantActionProps = {
-  username: string;
   plant: Plant;
 };
+
 /**
- * Displays actions to perform on a selected plant, such as watering and removing. It also shows a plant's current health status
+ * Displays plant status and information. It also includes actions to perform, such as watering and removing.
  * @param {Plant} plant
  * @returns {JSX.Element} component
  */
-export default function PlantActions({ username, plant }: PlantActionProps): JSX.Element {
+export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
+  const toast = useToast();
   const [statusColor, setStatusColor] = useState('');
   const [lastWateredTime, setLastWateredTime] = useState('');
   const [wateredDaysAgo, setWateredDaysAgo] = useState('');
@@ -34,8 +37,27 @@ export default function PlantActions({ username, plant }: PlantActionProps): JSX
     day: 'numeric',
   });
 
-  const toast = useToast();
+  const toastMsg = (title: string) => {
+    toast({
+      title,
+      status: 'success',
+      duration: 4000,
+      isClosable: true,
+    });
+  };
 
+  const waterPlant = () => {
+    // need to send lastWatered time to database and reset the object
+    // plant.lastWatered = new Date();
+    setLastWateredTime(today);
+    toastMsg('Watered ' + plant.name + ' (' + plant.species + ')!');
+  };
+
+  const removePlant = () => {
+    toastMsg('Removed ' + plant.name + ' (' + plant.species + ')!');
+  };
+
+  // decides colors to display for status
   useEffect(() => {
     if (plant.status === 'Healthy') {
       setStatusColor('green');
@@ -48,6 +70,7 @@ export default function PlantActions({ username, plant }: PlantActionProps): JSX
     }
   }, [plant]);
 
+  // finds the difference in days from the last time the plant was watered until today
   useEffect(() => {
     const lastWateredTimeInMillis = new Date(lastWateredTime).getTime();
     const differenceInDays = Math.floor(
@@ -56,108 +79,79 @@ export default function PlantActions({ username, plant }: PlantActionProps): JSX
     setWateredDaysAgo(differenceInDays.toString());
   }, [lastWateredTime]);
 
-  const waterPlant = () => {
-    // need to send lastWatered time to database and reset the object
-    // plant.lastWatered = new Date();
-    setLastWateredTime(today);
-    toast({
-      title: 'Watered ' + plant.name + ' (' + plant.species + ')!',
-      status: 'success',
-      duration: 4000,
-      isClosable: true,
-    });
-  };
-
-  const removePlant = () => {
-    toast({
-      title: 'Removed ' + plant.name + ' (' + plant.species + ')!',
-      status: 'success',
-      duration: 4000,
-      isClosable: true,
-    });
-  };
-
-  const isCurUserOwner = username === useTownController().ourPlayer.userName;
-
   return (
-    <>
-      <Container>
-        <Box position='relative' padding='4'>
-          <Divider />
-          <AbsoluteCenter bg='#FFFEF6' px='4'>
-            <b>Plant Status</b>
-          </AbsoluteCenter>
-        </Box>
-        <Center>
-          <Badge
-            colorScheme={
-              plant.species === 'Blueberry'
-                ? 'purple'
-                : plant.species === 'Carrot'
-                ? 'orange'
-                : 'pink'
-            }
-            variant='solid'
-            fontSize='0.9em'>
-            Hello! My name is {plant.name}
+    <Container>
+      <Box position='relative' padding='4'>
+        <Divider />
+        <AbsoluteCenter bg='#FFFEF6' px='4'>
+          <b>Plant Status</b>
+        </AbsoluteCenter>
+      </Box>
+      <Center>
+        <Tag
+          size='lg'
+          colorScheme={
+            plant.species === 'Blueberry'
+              ? 'purple'
+              : plant.species === 'Carrot'
+              ? 'orange'
+              : 'pink'
+          }
+          variant='solid'
+          borderRadius='full'
+          fontSize='0.9em'>
+          <TagLabel>Hello! My name is {plant.name}</TagLabel>
+        </Tag>
+      </Center>
+      <br />
+      <Grid templateColumns='repeat(2, 1fr)' gap={1.5} marginLeft={'0.5em'} marginRight={'0.5em'}>
+        <GridItem w='100%'>
+          <b>Condition: </b>
+          <Badge colorScheme={statusColor} variant='solid'>
+            {plant.status}
           </Badge>
-        </Center>
-        <br />
-        <Grid templateColumns='repeat(2, 1fr)' gap={1.5} marginLeft={'0.5em'} marginRight={'0.5em'}>
-          <GridItem w='100%'>
-            <b>Condition: </b>
-            <Badge colorScheme={statusColor} variant='solid'>
-              {plant.status}
-            </Badge>
-          </GridItem>
-          <GridItem w='100%'>
-            <b>Age: </b>
-            <Badge colorScheme='teal' variant='solid'>
-              {plant.age}
-            </Badge>
-          </GridItem>
-          <GridItem w='100%'>
-            <b>Current Date: </b>
-            <Badge variant='outline'>{today}</Badge>
-          </GridItem>
-          <GridItem w='100%'>
-            <b>Last Watered: </b>
-            <Badge variant='outline'>{lastWateredTime}</Badge>
-            <p>{wateredDaysAgo} days ago</p>
-          </GridItem>
-        </Grid>
+        </GridItem>
+        <GridItem w='100%'>
+          <b>Age: </b>
+          <Badge colorScheme='teal' variant='solid'>
+            {plant.age}
+          </Badge>
+        </GridItem>
+        <GridItem w='100%'>
+          <b>Current Date: </b>
+          <Badge variant='outline'>{today}</Badge>
+        </GridItem>
+        <GridItem w='100%'>
+          <b>Last Watered: </b>
+          <Badge variant='outline'>{lastWateredTime}</Badge>
+          <p>{wateredDaysAgo} days ago</p>
+        </GridItem>
+      </Grid>
 
-        <br />
-        <Box position='relative' padding='4'>
-          <Divider />
-          <AbsoluteCenter bg='#FFFEF6' px='4'>
-            <b>Actions</b>
-          </AbsoluteCenter>
-        </Box>
+      <br />
+      <Box position='relative' padding='4'>
+        <Divider />
+        <AbsoluteCenter bg='#FFFEF6' px='4'>
+          <b>Actions</b>
+        </AbsoluteCenter>
+      </Box>
 
-        <Grid templateColumns='repeat(2, 1fr)' gap={0}>
-          <GridItem display='flex' justifyContent='center' alignItems='center'>
-            <GardenButton
-              label={'Water me!'}
-              color={'#77E5EC'}
-              hoverColor={'#3EC4FE'}
-              fn={waterPlant}
-              disabled={!isCurUserOwner}
-            />
-          </GridItem>
-          <GridItem display='flex' justifyContent='center' alignItems='center'>
-            <GardenButton
-              label={'Remove Plant'}
-              color={'#F27459'}
-              hoverColor={'#F34E4E'}
-              fn={removePlant}
-              disabled={!isCurUserOwner}
-            />
-          </GridItem>
-        </Grid>
-      </Container>
+      <HStack spacing={20} justifyContent='center' alignItems='center'>
+        <GardenButton
+          label={'Water me!'}
+          color={'#77E5EC'}
+          hoverColor={'#3EC4FE'}
+          fn={waterPlant}
+        />
+        <GardenButton
+          label={'Remove Plant'}
+          color={'#F27459'}
+          hoverColor={'#F34E4E'}
+          fn={removePlant}
+        />
+      </HStack>
       <br />
       <br />
-    </>
+    </Container>
   );
 }
