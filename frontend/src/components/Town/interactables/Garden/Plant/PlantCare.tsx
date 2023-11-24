@@ -33,7 +33,7 @@ export default function PlantCare(
       <ModalContent bgColor='#FFFEF6'>
         <Container>
           <ModalHeader>Plant Care</ModalHeader>
-          <Divider borderColor='black'></Divider>
+          <Divider></Divider>
           <ModalCloseButton />
           <PlantDetails species={plant.species} age={plant.age} />
           <br />
