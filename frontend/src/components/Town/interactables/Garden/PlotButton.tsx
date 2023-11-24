@@ -74,6 +74,10 @@ export function PlantPlotButton({
           setDisplayImg(plantInfo.matureImg);
         }
       }
+    } else {
+      setDisplayImg(
+        'https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/4056/sand-shovel-clipart-xl.png',
+      );
     }
   }, [plant]);
 
@@ -100,13 +104,18 @@ export function PlantPlotButton({
                 />
               )}
             </Center>
-
             <Spacer />
           </VStack>
         </StyledPlot>
       ) : (
         <StyledPlot onClick={handleClick} {...rest}>
-          {'PLANT ME'}
+          <VStack maxHeight='95%' maxWidth='95%' shouldWrapChildren={true}>
+            <Text>{'Plant me!'}</Text>
+            <Center>
+              <Image maxHeight='50px' maxWidth='50px' src={displayImg} alt={'plant here'} />
+            </Center>
+            <Spacer />
+          </VStack>
         </StyledPlot>
       )}
     </Box>

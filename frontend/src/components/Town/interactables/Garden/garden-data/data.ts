@@ -41,7 +41,7 @@ export const PLANT_DETAILS_DATA: PlantDetailsData[] = [
     sproutImg:
       'https://static.vecteezy.com/system/resources/previews/023/258/444/original/sprout-graphic-clipart-design-free-png.png',
     matureImg:
-      'https://png.pngtree.com/png-clipart/20220206/original/pngtree-carrots-vegetable-with-leaves-png-for-free-download-png-image_7263912.png',
+      'https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/13203/carrot-vegetable-clipart-md.png',
   },
 ];
 
