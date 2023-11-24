@@ -1,19 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { GardenPlot, Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
-import { Container, Box, chakra, Button, SimpleGrid } from '@chakra-ui/react';
+import { Container, Box, chakra, Button, SimpleGrid, useToast } from '@chakra-ui/react';
 import { PlantPlotButton } from './PlotButton';
 
-// const StyledGarden = chakra(Container, {
-//   baseStyle: {
-//     display: 'flex',
-//     width: '400px',
-//     height: '400px',
-//     padding: '0px',
-//     flexWrap: 'wrap',
-//   },
-// });
-
 export type MyGardenPlotsProps = {
+  username: string;
   plants: PlotPlant[];
 };
 
@@ -22,7 +13,7 @@ export type MyGardenPlotsProps = {
  * @param {PlotPlant[]} list of plants to display in user's garden
  * @returns {JSX.Element} GardenPlots
  */
-export function MyGardenPlots({ plants }: MyGardenPlotsProps): JSX.Element {
+export function MyGardenPlots({ username, plants }: MyGardenPlotsProps): JSX.Element {
   //useEffect -> tracks garden controller
 
   return (
@@ -32,6 +23,7 @@ export function MyGardenPlots({ plants }: MyGardenPlotsProps): JSX.Element {
           return (
             <PlantPlotButton
               key={plant.plantId}
+              username={username}
               plotPlant={{
                 plantId: plant.plantId,
                 plant: plant.plant,

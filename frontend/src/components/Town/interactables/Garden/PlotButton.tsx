@@ -4,16 +4,17 @@ import PlantCare, { PlantCareProps } from './Plant/PlantCare';
 import { Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
 import { MyGarden } from './MyGarden';
 import { SeedManual } from './Plant/SeedManual';
+import useTownController from '../../../../hooks/useTownController';
 
 const StyledPlot = chakra(Button, {
   baseStyle: {
-    borderRadius: 0,
+    borderRadius: '0.7em',
     justifyContent: 'center',
     alignItems: 'center',
     flexBasis: '25%',
     borderColor: '#EDD4B2',
     borderWidth: '2px',
-    // bgColor: '#793D00',
+    whiteSpace: 'normal',
     color: '#FFFEF6',
     height: '100px',
     width: '100%',
@@ -27,6 +28,7 @@ const StyledPlot = chakra(Button, {
 });
 
 interface PlantPlotButtonProps extends ButtonProps {
+  username: string;
   plotPlant: PlotPlant;
 }
 
@@ -39,6 +41,7 @@ interface PlantPlotButtonProps extends ButtonProps {
 
 export function PlantPlotButton({
   children,
+  username,
   plotPlant: { plant },
   ...rest
 }: PlantPlotButtonProps): JSX.Element {
@@ -52,9 +55,9 @@ export function PlantPlotButton({
   return (
     <Box>
       {show && plant !== undefined ? (
-        PlantCare(show, handleClose, { plant: plant })
+        PlantCare(show, handleClose, { username: username, plant: plant })
       ) : (
-        <SeedManual isOpen={show} onClose={handleClose} />
+        <SeedManual isOpen={show} onClose={handleClose} username={username} />
       )}
       {plant !== undefined ? (
         <StyledPlot
@@ -99,6 +102,8 @@ export function GardenPlotButton({
 
   const handleClose = () => setShow(false);
 
+  const curUsername = useTownController().ourPlayer.userName;
+
   return (
     <Box>
       {show &&
@@ -108,12 +113,15 @@ export function GardenPlotButton({
           plants: plants,
         })}
       <StyledPlot
+        bgColor={curUsername === username ? '#65B891' : undefined}
         bgImage={
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_L2aMkVO--A_GOxD08fP9FygAX8rEBDnPWw&usqp=CAU'
+          curUsername !== username
+            ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_L2aMkVO--A_GOxD08fP9FygAX8rEBDnPWw&usqp=CAU'
+            : undefined
         }
         onClick={handleClick}
         {...rest}>
-        {username}
+        {curUsername === username ? username + ' (Me)' : username}
       </StyledPlot>
     </Box>
   );

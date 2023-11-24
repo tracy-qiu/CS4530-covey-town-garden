@@ -1,14 +1,15 @@
 import React from 'react';
-import { Button, chakra } from '@chakra-ui/react';
+import { Button, ButtonProps, chakra } from '@chakra-ui/react';
 
 // TO FILL OUT -> for use on main garden screen, could be used for returning
 // to main garden from my garden
 
-export type GardenButtonProps = {
+type GardenButtonProps = {
   label: string;
   color: string;
   hoverColor: string;
   fn: any;
+  disabled: boolean;
 };
 
 /**
@@ -16,9 +17,20 @@ export type GardenButtonProps = {
  * @returns {JSX.Element} GardenButton
  */
 
-export function GardenButton({ label, color, hoverColor, fn }: GardenButtonProps): JSX.Element {
+export function GardenButton({
+  label,
+  color,
+  hoverColor,
+  fn,
+  disabled,
+}: GardenButtonProps): JSX.Element {
   return (
-    <Button color={'black'} bgColor={color} _hover={{ backgroundColor: hoverColor }} onClick={fn}>
+    <Button
+      color={'black'}
+      bgColor={color}
+      _hover={{ backgroundColor: hoverColor }}
+      onClick={fn}
+      disabled={disabled}>
       {label}
     </Button>
   );

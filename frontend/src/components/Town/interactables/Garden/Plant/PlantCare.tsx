@@ -14,9 +14,9 @@ import {
 import PlantDetails from './PlantDetails';
 import PlantActions from './PlantActions';
 import { Plant } from '../../../../../types/CoveyTownSocket';
-import { SeedManual } from './SeedManual';
 
 export type PlantCareProps = {
+  username: string;
   plant: Plant;
 };
 
@@ -28,7 +28,7 @@ export type PlantCareProps = {
 export default function PlantCare(
   isOpen: boolean,
   onClose: () => void,
-  { plant }: PlantCareProps,
+  { username, plant }: PlantCareProps,
 ): JSX.Element {
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} size='xl'>
@@ -38,9 +38,9 @@ export default function PlantCare(
           <ModalHeader>Plant Care</ModalHeader>
           <Divider borderColor='black'></Divider>
           <ModalCloseButton />
-          <PlantDetails plantType={plant.species} />
+          <PlantDetails species={plant.species} age={plant.age} />
           <br />
-          <PlantActions plant={plant} />
+          <PlantActions plant={plant} username={username} />
         </Container>
       </ModalContent>
     </Modal>

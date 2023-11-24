@@ -41,17 +41,7 @@ const samplePlant3: PlotPlant = {
 
 const undefinedPlant: PlotPlant = { plantId: '16', plant: undefined };
 
-const PLANTS: PlotPlant[] = [samplePlant1, samplePlant2, samplePlant3, undefinedPlant];
-
-// const StyledGarden = chakra(Container, {
-//   baseStyle: {
-//     display: 'flex',
-//     width: '75%',
-//     height: '400px',
-//     padding: '0px',
-//     flexWrap: 'wrap',
-//   },
-// });
+export const PLANTS: PlotPlant[] = [samplePlant1, samplePlant2, samplePlant3, undefinedPlant];
 
 /**
  * Renders each individual plot styled for the garden together as one component.
@@ -64,9 +54,8 @@ export function GardenAreaPlots(): JSX.Element {
     'user1',
     'user2',
     'user3',
-    'me',
     'long username',
-    'katherine',
+    'Katherine',
     'tracy',
     'surabhi',
     'madison',

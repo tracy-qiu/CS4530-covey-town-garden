@@ -6,9 +6,7 @@ import {
   ModalContent,
   ModalHeader,
   ModalCloseButton,
-  Button,
   Box,
-  HStack,
   VStack,
   ModalBody,
   Container,
@@ -17,12 +15,12 @@ import {
   AccordionPanel,
   AccordionButton,
   AccordionIcon,
-  Heading,
   Badge,
+  Tag,
 } from '@chakra-ui/react';
 import { MyGardenPlots } from './MyGardenPlots';
-import { SeedManual } from './Plant/SeedManual';
-import PlantCare from './Plant/PlantCare';
+import { PLANTS } from './GardenAreaPlots';
+import useTownController from '../../../../hooks/useTownController';
 
 export type MyGardenAreaProps = {
   isOpen: boolean;
@@ -42,11 +40,7 @@ export function MyGarden(
   username: string,
   { isOpen, onClose, plants }: MyGardenAreaProps,
 ): JSX.Element {
-  // const [showManual, setShowManual] = useState(false);
-
-  // const handleClick = () => {
-  //   setShowManual(true);
-  // };
+  const curUsername = useTownController().ourPlayer.userName;
 
   return (
     <>
@@ -56,11 +50,12 @@ export function MyGarden(
         <ModalContent bgColor='#FFFEF6'>
           <ModalBody>
             <Container>
+              {username !== curUsername && <Tag>View Only</Tag>}
               <VStack>
+
                 <ModalHeader>
-                  {username == 'me' ? 'My Garden' : username + "'s" + ' Garden'}
+                  {username == curUsername ? 'My Garden' : username + "'s" + ' Garden'}
                 </ModalHeader>
-                {/* <b>{'Welcome, ' + username + '!'}</b> */}
               </VStack>
               <Accordion allowToggle>
                 <AccordionItem>
@@ -73,21 +68,23 @@ export function MyGarden(
                   <AccordionPanel>
                     <b>Health Status</b>
                     <br />
-                    <Badge colorScheme={'green'}>{'Healthy'}</Badge>
-                    <Badge colorScheme={'yellow'}>{'Dehydrated'}</Badge>
-                    <Badge colorScheme={'red'}>{'About to Die'}</Badge>
-                    <Badge colorScheme={'gray'}>{'Dead'}</Badge>
-                    <br />
-                    <b>Age</b>
-                    <br />
-                    <Badge colorScheme={'purple'}>{'Adult'}</Badge>
-                    <Badge colorScheme={'pink'}>{'Sprout'}</Badge>
-                    <Badge colorScheme={'teal'}>{'Seedling'}</Badge>
+                    <Badge variant='solid' colorScheme={'green'} margin={'0.3em'}>
+                      {'Healthy'}
+                    </Badge>
+                    <Badge variant='solid' colorScheme={'yellow'} margin={'0.3em'}>
+                      {'Dehydrated'}
+                    </Badge>
+                    <Badge variant='solid' colorScheme={'red'} margin={'0.3em'}>
+                      {'About to Die'}
+                    </Badge>
+                    <Badge variant='solid' margin={'0.3em'}>
+                      {'Dead'}
+                    </Badge>
                     <br />
                   </AccordionPanel>
                 </AccordionItem>
               </Accordion>
-              <MyGardenPlots plants={plants}></MyGardenPlots>
+              <MyGardenPlots plants={plants} username={username}></MyGardenPlots>
             </Container>
           </ModalBody>
           <ModalCloseButton />
