@@ -1,6 +1,10 @@
-import { PlantDetailsData } from '../../../../../../../shared/types/CoveyTownSocket';
+import {
+  PlantAge,
+  PlantDetailsData,
+  PlantType,
+} from '../../../../../../../shared/types/CoveyTownSocket';
 
-const PLANT_DETAILS_DATA: PlantDetailsData[] = [
+export const PLANT_DETAILS_DATA: PlantDetailsData[] = [
   {
     type: 'Rose',
     about:
@@ -41,4 +45,6 @@ const PLANT_DETAILS_DATA: PlantDetailsData[] = [
   },
 ];
 
-export default PLANT_DETAILS_DATA;
+export const PLANT_TYPES_DATA: PlantType[] = ['Rose', 'Blueberry', 'Carrot'];
+
+export const PLANT_AGES_DATA: PlantAge[] = ['Seedling', 'Sprout', 'Adult'];

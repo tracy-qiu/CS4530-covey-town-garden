@@ -1,8 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
 import {
-  Box,
-  Button,
   Container,
   Divider,
   Modal,
@@ -14,37 +11,37 @@ import {
 import PlantDetails from './PlantDetails';
 import PlantActions from './PlantActions';
 import { Plant } from '../../../../../types/CoveyTownSocket';
+import useTownController from '../../../../../hooks/useTownController';
 
 export type PlantCareProps = {
+  username: string;
   plant: Plant;
-  showActions: boolean;
 };
 
 /**
  * Shows information about a plant, its health status, and actions to do on the plant (watering, remove)
- * @param { plant, showActions }
+ * @param isOpen boolean to open modal
+ * @param onClose function to close modal
+ * @param { username, plant } PlantCareProps username of the owner and plant
  * @returns {JSX.Element} component
  */
 export default function PlantCare(
   isOpen: boolean,
   onClose: () => void,
-  { plant, showActions }: PlantCareProps,
+  { username, plant }: PlantCareProps,
 ): JSX.Element {
+  const currUsername = useTownController().ourPlayer.userName;
   return (
-    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} size='xl'>
       <ModalOverlay />
       <ModalContent bgColor='#FFFEF6'>
-        <Container>
+        <Container paddingBottom={'2em'}>
           <ModalHeader>Plant Care</ModalHeader>
-          <Divider borderColor='black'></Divider>
+          <Divider></Divider>
           <ModalCloseButton />
-          <PlantDetails plant={plant} />
+          <PlantDetails species={plant.species} age={plant.age} />
           <br />
-          {showActions && (
-            <>
-              <PlantActions plant={plant} />
-            </>
-          )}
+          {currUsername === username && <PlantActions plant={plant} />}
         </Container>
       </ModalContent>
     </Modal>

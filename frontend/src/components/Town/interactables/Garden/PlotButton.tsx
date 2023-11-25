@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import { Box, Button, ButtonProps, chakra } from '@chakra-ui/react';
-import PlantCare, { PlantCareProps } from './Plant/PlantCare';
-import { Plant } from '../../../../types/CoveyTownSocket';
+import PlantCare from './Plant/PlantCare';
+import { PlotPlant } from '../../../../types/CoveyTownSocket';
 import { MyGarden } from './MyGarden';
+import { SeedManual } from './Plant/SeedManual';
+import useTownController from '../../../../hooks/useTownController';
 
 const StyledPlot = chakra(Button, {
   baseStyle: {
-    borderRadius: 0,
+    borderRadius: '0.7em',
     justifyContent: 'center',
     alignItems: 'center',
     flexBasis: '25%',
     borderColor: '#EDD4B2',
     borderWidth: '2px',
-    bgColor: '#793D00',
+    whiteSpace: 'normal',
     color: '#FFFEF6',
     height: '100px',
     width: '100%',
@@ -26,19 +28,19 @@ const StyledPlot = chakra(Button, {
 });
 
 interface PlantPlotButtonProps extends ButtonProps {
-  plantCareProps: PlantCareProps;
+  username: string;
+  plotPlant: PlotPlant;
 }
 
 /**
- * Button representing a plant of the user's garden. Clicking will
- * access the plant's details and actions.
- * @param { PlantCareProps } username of the user and their list of plants
+ * Button representing a plant of the user's garden. Clicking will access the plant's details and actions.
+ * @param {username, plotPlant} PlantPlotButtonProps username of the user and their list of plants
  * @returns { JSX.Element } plot button
  */
-
 export function PlantPlotButton({
   children,
-  plantCareProps: { plant, showActions },
+  username,
+  plotPlant: { plant },
   ...rest
 }: PlantPlotButtonProps): JSX.Element {
   const [show, setShow] = useState(false);
@@ -50,23 +52,32 @@ export function PlantPlotButton({
 
   return (
     <Box>
-      {show && PlantCare(show, handleClose, { plant: plant, showActions: showActions })}
-      <StyledPlot onClick={handleClick} {...rest}>
-        {plant.name}
-      </StyledPlot>
+      {show && plant !== undefined ? (
+        PlantCare(show, handleClose, { username: username, plant: plant })
+      ) : (
+        <SeedManual isOpen={show} onClose={handleClose} username={username} />
+      )}
+      {plant !== undefined ? (
+        <StyledPlot
+          bgImage={
+            'https://www.wikihow.com/images/thumb/a/a2/Grow-Vegetables-in-the-South-%28USA%29-Step-11.jpg/v4-460px-Grow-Vegetables-in-the-South-%28USA%29-Step-11.jpg.webp'
+          }
+          onClick={handleClick}
+          {...rest}>
+          {plant.name}
+        </StyledPlot>
+      ) : (
+        <StyledPlot bgColor={'#793D00'} onClick={handleClick} {...rest}>
+          {'PLANT ME'}
+        </StyledPlot>
+      )}
     </Box>
   );
 }
 
-interface GardenPlotButtonProps extends ButtonProps {
-  username: string;
-  plants: Plant[];
-}
-
 /**
- * Button representing a user's plot of the community garden. Clicking will
- * access their personal garden plot.
- * @param { string, Plant[] } username of the user and their list of plants
+ * Button representing a user's plot of the community garden. Clicking will access their personal garden plot.
+ * @param { string, PlotPlant[] } GardenPlotButtonProps username of the user and their list of plants
  * @returns { JSX.Element } plot button
  */
 
@@ -83,6 +94,8 @@ export function GardenPlotButton({
 
   const handleClose = () => setShow(false);
 
+  const currUsername = useTownController().ourPlayer.userName;
+
   return (
     <Box>
       {show &&
@@ -91,8 +104,16 @@ export function GardenPlotButton({
           onClose: handleClose,
           plants: plants,
         })}
-      <StyledPlot onClick={handleClick} {...rest}>
-        {username}
+      <StyledPlot
+        bgColor={currUsername === username ? '#65B891' : undefined}
+        bgImage={
+          currUsername !== username
+            ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_L2aMkVO--A_GOxD08fP9FygAX8rEBDnPWw&usqp=CAU'
+            : undefined
+        }
+        onClick={handleClick}
+        {...rest}>
+        {currUsername === username ? username + ' (Me)' : username}
       </StyledPlot>
     </Box>
   );

@@ -1,6 +1,8 @@
-export type PlantId = number;
+export type PlantId = string;
 
-export type GardenerId = number;
+export type GardenPlotId = string;
+
+export type GardenerId = string;
 
 export type PlantType = 'Carrot' | 'Rose' | 'Blueberry';
 
@@ -15,7 +17,7 @@ export type Plant = {
   species: PlantType;
   age: PlantAge;
   status: PlantHealthStatus;
-  lastWatered: Date; // example date: "Tue Feb 05 2019 12:05:22 GMT+0530 (IST)"
+  lastWatered: Date | undefined; // example date: "Tue Feb 05 2019 12:05:22 GMT+0530 (IST)"
 }
 
 export type Garden = {
@@ -25,8 +27,14 @@ export type Garden = {
 }
 
 export type GardenPlot = {
+  gid: GardenPlotId;
   gardenerId: GardenerId;
-  plants: Plant[] = [];
+  plants: PlotPlant[] = [];
+}
+
+export type PlotPlant = {
+  plantId: string;
+  plant: Plant | undefined;
 }
 
 export type PlantDetailsData = {
@@ -38,7 +46,6 @@ export type PlantDetailsData = {
   sproutImg: string;
   matureImg: string;
 }
-
 
 /**
  * Type for a move in player's Garden
