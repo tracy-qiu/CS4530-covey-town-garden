@@ -66,11 +66,15 @@ export function PlantPlotButton({
       const plantInfo: PlantDetailsData | undefined =
         PLANT_DETAILS_DATA.find(info => info.type === plant.species) ?? undefined;
       if (plantInfo && plant !== undefined) {
-        if (plant.age == 'Seedling') {
+        if (plant.status == 'Dead') {
+          setDisplayImg(
+            'https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/820068/tombstone-clipart-md.png',
+          );
+        } else if (plant.age === 'Seedling') {
           setDisplayImg(plantInfo.seedImg);
-        } else if (plant.age == 'Sprout') {
+        } else if (plant.age === 'Sprout') {
           setDisplayImg(plantInfo.sproutImg);
-        } else if (plant.age == 'Adult') {
+        } else if (plant.age === 'Adult') {
           setDisplayImg(plantInfo.matureImg);
         }
       }
@@ -93,16 +97,12 @@ export function PlantPlotButton({
           <VStack maxHeight='95%' maxWidth='95%' shouldWrapChildren={true}>
             <Text>{plant.name}</Text>
             <Center>
-              {plant.status === 'Dead' ? (
-                <Text>R.I.P</Text>
-              ) : (
-                <Image
-                  maxHeight='50px'
-                  maxWidth='50px'
-                  src={displayImg}
-                  alt={plant.species + ' age image in plot'}
-                />
-              )}
+              <Image
+                maxHeight='50px'
+                maxWidth='50px'
+                src={displayImg}
+                alt={plant.species + ' age image in plot'}
+              />
             </Center>
             <Spacer />
           </VStack>
