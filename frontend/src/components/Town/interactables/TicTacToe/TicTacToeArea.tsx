@@ -26,9 +26,6 @@ import { GameResult, GameStatus, InteractableID } from '../../../../types/CoveyT
 import GameAreaInteractable from '../GameArea';
 import TicTacToeLeaderboard from '../Leaderboard';
 import TicTacToeBoard from './TicTacToeBoard';
-import PlantCare from '../Garden/Plant/PlantCare';
-import { Plant, PlantAge, PlantHealthStatus, PlantType } from '../../../../types/CoveyTownSocket';
-import { GardenArea } from '../Garden/GardenArea';
 
 /**
  * The TicTacToeArea component renders the TicTacToe game area.
@@ -170,7 +167,6 @@ function TicTacToeArea({ interactableID }: { interactableID: InteractableID }): 
 
   return (
     <Container>
-      {/* <PlantCare plant={samplePlant} showActions={true} /> */}
       <Accordion allowToggle>
         <AccordionItem>
           <Heading as='h3'>

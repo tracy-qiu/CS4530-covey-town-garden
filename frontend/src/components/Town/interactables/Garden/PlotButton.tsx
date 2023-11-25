@@ -53,7 +53,7 @@ export function PlantPlotButton({
   return (
     <Box>
       {show && plant !== undefined ? (
-        PlantCare(show, handleClose, { username: username, plant: plant })
+        PlantCare({ isOpen: show, onClose: handleClose, username: username, plant: plant })
       ) : (
         <SeedManual isOpen={show} onClose={handleClose} username={username} />
       )}
