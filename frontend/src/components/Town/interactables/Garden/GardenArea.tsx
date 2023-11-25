@@ -132,7 +132,7 @@ export function GardenArea({ interactableID }: { interactableID: InteractableID 
                 label={'My Garden'}
                 color={'#7ED191'}
                 hoverColor={'#87E752'}
-                fn={enterYourGarden}
+                onClick={enterYourGarden}
               />
             </VStack>
           </AccordionPanel>

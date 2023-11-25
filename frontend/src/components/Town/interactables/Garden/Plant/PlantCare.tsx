@@ -35,7 +35,7 @@ export default function PlantCare(
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} size='xl'>
       <ModalOverlay />
       <ModalContent bgColor='#FFFEF6'>
-        <Container>
+        <Container paddingBottom={'2em'}>
           <ModalHeader>Plant Care</ModalHeader>
           <Divider></Divider>
           <ModalCloseButton />

@@ -101,7 +101,7 @@ export function SeedManual({ isOpen, onClose, username }: SeedManualProps): JSX.
                               label={'Plant Me!'}
                               color={'#C4A484'}
                               hoverColor={'#CCC5AD'}
-                              fn={() => plantSeed(type)}
+                              onClick={() => plantSeed(type)}
                             />
                           </>
                         )}

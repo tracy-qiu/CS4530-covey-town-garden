@@ -8,12 +8,13 @@ type GardenButtonProps = {
   label: string;
   color: string;
   hoverColor: string;
-  fn: any;
+  onClick: any;
   disabled?: boolean;
 };
 
 /**
  * Reusable button component that will take in a function and color.
+ * @param {label, color, hoverColor, onClick, disabled} GardenButtonProps button properties
  * @returns {JSX.Element} GardenButton
  */
 
@@ -21,7 +22,7 @@ export function GardenButton({
   label,
   color,
   hoverColor,
-  fn,
+  onClick,
   disabled,
 }: GardenButtonProps): JSX.Element {
   return (
@@ -29,7 +30,7 @@ export function GardenButton({
       color={'black'}
       bgColor={color}
       _hover={{ backgroundColor: hoverColor }}
-      onClick={fn}
+      onClick={onClick}
       disabled={disabled}>
       {label}
     </Button>

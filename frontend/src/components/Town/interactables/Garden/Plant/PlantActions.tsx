@@ -12,6 +12,8 @@ import {
   Tag,
   TagLabel,
   HStack,
+  Spacer,
+  VStack,
 } from '@chakra-ui/react';
 import { Plant } from '../../../../../types/CoveyTownSocket';
 import { GardenButton } from '../GardenButton';
@@ -87,7 +89,7 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
           <b>Plant Status</b>
         </AbsoluteCenter>
       </Box>
-      <Center>
+      <Center marginTop={'0.4em'}>
         <Tag
           size='lg'
           colorScheme={
@@ -127,7 +129,6 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
           <p>{wateredDaysAgo} days ago</p>
         </GridItem>
       </Grid>
-
       <br />
       <Box position='relative' padding='4'>
         <Divider />
@@ -135,23 +136,20 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
           <b>Actions</b>
         </AbsoluteCenter>
       </Box>
-
       <HStack spacing={20} justifyContent='center' alignItems='center'>
         <GardenButton
-          label={'Water me!'}
+          label={'Water Me!'}
           color={'#77E5EC'}
           hoverColor={'#3EC4FE'}
-          fn={waterPlant}
+          onClick={waterPlant}
         />
         <GardenButton
           label={'Remove Plant'}
           color={'#F27459'}
           hoverColor={'#F34E4E'}
-          fn={removePlant}
+          onClick={removePlant}
         />
       </HStack>
-      <br />
-      <br />
     </Container>
   );
 }
