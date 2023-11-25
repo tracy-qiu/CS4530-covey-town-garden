@@ -12,8 +12,6 @@ import {
   Tag,
   TagLabel,
   HStack,
-  Spacer,
-  VStack,
 } from '@chakra-ui/react';
 import { Plant } from '../../../../../types/CoveyTownSocket';
 import { GardenButton } from '../GardenButton';
@@ -33,6 +31,7 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
   const [statusColor, setStatusColor] = useState('');
   const [lastWateredTime, setLastWateredTime] = useState('');
   const [daysSinceLastWater, setDaysSinceLastWater] = useState(0);
+  const [display, setDisplay] = useState(true);
   const today = new Date().toLocaleString('en-US', {
     year: 'numeric',
     month: 'numeric',
@@ -53,13 +52,34 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
 
   const waterPlant = () => {
     // need to send lastWatered time to database and reset the object
-    // plant.lastWatered = new Date();
     setLastWateredTime(today);
     toastMsg('Watered ' + plant.name + ' (' + plant.species + ')!', 'success');
+
+    // TBD: set health status and age based on watering
+    if (plant.status === 'Healthy') {
+      if (plant.age === 'Seedling') {
+        // set plant age to be sprout
+        toastMsg('Plant is now a Sprout', 'info');
+      } else if (plant.age === 'Sprout') {
+        // set plant age to be adult
+        toastMsg('Plant is now an Adult', 'info');
+      }
+      // if it is an adult, do nothing
+    }
+    if (plant.status === 'Dehydrated') {
+      // set plant status to healthy
+      toastMsg('Plant is now Healthy', 'info');
+    }
+    if (plant.status === 'About to Die') {
+      // set plant status to dehydrated
+      toastMsg('Plant is now Dehydrated', 'info');
+    }
   };
 
   const removePlant = () => {
     toastMsg('Removed ' + plant.name + ' (' + plant.species + ')!', 'success');
+    // hides the plant action section if the plant is removed
+    setDisplay(false);
   };
 
   // decides colors to display for status
@@ -106,73 +126,81 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
 
   return (
     <Container>
-      <Box position='relative' padding='4'>
-        <Divider />
-        <AbsoluteCenter bg='#FFFEF6' px='4'>
-          <b>Plant Status</b>
-        </AbsoluteCenter>
-      </Box>
-      <Center marginTop={'0.4em'}>
-        <Tag
-          size='lg'
-          colorScheme={
-            plant.species === 'Blueberry'
-              ? 'purple'
-              : plant.species === 'Carrot'
-              ? 'orange'
-              : 'pink'
-          }
-          variant='solid'
-          borderRadius='full'
-          fontSize='0.9em'>
-          <TagLabel>Hello! My name is {plant.name}</TagLabel>
-        </Tag>
-      </Center>
-      <br />
-      <Grid templateColumns='repeat(2, 1fr)' gap={1.5} marginLeft={'0.5em'} marginRight={'0.5em'}>
-        <GridItem w='100%'>
-          <b>Condition: </b>
-          <Badge colorScheme={statusColor} variant='solid'>
-            {plant.status}
-          </Badge>
-        </GridItem>
-        <GridItem w='100%'>
-          <b>Age: </b>
-          <Badge colorScheme='teal' variant='solid'>
-            {plant.age}
-          </Badge>
-        </GridItem>
-        <GridItem w='100%'>
-          <b>Current Date: </b>
-          <Badge variant='outline'>{today}</Badge>
-        </GridItem>
-        <GridItem w='100%'>
-          <b>Last Watered: </b>
-          <Badge variant='outline'>{lastWateredTime}</Badge>
-          <p>{daysSinceLastWater} days ago</p>
-        </GridItem>
-      </Grid>
-      <br />
-      <Box position='relative' padding='4'>
-        <Divider />
-        <AbsoluteCenter bg='#FFFEF6' px='4'>
-          <b>Actions</b>
-        </AbsoluteCenter>
-      </Box>
-      <HStack spacing={20} justifyContent='center' alignItems='center'>
-        <GardenButton
-          label={'Water Me!'}
-          color={'#77E5EC'}
-          hoverColor={'#3EC4FE'}
-          onClick={waterPlant}
-        />
-        <GardenButton
-          label={'Remove Plant'}
-          color={'#F27459'}
-          hoverColor={'#F34E4E'}
-          onClick={removePlant}
-        />
-      </HStack>
+      {display && (
+        <>
+          <Box position='relative' padding='4'>
+            <Divider />
+            <AbsoluteCenter bg='#FFFEF6' px='4'>
+              <b>Plant Status</b>
+            </AbsoluteCenter>
+          </Box>
+          <Center marginTop={'0.4em'}>
+            <Tag
+              size='lg'
+              colorScheme={
+                plant.species === 'Blueberry'
+                  ? 'purple'
+                  : plant.species === 'Carrot'
+                  ? 'orange'
+                  : 'pink'
+              }
+              variant='solid'
+              borderRadius='full'
+              fontSize='0.9em'>
+              <TagLabel>Hello! My name is {plant.name}</TagLabel>
+            </Tag>
+          </Center>
+          <br />
+          <Grid
+            templateColumns='repeat(2, 1fr)'
+            gap={1.5}
+            marginLeft={'0.5em'}
+            marginRight={'0.5em'}>
+            <GridItem w='100%'>
+              <b>Condition: </b>
+              <Badge colorScheme={statusColor} variant='solid'>
+                {plant.status}
+              </Badge>
+            </GridItem>
+            <GridItem w='100%'>
+              <b>Age: </b>
+              <Badge colorScheme='teal' variant='solid'>
+                {plant.age}
+              </Badge>
+            </GridItem>
+            <GridItem w='100%'>
+              <b>Current Date: </b>
+              <Badge variant='outline'>{today}</Badge>
+            </GridItem>
+            <GridItem w='100%'>
+              <b>Last Watered: </b>
+              <Badge variant='outline'>{lastWateredTime}</Badge>
+              <p>{daysSinceLastWater} days ago</p>
+            </GridItem>
+          </Grid>
+          <br />
+          <Box position='relative' padding='4'>
+            <Divider />
+            <AbsoluteCenter bg='#FFFEF6' px='4'>
+              <b>Actions</b>
+            </AbsoluteCenter>
+          </Box>
+          <HStack spacing={20} justifyContent='center' alignItems='center'>
+            <GardenButton
+              label={'Water Me!'}
+              color={'#77E5EC'}
+              hoverColor={'#3EC4FE'}
+              onClick={waterPlant}
+            />
+            <GardenButton
+              label={'Remove Plant'}
+              color={'#F27459'}
+              hoverColor={'#F34E4E'}
+              onClick={removePlant}
+            />
+          </HStack>
+        </>
+      )}
     </Container>
   );
 }
