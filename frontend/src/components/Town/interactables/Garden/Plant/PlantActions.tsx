@@ -32,17 +32,20 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
   const toast = useToast();
   const [statusColor, setStatusColor] = useState('');
   const [lastWateredTime, setLastWateredTime] = useState('');
-  const [wateredDaysAgo, setWateredDaysAgo] = useState('');
+  const [daysSinceLastWater, setDaysSinceLastWater] = useState(0);
   const today = new Date().toLocaleString('en-US', {
     year: 'numeric',
     month: 'numeric',
     day: 'numeric',
   });
 
-  const toastMsg = (title: string) => {
+  const toastMsg = (
+    title: string,
+    status: 'info' | 'warning' | 'success' | 'error' | undefined,
+  ) => {
     toast({
       title,
-      status: 'success',
+      status,
       duration: 4000,
       isClosable: true,
     });
@@ -52,11 +55,11 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
     // need to send lastWatered time to database and reset the object
     // plant.lastWatered = new Date();
     setLastWateredTime(today);
-    toastMsg('Watered ' + plant.name + ' (' + plant.species + ')!');
+    toastMsg('Watered ' + plant.name + ' (' + plant.species + ')!', 'success');
   };
 
   const removePlant = () => {
-    toastMsg('Removed ' + plant.name + ' (' + plant.species + ')!');
+    toastMsg('Removed ' + plant.name + ' (' + plant.species + ')!', 'success');
   };
 
   // decides colors to display for status
@@ -78,8 +81,28 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
     const differenceInDays = Math.floor(
       (new Date().getTime() - lastWateredTimeInMillis) / (1000 * 60 * 60 * 24),
     );
-    setWateredDaysAgo(differenceInDays.toString());
-  }, [lastWateredTime]);
+    setDaysSinceLastWater(differenceInDays);
+
+    // TBD: will call backend to reset the plant's status -> which will automatically update the frontend look
+    // these toasts are just placeholders
+    // we will remove these toast messagees later because they should be called in the community garden area
+
+    // set status to dehydrated if it's been 1 day
+    if (daysSinceLastWater == 1) {
+      toastMsg(plant.name + ' (' + plant.species + ') is dehydrated! Please add water!', 'warning');
+    }
+    // set status to about to die if it's been 2 days
+    if (daysSinceLastWater >= 2) {
+      toastMsg(
+        plant.name + ' (' + plant.species + ') is about to die! Please add water asap!',
+        'error',
+      );
+    }
+    // set status to about to die if it's been 3 days
+    if (daysSinceLastWater >= 3) {
+      toastMsg(plant.name + ' (' + plant.species + ') is dead! Please remove!', 'error');
+    }
+  }, [daysSinceLastWater, lastWateredTime, plant.name, plant.species, toastMsg]);
 
   return (
     <Container>
@@ -126,7 +149,7 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
         <GridItem w='100%'>
           <b>Last Watered: </b>
           <Badge variant='outline'>{lastWateredTime}</Badge>
-          <p>{wateredDaysAgo} days ago</p>
+          <p>{daysSinceLastWater} days ago</p>
         </GridItem>
       </Grid>
       <br />
