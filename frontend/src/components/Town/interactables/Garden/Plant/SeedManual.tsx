@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Plant, PlantType } from '../../../../../types/CoveyTownSocket';
+import React, { useState } from 'react';
+import { PlantType } from '../../../../../types/CoveyTownSocket';
 import {
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
   ModalCloseButton,
-  Button,
   Box,
-  HStack,
-  VStack,
   ModalBody,
   Container,
   Accordion,
@@ -17,28 +14,49 @@ import {
   AccordionPanel,
   AccordionButton,
   AccordionIcon,
-  Heading,
-  Badge,
+  Input,
+  Spacer,
 } from '@chakra-ui/react';
 import PlantDetails from './PlantDetails';
 import { GardenButton } from '../GardenButton';
 import { useToast } from '@chakra-ui/react';
+import useTownController from '../../../../../hooks/useTownController';
+import { PLANT_TYPES_DATA } from '../garden-data/data';
 
 type SeedManualProps = {
   isOpen: boolean;
   onClose: () => void;
+  username: string;
 };
 
-export function SeedManual({ isOpen, onClose }: SeedManualProps): JSX.Element {
+/**
+ * Displays manual of the 3 types of seeds to plant and their information
+ * Will only allow owner of garden to plant seeds
+ * @param { isOpen, onClose, username } SeedManualProps opening and closing modal mechanisms, and username of the gardener
+ * @returns {JSX.Element} component
+ */
+export function SeedManual({ isOpen, onClose, username }: SeedManualProps): JSX.Element {
   const toast = useToast();
+  const currUsername = useTownController().ourPlayer.userName;
+  const [newPlantName, setNewPlantName] = useState('');
 
   const plantSeed = (plantType: PlantType) => {
-    toast({
-      title: 'Planting ' + plantType,
-      status: 'success',
-      duration: 4000,
-      isClosable: true,
-    });
+    if (newPlantName === '') {
+      toast({
+        title: 'Plant must be given a name',
+        status: 'error',
+        duration: 4000,
+        isClosable: true,
+      });
+    } else {
+      // TBD: add plant to list of plots
+      toast({
+        title: 'Planting ' + newPlantName + ' (' + plantType.toString() + ')',
+        status: 'success',
+        duration: 4000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
@@ -50,66 +68,48 @@ export function SeedManual({ isOpen, onClose }: SeedManualProps): JSX.Element {
           <Container>
             <ModalHeader>Seed Manual</ModalHeader>
             <Accordion allowToggle>
-              <AccordionItem>
-                <AccordionButton>
-                  <Box as='span' flex='1' textAlign='left'>
-                    <b>Rose</b>
-                    <AccordionIcon />
-                  </Box>
-                </AccordionButton>
-                <AccordionPanel>
-                  <PlantDetails plantType={'Rose'} />
-                  <br />
-                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <GardenButton
-                      label={'Plant Me!'}
-                      color={'#C4A484'}
-                      hoverColor={'#CCC5AD'}
-                      fn={() => plantSeed('Rose')}
-                    />
-                  </div>
-                </AccordionPanel>
-              </AccordionItem>
-              <AccordionItem>
-                <AccordionButton>
-                  <Box as='span' flex='1' textAlign='left'>
-                    <b>Blueberry</b>
-                    <AccordionIcon />
-                  </Box>
-                </AccordionButton>
-                <AccordionPanel>
-                  <PlantDetails plantType={'Blueberry'} />
-                  <br />
-                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <GardenButton
-                      label={'Plant Me!'}
-                      color={'#C4A484'}
-                      hoverColor={'#CCC5AD'}
-                      fn={() => plantSeed('Blueberry')}
-                    />
-                  </div>
-                </AccordionPanel>
-              </AccordionItem>
-              <AccordionItem>
-                <AccordionButton>
-                  <Box as='span' flex='1' textAlign='left'>
-                    <b>Carrot</b>
-                    <AccordionIcon />
-                  </Box>
-                </AccordionButton>
-                <AccordionPanel>
-                  <PlantDetails plantType={'Carrot'} />
-                  <br />
-                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <GardenButton
-                      label={'Plant Me!'}
-                      color={'#C4A484'}
-                      hoverColor={'#CCC5AD'}
-                      fn={() => plantSeed('Carrot')}
-                    />
-                  </div>
-                </AccordionPanel>
-              </AccordionItem>
+              {PLANT_TYPES_DATA.map(type => {
+                return (
+                  <AccordionItem key={type}>
+                    <AccordionButton>
+                      <Box as='span' flex='1' textAlign='left'>
+                        <b>{type}</b>
+                        <AccordionIcon />
+                      </Box>
+                    </AccordionButton>
+                    <AccordionPanel>
+                      <PlantDetails species={type} age={undefined} />
+                      <br />
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        {currUsername === username && (
+                          <>
+                            <Input
+                              pr='2rem'
+                              type={'text'}
+                              placeholder='Enter plant name'
+                              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                                setNewPlantName(event.target.value);
+                              }}
+                            />
+                            <Spacer />
+                            <GardenButton
+                              label={'Plant Me!'}
+                              color={'#C4A484'}
+                              hoverColor={'#CCC5AD'}
+                              onClick={() => plantSeed(type)}
+                            />
+                          </>
+                        )}
+                      </div>
+                    </AccordionPanel>
+                  </AccordionItem>
+                );
+              })}
             </Accordion>
           </Container>
         </ModalBody>
