@@ -47,7 +47,6 @@ export type PlantDetailsData = {
   matureImg: string;
 }
 
-
 /**
  * Type for a move in player's Garden
  */

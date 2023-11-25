@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import { Box, Button, ButtonProps, chakra } from '@chakra-ui/react';
-import PlantCare, { PlantCareProps } from './Plant/PlantCare';
-import { Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
+import PlantCare from './Plant/PlantCare';
+import { PlotPlant } from '../../../../types/CoveyTownSocket';
 import { MyGarden } from './MyGarden';
 import { SeedManual } from './Plant/SeedManual';
+import useTownController from '../../../../hooks/useTownController';
 
 const StyledPlot = chakra(Button, {
   baseStyle: {
-    borderRadius: 0,
+    borderRadius: '0.7em',
     justifyContent: 'center',
     alignItems: 'center',
     flexBasis: '25%',
     borderColor: '#EDD4B2',
     borderWidth: '2px',
-    // bgColor: '#793D00',
+    whiteSpace: 'normal',
     color: '#FFFEF6',
     height: '100px',
     width: '100%',
@@ -27,18 +28,18 @@ const StyledPlot = chakra(Button, {
 });
 
 interface PlantPlotButtonProps extends ButtonProps {
+  username: string;
   plotPlant: PlotPlant;
 }
 
 /**
- * Button representing a plant of the user's garden. Clicking will
- * access the plant's details and actions.
- * @param { PlantCareProps } username of the user and their list of plants
+ * Button representing a plant of the user's garden. Clicking will access the plant's details and actions.
+ * @param {username, plotPlant} PlantPlotButtonProps username of the user and their list of plants
  * @returns { JSX.Element } plot button
  */
-
 export function PlantPlotButton({
   children,
+  username,
   plotPlant: { plant },
   ...rest
 }: PlantPlotButtonProps): JSX.Element {
@@ -52,9 +53,9 @@ export function PlantPlotButton({
   return (
     <Box>
       {show && plant !== undefined ? (
-        PlantCare(show, handleClose, { plant: plant })
+        PlantCare(show, handleClose, { username: username, plant: plant })
       ) : (
-        <SeedManual isOpen={show} onClose={handleClose} />
+        <SeedManual isOpen={show} onClose={handleClose} username={username} />
       )}
       {plant !== undefined ? (
         <StyledPlot
@@ -74,15 +75,9 @@ export function PlantPlotButton({
   );
 }
 
-interface GardenPlotButtonProps extends ButtonProps {
-  username: string;
-  plants: PlotPlant[];
-}
-
 /**
- * Button representing a user's plot of the community garden. Clicking will
- * access their personal garden plot.
- * @param { string, PlotPlant[] } username of the user and their list of plants
+ * Button representing a user's plot of the community garden. Clicking will access their personal garden plot.
+ * @param { string, PlotPlant[] } GardenPlotButtonProps username of the user and their list of plants
  * @returns { JSX.Element } plot button
  */
 
@@ -99,6 +94,8 @@ export function GardenPlotButton({
 
   const handleClose = () => setShow(false);
 
+  const currUsername = useTownController().ourPlayer.userName;
+
   return (
     <Box>
       {show &&
@@ -108,12 +105,15 @@ export function GardenPlotButton({
           plants: plants,
         })}
       <StyledPlot
+        bgColor={currUsername === username ? '#65B891' : undefined}
         bgImage={
-          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_L2aMkVO--A_GOxD08fP9FygAX8rEBDnPWw&usqp=CAU'
+          currUsername !== username
+            ? 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_L2aMkVO--A_GOxD08fP9FygAX8rEBDnPWw&usqp=CAU'
+            : undefined
         }
         onClick={handleClick}
         {...rest}>
-        {username}
+        {currUsername === username ? username + ' (Me)' : username}
       </StyledPlot>
     </Box>
   );

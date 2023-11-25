@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
+import React from 'react';
+import { PlotPlant } from '../../../../types/CoveyTownSocket';
 import {
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
   ModalCloseButton,
-  Button,
   Box,
-  HStack,
   VStack,
   ModalBody,
   Container,
@@ -17,12 +15,11 @@ import {
   AccordionPanel,
   AccordionButton,
   AccordionIcon,
-  Heading,
   Badge,
+  Tag,
 } from '@chakra-ui/react';
 import { MyGardenPlots } from './MyGardenPlots';
-import { SeedManual } from './Plant/SeedManual';
-import PlantCare from './Plant/PlantCare';
+import useTownController from '../../../../hooks/useTownController';
 
 export type MyGardenAreaProps = {
   isOpen: boolean;
@@ -35,64 +32,60 @@ export type MyGardenAreaProps = {
  * The plots display as two across, two down and are clickable for information and actions.
  * The user can also choose to return to the overall garden.
  * @param username user's name to be displayed
- * @param { boolean, () => void, PlotPlant[] } props to represent user's plants and conditionally show user's garden
+ * @param { isOpen, onClose, plants } MyGardenAreaProps to represent user's plants and conditionally show user's garden
  * @returns { JSX.Element } user garden modal
  */
 export function MyGarden(
   username: string,
   { isOpen, onClose, plants }: MyGardenAreaProps,
 ): JSX.Element {
-  // const [showManual, setShowManual] = useState(false);
-
-  // const handleClick = () => {
-  //   setShowManual(true);
-  // };
+  const currUsername = useTownController().ourPlayer.userName;
 
   return (
-    <>
-      <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} size='xl'>
-        <ModalOverlay />
-
-        <ModalContent bgColor='#FFFEF6'>
-          <ModalBody>
-            <Container>
-              <VStack>
-                <ModalHeader>
-                  {username == 'me' ? 'My Garden' : username + "'s" + ' Garden'}
-                </ModalHeader>
-                {/* <b>{'Welcome, ' + username + '!'}</b> */}
-              </VStack>
-              <Accordion allowToggle>
-                <AccordionItem>
-                  <AccordionButton>
-                    <Box as='span' flex='1' textAlign='left'>
-                      <b>Guide</b>
-                      <AccordionIcon />
-                    </Box>
-                  </AccordionButton>
-                  <AccordionPanel>
-                    <b>Health Status</b>
-                    <br />
-                    <Badge colorScheme={'green'}>{'Healthy'}</Badge>
-                    <Badge colorScheme={'yellow'}>{'Dehydrated'}</Badge>
-                    <Badge colorScheme={'red'}>{'About to Die'}</Badge>
-                    <Badge colorScheme={'gray'}>{'Dead'}</Badge>
-                    <br />
-                    <b>Age</b>
-                    <br />
-                    <Badge colorScheme={'purple'}>{'Adult'}</Badge>
-                    <Badge colorScheme={'pink'}>{'Sprout'}</Badge>
-                    <Badge colorScheme={'teal'}>{'Seedling'}</Badge>
-                    <br />
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
-              <MyGardenPlots plants={plants}></MyGardenPlots>
-            </Container>
-          </ModalBody>
-          <ModalCloseButton />
-        </ModalContent>
-      </Modal>
-    </>
+    <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} size='xl'>
+      <ModalOverlay />
+      <ModalContent bgColor='#FFFEF6'>
+        <ModalBody>
+          <Container>
+            {username !== currUsername && <Tag>View Only</Tag>}
+            <VStack>
+              <ModalHeader>
+                {username == currUsername ? 'My Garden' : username + "'s" + ' Garden'}
+              </ModalHeader>
+            </VStack>
+            <Accordion allowToggle>
+              <AccordionItem>
+                <AccordionButton>
+                  <Box as='span' flex='1' textAlign='left'>
+                    <b>Guide</b>
+                    <AccordionIcon />
+                  </Box>
+                </AccordionButton>
+                <AccordionPanel>
+                  <b>Health Status</b>
+                  <br />
+                  <Badge variant='solid' colorScheme={'green'} margin={'0.3em'}>
+                    {'Healthy'}
+                  </Badge>
+                  <Badge variant='solid' colorScheme={'yellow'} margin={'0.3em'}>
+                    {'Dehydrated'}
+                  </Badge>
+                  <Badge variant='solid' colorScheme={'red'} margin={'0.3em'}>
+                    {'About to Die'}
+                  </Badge>
+                  <Badge variant='solid' margin={'0.3em'}>
+                    {'Dead'}
+                  </Badge>
+                  <br />
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
+            <br />
+            <MyGardenPlots plants={plants} username={username}></MyGardenPlots>
+          </Container>
+        </ModalBody>
+        <ModalCloseButton />
+      </ModalContent>
+    </Modal>
   );
 }

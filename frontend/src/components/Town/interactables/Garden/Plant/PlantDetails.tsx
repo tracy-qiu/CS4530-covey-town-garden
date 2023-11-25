@@ -8,47 +8,51 @@ import {
   GridItem,
   Container,
   Heading,
+  Badge,
 } from '@chakra-ui/react';
-import { PlantDetailsData, PlantType } from '../../../../../types/CoveyTownSocket';
-import PLANT_DETAILS_DATA from '../garden-data/data';
+import { PlantDetailsData, PlantType, PlantAge } from '../../../../../types/CoveyTownSocket';
+import { PLANT_DETAILS_DATA, PLANT_AGES_DATA } from '../garden-data/data';
+
+type PlantDetailsProp = {
+  species: PlantType;
+  age?: PlantAge | undefined;
+};
 
 /**
- * Displays information about a given plant
- * @param {Plant} plant
+ * Displays information (gardening instructions, image, and life cycle) about a given plant
+ * @param { species, age } PlantDetailsProp species and age of plant
  * @returns {JSX.Element} component
  */
-export default function PlantDetails({ plantType }: { plantType: PlantType }): JSX.Element {
+export default function PlantDetails({ species, age }: PlantDetailsProp): JSX.Element {
   const [about, setAbout] = useState('');
   const [instructions, setInstructions] = useState('');
   const [aboutImg, setAboutImg] = useState('');
-  const [seedImg, setSeedImg] = useState('');
-  const [sproutImg, setSproutImg] = useState('');
-  const [plantImg, setPlantImg] = useState('');
+  const [lifeCycleImgs, setLifeCycleImgs] = useState<string[]>([]);
 
+  // gets data about the plant species
   useEffect(() => {
     const plantInfo: PlantDetailsData | undefined =
-      PLANT_DETAILS_DATA.find(info => info.type === plantType) ?? undefined;
+      PLANT_DETAILS_DATA.find(info => info.type === species) ?? undefined;
     if (plantInfo) {
       setAbout(plantInfo.about);
       setInstructions(plantInfo.instructions);
       setAboutImg(plantInfo.aboutImg);
-      setSeedImg(plantInfo.seedImg);
-      setSproutImg(plantInfo.sproutImg);
-      setPlantImg(plantInfo.matureImg);
+      setLifeCycleImgs([plantInfo.seedImg, plantInfo.sproutImg, plantInfo.matureImg]);
     }
-  }, [plantType]);
+  }, [species]);
+
   return (
     <>
       <Box position='relative' padding='4'>
         <Divider />
         <AbsoluteCenter bg='#FFFEF6' px='4'>
-          <b>{plantType}</b>
+          <b>{species}</b>
         </AbsoluteCenter>
       </Box>
       <Container>
-        <Grid templateColumns='1fr 2fr' gap={3}>
+        <Grid templateColumns='1fr 2fr' gap={0}>
           <GridItem w='100%' h='40' display='flex'>
-            <Image src={aboutImg} alt={plantType + ' about image'} />
+            <Image src={aboutImg} alt={species + ' about image'} />
           </GridItem>
           <GridItem w='100%' h='40' display='flex'>
             <p>{about}</p>
@@ -64,15 +68,20 @@ export default function PlantDetails({ plantType }: { plantType: PlantType }): J
           Life Cycle
         </Heading>
         <Grid templateColumns='1fr 1fr 1fr' gap={1}>
-          <GridItem w='100%' h='20' display='flex'>
-            <Image src={seedImg} alt={plantType + ' seed image'} />
-          </GridItem>
-          <GridItem w='100%' h='20' display='flex'>
-            <Image src={sproutImg} alt={plantType + ' sprout image'} />
-          </GridItem>
-          <GridItem w='100%' h='20' display='flex'>
-            <Image src={plantImg} alt={plantType + ' mature image'} />
-          </GridItem>
+          {lifeCycleImgs.map((image, index) => (
+            <GridItem key={image} w='100%' h='20' display='flex' justifyContent={'center'}>
+              <Image src={image} alt={species + ' image' + index} />
+            </GridItem>
+          ))}
+        </Grid>
+        <Grid templateColumns='1fr 1fr 1fr' gap={1}>
+          {PLANT_AGES_DATA.map(plantAge => (
+            <GridItem key={plantAge} w='100%' display='flex' justifyContent={'center'}>
+              <Badge variant={age === plantAge ? 'solid' : 'outline'} colorScheme='teal'>
+                {plantAge}
+              </Badge>
+            </GridItem>
+          ))}
         </Grid>
       </Container>
     </>
