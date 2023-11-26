@@ -68,9 +68,9 @@ export function SeedManual({ isOpen, onClose, username }: SeedManualProps): JSX.
           <Container>
             <ModalHeader>Seed Manual</ModalHeader>
             <Accordion allowToggle>
-              {PLANT_TYPES_DATA.map(type => {
+              {PLANT_TYPES_DATA.map((type, index) => {
                 return (
-                  <AccordionItem key={type}>
+                  <AccordionItem key={type} data-testid={'seedManualAccordion' + index}>
                     <AccordionButton>
                       <Box as='span' flex='1' textAlign='left'>
                         <b>{type}</b>
@@ -89,6 +89,7 @@ export function SeedManual({ isOpen, onClose, username }: SeedManualProps): JSX.
                         {currUsername === username && (
                           <>
                             <Input
+                              data-testid={'plantMeInput' + index}
                               pr='2rem'
                               type={'text'}
                               placeholder='Enter plant name'
@@ -98,6 +99,7 @@ export function SeedManual({ isOpen, onClose, username }: SeedManualProps): JSX.
                             />
                             <Spacer />
                             <GardenButton
+                              data-testid={'plantMeBtn' + index}
                               label={'Plant Me!'}
                               color={'#C4A484'}
                               hoverColor={'#CCC5AD'}
