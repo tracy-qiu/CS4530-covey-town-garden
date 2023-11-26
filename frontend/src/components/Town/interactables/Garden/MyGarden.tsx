@@ -62,7 +62,7 @@ export function MyGarden(
                   </Box>
                 </AccordionButton>
                 <AccordionPanel>
-                  <b>Health Status</b>
+                  <b>Health Status Key</b>
                   <br />
                   <Badge variant='solid' colorScheme={'green'} margin={'0.3em'}>
                     {'Healthy'}
@@ -77,6 +77,21 @@ export function MyGarden(
                     {'Dead'}
                   </Badge>
                   <br />
+                  <b>Health Status Rules</b>
+                  <p>If a plant is not watered for...</p>
+                  <ul>
+                    <li>1 day, it will be dehydrated.</li>
+                    <li>2 days, it is about to die.</li>
+                    <li>3 days, it dies.</li>
+                  </ul>
+                  <br />
+                  <b>Watering Rules</b>
+                  <ul>
+                    <li>If the plant is watered while healthy and as a seedling, it will become a sprout</li>
+                    <li>If the plant is watered while healthy and as a sprout, it will become an adult</li>
+                    <li>If the plant is watered while dehydrated, it will become healthy</li>
+                    <li>If the plant is watered while about to die, it will become dehydrated</li>
+                  </ul>
                 </AccordionPanel>
               </AccordionItem>
             </Accordion>

@@ -20,7 +20,7 @@ export const PLANT_DETAILS_DATA: PlantDetailsData[] = [
     type: 'Blueberry',
     about:
       'Blueberries grow on certain species of plants in the genus Vaccinium. They are often are valued for their health benefits, nutrition, freshness, and sweet taste.',
-    instructions: 'To tend a blueberry, add water twice a day.',
+    instructions: 'To tend a blueberry, add water once a day.',
     aboutImg:
       'https://www.plantmegreen.com/cdn/shop/products/DukeBlueberryFruitDetail_PMG.jpg?v=1636636953',
     seedImg:
@@ -34,7 +34,7 @@ export const PLANT_DETAILS_DATA: PlantDetailsData[] = [
     type: 'Carrot',
     about:
       'Carrots are a versatile root vegetable known for their nutritional value and sweet flavor. In some cultures, they are associated with simplicity, fertility, and grounding.',
-    instructions: 'To tend a carrot, add water three times a day.',
+    instructions: 'To tend a carrot, add water once times a day.',
     aboutImg: 'https://cdn.loveandlemons.com/wp-content/uploads/2021/03/grated-carrot.jpg',
     seedImg:
       'https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/25643/grodd-clipart-xl.png',
