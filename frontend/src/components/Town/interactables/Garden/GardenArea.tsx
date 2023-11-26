@@ -129,12 +129,7 @@ export function GardenArea({ interactableID }: { interactableID: InteractableID 
                 can view other user's gardens, you cannot tend their plants. Make sure to water your
                 plants on time so they don't die!
               </p>
-              <GardenButton
-                label={'My Garden'}
-                color={'#7ED191'}
-                hoverColor={'#87E752'}
-                onClick={enterYourGarden}
-              />
+              <GardenButton label={'My Garden'} type='MyGarden' onClick={enterYourGarden} />
             </VStack>
           </AccordionPanel>
         </AccordionItem>
