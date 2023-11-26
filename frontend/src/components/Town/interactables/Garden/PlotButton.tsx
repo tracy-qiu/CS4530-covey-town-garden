@@ -41,17 +41,19 @@ const StyledPlot = chakra(Button, {
 
 interface PlantPlotButtonProps extends ButtonProps {
   username: string;
+  plantNames: (string | undefined)[];
   plotPlant: PlotPlant;
 }
 
 /**
  * Button representing a plant of the user's garden. Clicking will access the plant's details and actions.
- * @param {username, plotPlant} PlantPlotButtonProps username of the user and their list of plants
+ * @param {username, plantNames, plotPlant} PlantPlotButtonProps username of the user, names of their plants, and the plant in this plot
  * @returns { JSX.Element } plot button
  */
 export function PlantPlotButton({
   children,
   username,
+  plantNames,
   plotPlant: { plant },
   ...rest
 }: PlantPlotButtonProps): JSX.Element {
@@ -92,7 +94,12 @@ export function PlantPlotButton({
       {show && plant !== undefined ? (
         PlantCare(show, handleClose, { username: username, plant: plant })
       ) : (
-        <SeedManual isOpen={show} onClose={handleClose} username={username} />
+        <SeedManual
+          isOpen={show}
+          onClose={handleClose}
+          username={username}
+          plantNames={plantNames}
+        />
       )}
       {plant !== undefined ? (
         <StyledPlot onClick={handleClick} {...rest}>

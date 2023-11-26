@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Container,
-  Divider,
+  VStack,
   Modal,
   ModalCloseButton,
   ModalContent,
@@ -36,8 +36,11 @@ export default function PlantCare(
       <ModalOverlay />
       <ModalContent bgColor='#FFFEF6'>
         <Container paddingBottom={'2em'}>
-          <ModalHeader>Plant Care</ModalHeader>
-          <Divider></Divider>
+          <VStack>
+            <ModalHeader>
+              {username == currUsername ? 'My Garden' : username + "'s" + ' Garden'}
+            </ModalHeader>
+          </VStack>
           <ModalCloseButton />
           <PlantDetails species={plant.species} age={plant.age} />
           <br />
