@@ -17,7 +17,7 @@ export const townModel = mongoose.model('TownModel', townSchema);
 const gardenSchema = new mongoose.Schema(
   {
     townId: { type: mongoose.Schema.Types.ObjectId, ref: 'townSchema', required: true },
-    gardenPlots: Array,
+    gardenPlots: [{ type: String }],
   },
   { collection: 'gardens' },
 );
@@ -79,7 +79,7 @@ export const plantModel = mongoose.model('PlantModel', plantSchema);
 // Gardener
 const gardenerSchema = new mongoose.Schema(
   {
-    gardenPlotId: { type: mongoose.Schema.Types.ObjectId, ref: 'gardenPlotSchema', required: true },
+    gardenId: { type: mongoose.Schema.Types.ObjectId, ref: 'gardenSchema', required: true },
     name: { type: String, required: true },
   },
   { collection: 'gardeners' },

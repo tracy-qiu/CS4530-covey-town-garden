@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { TownDB, townModel } from '../schema';
 
 export const findTowns = () => townModel.find();

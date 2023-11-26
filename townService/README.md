@@ -49,39 +49,40 @@ town collection
 garden collection 
 - post /garden 
   - requestBody: {townId: string}
-- update garden /garden
+- update garden /garden/update
   - requestBody: { plotNumber: number, }
 - delete /garden/{gardenId} 
 
-plant collection 
-- post /garden/plant 
-  - requestBody: { gardenId: string; gardenPlotId: string; name: string; species: string }
-- update plant age by plantId /garden/plants/age
-  - requestBody: {plantId: string, age : string}
-- update plant last watered /garden/plant/lastWatered 
-  - requestBody: {plantId: string}
-- get one plant by plantId /garden/plants/{plantId}
-- get plants by gardenId /garden/{gardenId}/plants -might not need it 
-- get plants by plotId /garden/plots/{plotId}/plants
-- delete plant by plantId /garden/plants/{plantId}
+gardener collection 
+- post /garden/gardener
+  - requestBody: { name: string, gardenId: string }
+- update gardener /garden/gardner/update
+  - requestBody: { gardenId: string, name: string }
+- get gardeners by gardenId /garden/{gardenId}/gardeners
+- get one gardener by gardener /garden/gardeners/{gardenerId}
+- delete gardener by gardenerId /garden/gardeners/{gardener}
 
 plot collection 
 - post /garden/plot
   - requestBody: { gardenId: string; gardenerId: string; }
-- update plot /garden/plot
+- update plot /garden/plot/update
   - requestBody: {gardenId: string, plotNumber: number, plantId: string}
 - get plots by gardenId /garden/{gardenId}/plots
 - get plots by gardenerId /garden/{gardenerId}/plots
 - get one plot by plotId /garden/plots/{plotId}
 - delete plot by plotId /garden/plots/{plotId}
 
-gardener collection 
-- post /garden/gardener
-  - requestBody: { name: string, gardenId: string }
-- update gardener /garden/gardner
-  - requestBody: { gardenId: string, name: string }
-- get gardeners by gardenId /garden/{gardenId}/gardener
-- get one gardener by gardener /garden/gardeners/{gardenerId}
-- delete gardener by gardenerId /garden/gardeners/{gardener}
+plant collection 
+- post /garden/plant 
+  - requestBody: { gardenId: string; gardenPlotId: string; name: string; species: string }
+- update plant age by plantId /garden/plants/updateAge
+  - requestBody: {plantId: string, age : string}
+- update plant last watered /garden/plant/updatelLastWatered 
+  - requestBody: {plantId: string}
+- get one plant by plantId /garden/plants/{plantId}
+- get plants by gardenId /garden/{gardenId}/plants -might not need it 
+- get plants by plotId /garden/plots/{plotId}/plants
+- delete plant by plantId /garden/plants/{plantId}
+
 
 delete action deletes all items associated with the thing you are deleting 
