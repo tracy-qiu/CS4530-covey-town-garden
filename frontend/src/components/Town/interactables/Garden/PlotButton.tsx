@@ -10,6 +10,8 @@ import {
   VStack,
   Image,
   chakra,
+  HStack,
+  Circle,
 } from '@chakra-ui/react';
 import PlantCare from './Plant/PlantCare';
 import { PlantDetailsData, PlotPlant } from '../../../../types/CoveyTownSocket';
@@ -30,6 +32,7 @@ const StyledPlot = chakra(Button, {
     bgColor: '#6C3701',
     color: '#FFFEF6',
     minHeight: '120px',
+    height: '100%',
     width: '100%',
     minWidth: '100px',
     fontSize: '16px',
@@ -67,7 +70,7 @@ export function PlantPlotButton({
   const handleClose = () => setShow(false);
 
   const [displayImg, setDisplayImg] = useState('');
-  const [statusBadge, setStatusBadge] = useState(<></>);
+  const [statusIcon, setStatusIcon] = useState(<></>);
 
   useEffect(() => {
     if (plant !== undefined) {
@@ -92,52 +95,47 @@ export function PlantPlotButton({
       );
     }
 
-    const healthyBadge = (
-      <Badge variant='solid' colorScheme={'green'} margin={'0.3em'}>
-        {'Healthy'}
-      </Badge>
+    const dehydratedColor = '#ECC94B';
+    const aboutToDieColor = '#E53E3E';
+
+    const healthyIcon = <Circle size='20px' bg='green' borderColor='white' borderWidth={1} />;
+
+    const dehydratedIcon = (
+      <Circle size='20px' bg={dehydratedColor} borderColor='white' borderWidth={1} />
     );
 
-    const dehydratedBadge = (
-      <Badge variant='solid' colorScheme={'yellow'} margin={'0.3em'}>
-        {'Dehydrated'}
-      </Badge>
+    const aboutToDieIcon = (
+      <Circle size='20px' bg={aboutToDieColor} borderColor='white' borderWidth={1} />
     );
 
-    const aboutToDieBadge = (
-      <Badge variant='solid' colorScheme={'red'} margin={'0.3em'}>
-        {'About to Die'}
-      </Badge>
-    );
+    const deadIcon = <Circle size='20px' bg='gray' borderColor='white' borderWidth={1} />;
 
-    const deadBadge = (
-      <Badge variant='solid' margin={'0.3em'}>
-        {'Dead'}
-      </Badge>
-    );
+    const emptyIcon = <Circle size='20px' />;
 
     if (plant !== undefined) {
       switch (plant.status) {
         case 'Healthy':
-          setStatusBadge(healthyBadge);
+          setStatusIcon(healthyIcon);
           break;
         case 'Dehydrated':
-          setStatusBadge(dehydratedBadge);
+          setStatusIcon(dehydratedIcon);
           break;
         case 'About to Die':
-          setStatusBadge(aboutToDieBadge);
+          setStatusIcon(aboutToDieIcon);
           break;
         case 'Dead':
-          setStatusBadge(deadBadge);
+          setStatusIcon(deadIcon);
           break;
         default:
           break;
       }
+    } else {
+      setStatusIcon(emptyIcon);
     }
   }, [plant]);
 
   return (
-    <Box>
+    <StyledPlot onClick={handleClick} {...rest}>
       {show && plant !== undefined ? (
         PlantCare(show, handleClose, { username: username, plant: plant })
       ) : (
@@ -148,33 +146,22 @@ export function PlantPlotButton({
           plantNames={plantNames}
         />
       )}
-      {plant !== undefined ? (
-        <StyledPlot onClick={handleClick} {...rest}>
-          <VStack paddingBottom={4} paddingTop={4}>
-            <Spacer />
-            <Text>{plant.name}</Text>
-            <Image
-              maxHeight='50px'
-              maxWidth='50px'
-              src={displayImg}
-              alt={'life cycle image of plant'}
-            />
-            {statusBadge}
-            <Spacer />
-          </VStack>
-        </StyledPlot>
-      ) : (
-        <StyledPlot onClick={handleClick} {...rest}>
-          <VStack maxHeight='95%' maxWidth='95%' shouldWrapChildren={true}>
-            <Text>{'Plant me!'}</Text>
-            <Center>
-              <Image maxHeight='50px' maxWidth='50px' src={displayImg} alt={'plant here'} />
-            </Center>
-            <Spacer />
-          </VStack>
-        </StyledPlot>
-      )}
-    </Box>
+      <VStack width='full' height='95%' paddingTop={2} paddingBottom={4} spacing='-3'>
+        <HStack width='full' align='self-end'>
+          <Spacer />
+          {statusIcon}
+        </HStack>
+        <VStack spacing={4}>
+          <Text flexWrap={'wrap'}>{plant !== undefined ? plant.name : 'Plant me!'}</Text>
+          <Image
+            maxHeight='50px'
+            maxWidth='50px'
+            src={displayImg}
+            alt={'life cycle image of plant or shovel if no plant'}
+          />
+        </VStack>
+      </VStack>
+    </StyledPlot>
   );
 }
 
