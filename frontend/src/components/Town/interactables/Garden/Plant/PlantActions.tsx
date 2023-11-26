@@ -83,7 +83,6 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
   };
 
   // decides colors to display for status
-  const [ageColor, setAgeColor] = useState('');
   const [showWater, setShowWater] = useState(true);
 
   useEffect(() => {
@@ -97,15 +96,7 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
       setStatusColor('gray');
     }
 
-    if (plant.status !== 'Dead') {
-      if (plant.age === 'Adult') {
-        setAgeColor('purple');
-      } else if (plant.age === 'Sprout') {
-        setAgeColor('pink');
-      } else {
-        setAgeColor('teal');
-      }
-    } else {
+    if (plant.status === 'Dead') {
       setShowWater(false);
     }
   }, [plant]);
