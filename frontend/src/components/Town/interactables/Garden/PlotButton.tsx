@@ -82,6 +82,11 @@ export function PlantPlotButton({
   );
 }
 
+interface GardenPlotButtonProps extends ButtonProps {
+  username: string;
+  plants: PlotPlant[];
+}
+
 /**
  * Button representing a user's plot of the community garden. Clicking will access their personal garden plot.
  * @param { string, PlotPlant[] } GardenPlotButtonProps username of the user and their list of plants
