@@ -111,9 +111,7 @@ export function GardenArea({ interactableID }: { interactableID: InteractableID 
             <TagLabel>Welcome, {currUsername}!</TagLabel>
           </Tag>
           <br />
-
         </ModalBody>
-
       </VStack>
       <Accordion allowToggle>
         <AccordionItem>
@@ -125,10 +123,10 @@ export function GardenArea({ interactableID }: { interactableID: InteractableID 
           </AccordionButton>
           <AccordionPanel>
             <p>
-              To see your garden, click the ‘My Garden’ button at the very bottom of this modal or find your highlighted garden in
-              the grid below. You will be able to take care of the plants only in your garden. While
-              you can view other user's gardens, you cannot tend their plants. Make sure to water
-              your plants on time so they don't die!
+              To see your garden, click the ‘My Garden’ button at the very bottom of this modal or
+              find your highlighted garden in the grid below. You will be able to take care of the
+              plants only in your garden. While you can view other user's gardens, you cannot tend
+              their plants. Make sure to water your plants on time so they don't die!
             </p>
           </AccordionPanel>
         </AccordionItem>

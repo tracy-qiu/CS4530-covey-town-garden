@@ -9,7 +9,8 @@ export const PLANT_DETAILS_DATA: PlantDetailsData[] = [
     type: 'Rose',
     about:
       'Roses have been symbols of love and beauty for centuries. Red roses traditionally represent love and passion, while white roses symbolize purity and innocence.',
-    instructions: 'To tend a rose, add water once a day.',
+    instructions:
+      'To tend a rose, add water once a day. Watering a healthy plant will progress it to the next life cycle stage. Watering a plant with a Dehyrated or About to Die status will make it Healthy again.',
     aboutImg: 'https://img.freepik.com/free-photo/beautiful-rose-studio_23-2150737335.jpg',
     seedImg: 'https://cdn.pixabay.com/photo/2017/03/22/02/23/seedling-2163773_1280.png',
     sproutImg:
@@ -20,7 +21,8 @@ export const PLANT_DETAILS_DATA: PlantDetailsData[] = [
     type: 'Blueberry',
     about:
       'Blueberries grow on certain species of plants in the genus Vaccinium. They are often are valued for their health benefits, nutrition, freshness, and sweet taste.',
-    instructions: 'To tend a blueberry, add water once a day.',
+    instructions:
+      'To tend a blueberry, add water once a day. Watering a healthy plant will progress it to the next life cycle stage. Watering a plant with a Dehyrated or About to Die status will make it Healthy again.',
     aboutImg:
       'https://www.plantmegreen.com/cdn/shop/products/DukeBlueberryFruitDetail_PMG.jpg?v=1636636953',
     seedImg:
@@ -34,7 +36,8 @@ export const PLANT_DETAILS_DATA: PlantDetailsData[] = [
     type: 'Carrot',
     about:
       'Carrots are a versatile root vegetable known for their nutritional value and sweet flavor. In some cultures, they are associated with simplicity, fertility, and grounding.',
-    instructions: 'To tend a carrot, add water once times a day.',
+    instructions:
+      'To tend a carrot, add water once a day. Watering a healthy plant will progress it to the next life cycle stage. Watering a plant with a Dehyrated or About to Die status will make it Healthy again.',
     aboutImg: 'https://cdn.loveandlemons.com/wp-content/uploads/2021/03/grated-carrot.jpg',
     seedImg:
       'https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/25643/grodd-clipart-xl.png',

@@ -65,6 +65,8 @@ export function PlantPlotButton({
 
   const [displayImg, setDisplayImg] = useState('');
 
+  const currUsername = useTownController().ourPlayer.userName;
+
   useEffect(() => {
     if (plant !== undefined) {
       const plantInfo: PlantDetailsData | undefined =
@@ -119,7 +121,7 @@ export function PlantPlotButton({
       ) : (
         <StyledPlot onClick={handleClick} {...rest}>
           <VStack maxHeight='95%' maxWidth='95%' shouldWrapChildren={true}>
-            <Text>{'Plant me!'}</Text>
+            {currUsername === username && <Text>{'Plant me!'}</Text>}
             <Center>
               <Image maxHeight='50px' maxWidth='50px' src={displayImg} alt={'plant here'} />
             </Center>
