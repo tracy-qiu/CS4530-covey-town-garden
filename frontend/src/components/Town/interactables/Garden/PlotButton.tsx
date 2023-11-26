@@ -10,8 +10,8 @@ import {
   chakra,
   Center,
 } from '@chakra-ui/react';
-import PlantCare, { PlantCareProps } from './Plant/PlantCare';
-import { Plant, PlantDetailsData, PlotPlant } from '../../../../types/CoveyTownSocket';
+import PlantCare from './Plant/PlantCare';
+import { PlantDetailsData, PlotPlant } from '../../../../types/CoveyTownSocket';
 import { MyGarden } from './MyGarden';
 import { SeedManual } from './Plant/SeedManual';
 import useTownController from '../../../../hooks/useTownController';
