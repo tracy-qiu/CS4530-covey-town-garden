@@ -1,10 +1,21 @@
-import React, { useState } from 'react';
-import { Box, Button, ButtonProps, chakra } from '@chakra-ui/react';
+import React, { useEffect, useState } from 'react';
+import {
+  Box,
+  Button,
+  ButtonProps,
+  Text,
+  Image,
+  Spacer,
+  VStack,
+  chakra,
+  Center,
+} from '@chakra-ui/react';
 import PlantCare from './Plant/PlantCare';
-import { PlotPlant } from '../../../../types/CoveyTownSocket';
+import { PlantDetailsData, PlotPlant } from '../../../../types/CoveyTownSocket';
 import { MyGarden } from './MyGarden';
 import { SeedManual } from './Plant/SeedManual';
 import useTownController from '../../../../hooks/useTownController';
+import { PLANT_DETAILS_DATA } from './garden-data/data';
 
 const StyledPlot = chakra(Button, {
   baseStyle: {
@@ -15,15 +26,16 @@ const StyledPlot = chakra(Button, {
     borderColor: '#EDD4B2',
     borderWidth: '2px',
     whiteSpace: 'normal',
+    bgColor: '#6C3701',
     color: '#FFFEF6',
-    height: '100px',
+    height: '110px',
     width: '100%',
     minWidth: '100px',
     fontSize: '16px',
     _disabled: {
       opacity: '100%',
     },
-    _hover: { backgroundColor: '#C4A484' },
+    _hover: { backgroundColor: '#985510' },
   },
 });
 
@@ -49,8 +61,33 @@ export function PlantPlotButton({
   const handleClick = () => {
     setShow(true);
   };
-
   const handleClose = () => setShow(false);
+
+  const [displayImg, setDisplayImg] = useState('');
+
+  useEffect(() => {
+    if (plant !== undefined) {
+      const plantInfo: PlantDetailsData | undefined =
+        PLANT_DETAILS_DATA.find(info => info.type === plant.species) ?? undefined;
+      if (plantInfo && plant !== undefined) {
+        if (plant.status == 'Dead') {
+          setDisplayImg(
+            'https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/820068/tombstone-clipart-md.png',
+          );
+        } else if (plant.age === 'Seedling') {
+          setDisplayImg(plantInfo.seedImg);
+        } else if (plant.age === 'Sprout') {
+          setDisplayImg(plantInfo.sproutImg);
+        } else if (plant.age === 'Adult') {
+          setDisplayImg(plantInfo.matureImg);
+        }
+      }
+    } else {
+      setDisplayImg(
+        'https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/4056/sand-shovel-clipart-xl.png',
+      );
+    }
+  }, [plant]);
 
   return (
     <Box>
@@ -65,17 +102,29 @@ export function PlantPlotButton({
         />
       )}
       {plant !== undefined ? (
-        <StyledPlot
-          bgImage={
-            'https://www.wikihow.com/images/thumb/a/a2/Grow-Vegetables-in-the-South-%28USA%29-Step-11.jpg/v4-460px-Grow-Vegetables-in-the-South-%28USA%29-Step-11.jpg.webp'
-          }
-          onClick={handleClick}
-          {...rest}>
-          {plant.name}
+        <StyledPlot onClick={handleClick} {...rest}>
+          <VStack maxHeight='95%' maxWidth='95%' shouldWrapChildren={true}>
+            <Text>{plant.name}</Text>
+            <Center>
+              <Image
+                maxHeight='50px'
+                maxWidth='50px'
+                src={displayImg}
+                alt={plant.species + ' age image in plot'}
+              />
+            </Center>
+            <Spacer />
+          </VStack>
         </StyledPlot>
       ) : (
-        <StyledPlot bgColor={'#793D00'} onClick={handleClick} {...rest}>
-          {'PLANT ME'}
+        <StyledPlot onClick={handleClick} {...rest}>
+          <VStack maxHeight='95%' maxWidth='95%' shouldWrapChildren={true}>
+            <Text>{'Plant me!'}</Text>
+            <Center>
+              <Image maxHeight='50px' maxWidth='50px' src={displayImg} alt={'plant here'} />
+            </Center>
+            <Spacer />
+          </VStack>
         </StyledPlot>
       )}
     </Box>

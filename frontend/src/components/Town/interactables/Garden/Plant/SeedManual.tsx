@@ -17,6 +17,7 @@ import {
   Input,
   Spacer,
   HStack,
+  VStack,
 } from '@chakra-ui/react';
 import PlantDetails from './PlantDetails';
 import { GardenButton } from '../GardenButton';
@@ -80,7 +81,9 @@ export function SeedManual({
       <ModalContent bgColor='#FFFEF6'>
         <ModalBody>
           <Container>
-            <ModalHeader>Seed Manual</ModalHeader>
+            <VStack>
+              <ModalHeader>Seed Manual</ModalHeader>
+            </VStack>
             <Accordion allowToggle>
               {PLANT_TYPES_DATA.map(type => {
                 return (
@@ -112,9 +115,8 @@ export function SeedManual({
                             />
                             <Spacer />
                             <GardenButton
-                              label={'Plant Me!'}
-                              color={'#C4A484'}
-                              hoverColor={'#CCC5AD'}
+                              label='Plant Me!'
+                              type='PlantMe'
                               onClick={() => plantSeed(type)}
                             />
                           </HStack>
