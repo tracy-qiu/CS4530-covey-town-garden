@@ -16,6 +16,7 @@ import {
   AccordionIcon,
   Input,
   Spacer,
+  HStack,
 } from '@chakra-ui/react';
 import PlantDetails from './PlantDetails';
 import { GardenButton } from '../GardenButton';
@@ -100,7 +101,7 @@ export function SeedManual({
                           alignItems: 'center',
                         }}>
                         {currUsername === username && (
-                          <>
+                          <HStack>
                             <Input
                               pr='2rem'
                               type={'text'}
@@ -116,7 +117,7 @@ export function SeedManual({
                               hoverColor={'#CCC5AD'}
                               onClick={() => plantSeed(type)}
                             />
-                          </>
+                          </HStack>
                         )}
                       </div>
                     </AccordionPanel>
