@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Badge,
   Box,
   Button,
   ButtonProps,
-  Text,
-  Image,
-  Spacer,
-  VStack,
-  chakra,
   Center,
+  HStack,
+  Spacer,
+  Text,
+  VStack,
+  Image,
+  chakra,
 } from '@chakra-ui/react';
 import PlantCare from './Plant/PlantCare';
 import { PlantDetailsData, PlotPlant } from '../../../../types/CoveyTownSocket';
@@ -28,7 +30,7 @@ const StyledPlot = chakra(Button, {
     whiteSpace: 'normal',
     bgColor: '#6C3701',
     color: '#FFFEF6',
-    height: '110px',
+    minHeight: '120px',
     width: '100%',
     minWidth: '100px',
     fontSize: '16px',
@@ -64,6 +66,7 @@ export function PlantPlotButton({
   const handleClose = () => setShow(false);
 
   const [displayImg, setDisplayImg] = useState('');
+  const [statusBadge, setStatusBadge] = useState(<></>);
 
   useEffect(() => {
     if (plant !== undefined) {
@@ -87,6 +90,49 @@ export function PlantPlotButton({
         'https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/4056/sand-shovel-clipart-xl.png',
       );
     }
+
+    const healthyBadge = (
+      <Badge variant='solid' colorScheme={'green'} margin={'0.3em'}>
+        {'Healthy'}
+      </Badge>
+    );
+
+    const dehydratedBadge = (
+      <Badge variant='solid' colorScheme={'yellow'} margin={'0.3em'}>
+        {'Dehydrated'}
+      </Badge>
+    );
+
+    const aboutToDieBadge = (
+      <Badge variant='solid' colorScheme={'red'} margin={'0.3em'}>
+        {'About to Die'}
+      </Badge>
+    );
+
+    const deadBadge = (
+      <Badge variant='solid' margin={'0.3em'}>
+        {'Dead'}
+      </Badge>
+    );
+
+    if (plant !== undefined) {
+      switch (plant.status) {
+        case 'Healthy':
+          setStatusBadge(healthyBadge);
+          break;
+        case 'Dehydrated':
+          setStatusBadge(dehydratedBadge);
+          break;
+        case 'About to Die':
+          setStatusBadge(aboutToDieBadge);
+          break;
+        case 'Dead':
+          setStatusBadge(deadBadge);
+          break;
+        default:
+          break;
+      }
+    }
   }, [plant]);
 
   return (
@@ -103,16 +149,16 @@ export function PlantPlotButton({
       )}
       {plant !== undefined ? (
         <StyledPlot onClick={handleClick} {...rest}>
-          <VStack maxHeight='95%' maxWidth='95%' shouldWrapChildren={true}>
+          <VStack paddingBottom={2} paddingTop={2}>
+            <Spacer />
             <Text>{plant.name}</Text>
-            <Center>
-              <Image
-                maxHeight='50px'
-                maxWidth='50px'
-                src={displayImg}
-                alt={plant.species + ' age image in plot'}
-              />
-            </Center>
+            <Image
+              maxHeight='50px'
+              maxWidth='50px'
+              src={displayImg}
+              alt={'life cycle image of plant'}
+            />
+            {statusBadge}
             <Spacer />
           </VStack>
         </StyledPlot>
