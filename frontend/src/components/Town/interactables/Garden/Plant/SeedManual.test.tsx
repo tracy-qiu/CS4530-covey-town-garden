@@ -47,6 +47,11 @@ describe('SeedManual', () => {
     };
   });
 
+  beforeEach(() => {
+    // gameAreaController.mockReset();
+    mockToast.mockReset();
+  });
+
   const SeedManualComponent = ({ gardenerUsername }: { gardenerUsername: string }) => {
     const [show, setShow] = useState(true);
 
@@ -87,7 +92,6 @@ describe('SeedManual', () => {
       const plantMeBtn = within(accordionSection).getByText('Plant Me!');
       expect(plantMeBtn).toBeInTheDocument();
 
-      // Invoke the mocked onClick function
       fireEvent.click(plantMeBtn);
 
       await waitFor(() => {
@@ -112,7 +116,6 @@ describe('SeedManual', () => {
       const plantMeBtn = within(accordionSection).getByText('Plant Me!');
       expect(plantMeBtn).toBeInTheDocument();
 
-      // Invoke the mocked onClick function
       fireEvent.click(plantMeBtn);
 
       await waitFor(() => {
@@ -129,7 +132,6 @@ describe('SeedManual', () => {
     render(<SeedManualComponent gardenerUsername='gardenerUsername' />);
     PLANT_TYPES_DATA.forEach(async (type, index) => {
       const accordionSection = screen.getByTestId('seedManualAccordion' + index);
-
       const plantMeBtn = within(accordionSection).queryByText('Plant Me!');
       expect(plantMeBtn).toBeNull();
     });

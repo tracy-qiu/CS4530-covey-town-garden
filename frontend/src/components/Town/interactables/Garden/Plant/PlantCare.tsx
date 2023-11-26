@@ -44,7 +44,9 @@ export default function PlantCare({
           <ModalCloseButton />
           <PlantDetails species={plant.species} age={plant.age} />
           <br />
-          {currUsername === username && <PlantActions plant={plant} />}
+          {currUsername === username && (
+            <PlantActions plant={plant} data-testid={'childPlantActions'} />
+          )}
         </Container>
       </ModalContent>
     </Modal>
