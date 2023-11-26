@@ -98,9 +98,8 @@ export function SeedManual({ isOpen, onClose, username }: SeedManualProps): JSX.
                             />
                             <Spacer />
                             <GardenButton
-                              label={'Plant Me!'}
-                              color={'#C4A484'}
-                              hoverColor={'#CCC5AD'}
+                              label='Plant Me!'
+                              type='PlantMe'
                               onClick={() => plantSeed(type)}
                             />
                           </>

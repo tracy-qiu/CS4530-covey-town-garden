@@ -14,6 +14,8 @@ import PlantCare, { PlantCareProps } from './Plant/PlantCare';
 import { Plant, PlantDetailsData, PlotPlant } from '../../../../types/CoveyTownSocket';
 import { MyGarden } from './MyGarden';
 import { SeedManual } from './Plant/SeedManual';
+import useTownController from '../../../../hooks/useTownController';
+import { PLANT_DETAILS_DATA } from './garden-data/data';
 
 const StyledPlot = chakra(Button, {
   baseStyle: {
@@ -24,7 +26,7 @@ const StyledPlot = chakra(Button, {
     borderColor: '#EDD4B2',
     borderWidth: '2px',
     whiteSpace: 'normal',
-    //bgColor: '#6C3701',
+    bgColor: '#6C3701',
     color: '#FFFEF6',
     height: '110px',
     width: '100%',

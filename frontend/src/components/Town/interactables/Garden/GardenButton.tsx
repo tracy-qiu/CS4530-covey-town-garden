@@ -5,12 +5,9 @@ import { Button } from '@chakra-ui/react';
 // to main garden from my garden
 
 export type GardenButtonProps = {
-  textColor: string;
   label: string;
-  color: string;
-  hoverColor: string;
+  type: ButtonType;
   onClick: any;
-  disabled?: boolean;
 };
 
 export type ButtonType = 'MyGarden' | 'PlantMe' | 'Water' | 'Remove';
@@ -75,21 +72,13 @@ function buttonHoverColor(type: ButtonType): string {
  * @returns {JSX.Element} GardenButton
  */
 
-export function GardenButton({
-  textColor,
-  label,
-  color,
-  hoverColor,
-  onClick,
-  disabled,
-}: GardenButtonProps): JSX.Element {
+export function GardenButton({ label, type, onClick }: GardenButtonProps): JSX.Element {
   return (
     <Button
-      color={textColor}
-      bgColor={color}
-      _hover={{ backgroundColor: hoverColor }}
-      onClick={onClick}
-      disabled={disabled}>
+      color={buttonTextColor(type)}
+      bgColor={buttonBackgroundColor(type)}
+      _hover={{ backgroundColor: buttonHoverColor(type) }}
+      onClick={onClick}>
       {label}
     </Button>
   );

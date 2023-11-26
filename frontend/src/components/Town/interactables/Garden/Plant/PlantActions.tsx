@@ -119,6 +119,7 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
         </Tag>
       </Center>
       <br />
+
       <Grid templateColumns='repeat(2, 1fr)' gap={1.5} marginLeft={'0.5em'} marginRight={'0.5em'}>
         <GridItem w='100%'>
           <b>Condition: </b>
@@ -151,9 +152,9 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
       </Box>
       <HStack spacing={20} justifyContent='center' alignItems='center'>
         {showWater && (
-          <GardenButton label={'Water me!'} type='Water' fn={() => waterPlant(plant.pid)} />
+          <GardenButton label={'Water me!'} type='Water' onClick={() => waterPlant()} />
         )}
-        <GardenButton label={'Remove Plant'} type='Remove' fn={() => removePlant(plant.pid)} />
+        <GardenButton label={'Remove Plant'} type='Remove' onClick={() => removePlant()} />
       </HStack>
     </Container>
   );
