@@ -5,7 +5,6 @@ import {
   Button,
   ButtonProps,
   Center,
-  HStack,
   Spacer,
   Text,
   VStack,
@@ -49,7 +48,9 @@ interface PlantPlotButtonProps extends ButtonProps {
 
 /**
  * Button representing a plant of the user's garden. Clicking will access the plant's details and actions.
- * @param {username, plantNames, plotPlant} PlantPlotButtonProps username of the user, names of their plants, and the plant in this plot
+ * It will display the plant's name, an image corresponding to the plant's lifecycle stage, and its status.
+ * If there is no plant, there will be a "Plant me" prompt and shovel image.
+ * @param {username, plantNames, plotPlant} PlantPlotButtonProps username of the user and their list of plants
  * @returns { JSX.Element } plot button
  */
 export function PlantPlotButton({
@@ -149,7 +150,7 @@ export function PlantPlotButton({
       )}
       {plant !== undefined ? (
         <StyledPlot onClick={handleClick} {...rest}>
-          <VStack paddingBottom={2} paddingTop={2}>
+          <VStack paddingBottom={4} paddingTop={4}>
             <Spacer />
             <Text>{plant.name}</Text>
             <Image
