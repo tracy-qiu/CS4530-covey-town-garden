@@ -97,33 +97,25 @@ export function SeedManual({
                     <AccordionPanel>
                       <PlantDetails species={type} age={undefined} />
                       <br />
-                      <div
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}>
-                        {currUsername === username && (
-                          <HStack>
-                            <Input
-                              data-testid={'plantMeInput' + index}
-                              pr='2rem'
-                              type={'text'}
-                              placeholder='Enter plant name'
-                              onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                                setNewPlantName(event.target.value);
-                              }}
-                            />
-                            <Spacer />
-                            <GardenButton
-                              data-testid={'plantMeBtn' + index}
-                              label={'Plant Me!'}
-                              type='PlantMe'
-                              onClick={() => plantSeed(type)}
-                            />
-                          </HStack>
-                        )}
-                      </div>
+                      {currUsername === username && (
+                        <HStack>
+                          <Input
+                            data-testid={'plantMeInput' + index}
+                            type={'text'}
+                            placeholder='Enter plant name'
+                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                              setNewPlantName(event.target.value);
+                            }}
+                          />
+                          <Spacer />
+                          <GardenButton
+                            data-testid={'plantMeBtn' + index}
+                            label={'Plant Me!'}
+                            type='PlantMe'
+                            onClick={() => plantSeed(type)}
+                          />
+                        </HStack>
+                      )}
                     </AccordionPanel>
                   </AccordionItem>
                 );

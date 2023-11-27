@@ -71,8 +71,8 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
       toastMsg('Plant is now Healthy', 'info');
     }
     if (plant.status === 'About to Die') {
-      // set plant status to dehydrated
-      toastMsg('Plant is now Dehydrated', 'info');
+      // set plant status to healthy
+      toastMsg('Plant is now Healthy', 'info');
     }
   };
 
