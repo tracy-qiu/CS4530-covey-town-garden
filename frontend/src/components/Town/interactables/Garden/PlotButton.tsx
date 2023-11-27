@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Badge,
   Box,
   Button,
   ButtonProps,
-  Center,
   Spacer,
   Text,
   VStack,
@@ -148,42 +146,15 @@ export function PlantPlotButton({
           plantNames={plantNames}
         />
       )}
-<<<<<<< HEAD
-      {plant !== undefined ? (
-        <StyledPlot onClick={handleClick} {...rest}>
-          <VStack maxHeight='95%' maxWidth='95%' shouldWrapChildren={true}>
-            <Text>{plant.name}</Text>
-            <Center>
-              <Image
-                maxHeight='50px'
-                maxWidth='50px'
-                src={displayImg}
-                alt={plant.species + ' age image in plot'}
-              />
-            </Center>
-            <Spacer />
-          </VStack>
-        </StyledPlot>
-      ) : (
-        <StyledPlot onClick={handleClick} {...rest}>
-          <VStack maxHeight='95%' maxWidth='95%' shouldWrapChildren={true}>
-            {currUsername === username && <Text>{'Plant me!'}</Text>}
-            <Center>
-              <Image maxHeight='50px' maxWidth='50px' src={displayImg} alt={'plant here'} />
-            </Center>
-            <Spacer />
-          </VStack>
-        </StyledPlot>
-      )}
-    </Box>
-=======
       <VStack width='full' height='95%' paddingTop={2} paddingBottom={4} spacing='-3'>
         <HStack width='full' align='self-end'>
           <Spacer />
           {statusIcon}
         </HStack>
         <VStack spacing={4} maxWidth='80%'>
-          <Text flexWrap={'wrap'}>{plant !== undefined ? plant.name : 'Plant me!'}</Text>
+          <Text flexWrap={'wrap'}>
+            {plant !== undefined ? plant.name : currUsername === username && 'Plant me!'}
+          </Text>
           <Image
             maxHeight='50px'
             maxWidth='50px'
@@ -193,7 +164,6 @@ export function PlantPlotButton({
         </VStack>
       </VStack>
     </StyledPlot>
->>>>>>> main
   );
 }
 
