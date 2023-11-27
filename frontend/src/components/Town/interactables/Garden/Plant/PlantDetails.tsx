@@ -64,17 +64,26 @@ export default function PlantDetails({ species, age }: PlantDetailsProp): JSX.El
         </Heading>
         <p>{instructions}</p>
         <br />
+        <p>
+          Watering a <span style={{ color: '#2F855A', fontWeight: 'bold' }}>Healthy</span>{' '}
+          {species.toLowerCase()} will progress it to the next life cycle stage. Watering a{' '}
+          {species.toLowerCase()} that is{' '}
+          <span style={{ color: '#B7791F', fontWeight: 'bold' }}>Dehydrated</span> or{' '}
+          <span style={{ color: '#E53E3E', fontWeight: 'bold' }}>About to Die</span> will make it{' '}
+          <span style={{ color: '#2F855A', fontWeight: 'bold' }}>Healthy</span> again.
+        </p>
+        <br />
         <Heading as='h5' size='sm'>
           Life Cycle
         </Heading>
-        <Grid templateColumns='1fr 1fr 1fr' gap={1}>
+        <Grid templateColumns='1fr 1fr 1fr' gap={1} marginTop={'0.6em'}>
           {lifeCycleImgs.map((image, index) => (
             <GridItem key={image} w='100%' h='20' display='flex' justifyContent={'center'}>
               <Image src={image} alt={species + ' image' + index} />
             </GridItem>
           ))}
         </Grid>
-        <Grid templateColumns='1fr 1fr 1fr' gap={1}>
+        <Grid templateColumns='1fr 1fr 1fr' gap={1} marginTop={'1em'}>
           {PLANT_AGES_DATA.map(plantAge => (
             <GridItem key={plantAge} w='100%' display='flex' justifyContent={'center'}>
               <Badge variant={age === plantAge ? 'solid' : 'outline'} colorScheme='teal'>

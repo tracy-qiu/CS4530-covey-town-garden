@@ -176,7 +176,7 @@ export function GardenPlotButton({
         }
         onClick={handleClick}
         {...rest}>
-        {currUsername === username ? username + ' (Me)' : username}
+        {currUsername === username ? username + ' (You)' : username}
       </StyledPlot>
     </Box>
   );
