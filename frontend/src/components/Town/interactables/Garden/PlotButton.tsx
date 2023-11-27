@@ -151,7 +151,7 @@ export function PlantPlotButton({
           <Spacer />
           {statusIcon}
         </HStack>
-        <VStack spacing={4}>
+        <VStack spacing={4} maxWidth='80%'>
           <Text flexWrap={'wrap'}>{plant !== undefined ? plant.name : 'Plant me!'}</Text>
           <Image
             maxHeight='50px'
