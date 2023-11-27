@@ -153,7 +153,11 @@ export function PlantPlotButton({
         </HStack>
         <VStack spacing={4} maxWidth='80%'>
           <Text flexWrap={'wrap'}>
-            {plant !== undefined ? plant.name : currUsername === username && 'Plant me!'}
+            {plant !== undefined
+              ? plant.name
+              : currUsername === username
+              ? 'Plant Me!'
+              : 'Empty Plot!'}
           </Text>
           <Image
             maxHeight='50px'
