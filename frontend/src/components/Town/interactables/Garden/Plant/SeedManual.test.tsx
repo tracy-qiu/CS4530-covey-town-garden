@@ -60,7 +60,12 @@ describe('SeedManual', () => {
     return (
       <ChakraProvider>
         <TownControllerContext.Provider value={townController}>
-          <SeedManual isOpen={show} onClose={handleClose} username={gardenerUsername} />
+          <SeedManual
+            isOpen={show}
+            onClose={handleClose}
+            username={gardenerUsername}
+            plantNames={['existingPlant1', 'existingPlant2']}
+          />
         </TownControllerContext.Provider>
       </ChakraProvider>
     );
