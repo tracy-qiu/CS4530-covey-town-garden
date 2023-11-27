@@ -67,7 +67,8 @@ function buttonHoverColor(type: ButtonType): string {
 }
 
 /**
- * Reusable button component that will take in a function and color.
+ * Reusable button component that will take in a label, type, and function. The type
+ * of button will decide the styling of the text color, background color, and hover color.
  * @param {label, color, hoverColor, onClick, disabled} GardenButtonProps button properties
  * @returns {JSX.Element} GardenButton
  */

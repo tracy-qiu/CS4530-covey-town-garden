@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Badge,
   Box,
   Button,
   ButtonProps,
-  Text,
-  Image,
-  Spacer,
-  VStack,
-  chakra,
   Center,
+  Spacer,
+  Text,
+  VStack,
+  Image,
+  chakra,
+  HStack,
+  Circle,
 } from '@chakra-ui/react';
 import PlantCare from './Plant/PlantCare';
 import { PlantDetailsData, PlotPlant } from '../../../../types/CoveyTownSocket';
@@ -28,7 +31,8 @@ const StyledPlot = chakra(Button, {
     whiteSpace: 'normal',
     bgColor: '#6C3701',
     color: '#FFFEF6',
-    height: '110px',
+    minHeight: '120px',
+    height: '100%',
     width: '100%',
     minWidth: '100px',
     fontSize: '16px',
@@ -47,7 +51,9 @@ interface PlantPlotButtonProps extends ButtonProps {
 
 /**
  * Button representing a plant of the user's garden. Clicking will access the plant's details and actions.
- * @param {username, plantNames, plotPlant} PlantPlotButtonProps username of the user, names of their plants, and the plant in this plot
+ * It will display the plant's name, an image corresponding to the plant's lifecycle stage, and its status.
+ * If there is no plant, there will be a "Plant me" prompt and shovel image.
+ * @param {username, plantNames, plotPlant} PlantPlotButtonProps username of the user and their list of plants
  * @returns { JSX.Element } plot button
  */
 export function PlantPlotButton({
@@ -64,6 +70,7 @@ export function PlantPlotButton({
   const handleClose = () => setShow(false);
 
   const [displayImg, setDisplayImg] = useState('');
+  const [statusIcon, setStatusIcon] = useState(<></>);
 
   const currUsername = useTownController().ourPlayer.userName;
 
@@ -89,10 +96,48 @@ export function PlantPlotButton({
         'https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/4056/sand-shovel-clipart-xl.png',
       );
     }
+
+    const dehydratedColor = '#ECC94B';
+    const aboutToDieColor = '#E53E3E';
+
+    const healthyIcon = <Circle size='20px' bg='green' borderColor='white' borderWidth={1} />;
+
+    const dehydratedIcon = (
+      <Circle size='20px' bg={dehydratedColor} borderColor='white' borderWidth={1} />
+    );
+
+    const aboutToDieIcon = (
+      <Circle size='20px' bg={aboutToDieColor} borderColor='white' borderWidth={1} />
+    );
+
+    const deadIcon = <Circle size='20px' bg='gray' borderColor='white' borderWidth={1} />;
+
+    const emptyIcon = <Circle size='20px' />;
+
+    if (plant !== undefined) {
+      switch (plant.status) {
+        case 'Healthy':
+          setStatusIcon(healthyIcon);
+          break;
+        case 'Dehydrated':
+          setStatusIcon(dehydratedIcon);
+          break;
+        case 'About to Die':
+          setStatusIcon(aboutToDieIcon);
+          break;
+        case 'Dead':
+          setStatusIcon(deadIcon);
+          break;
+        default:
+          break;
+      }
+    } else {
+      setStatusIcon(emptyIcon);
+    }
   }, [plant]);
 
   return (
-    <Box>
+    <StyledPlot onClick={handleClick} {...rest}>
       {show && plant !== undefined ? (
         PlantCare(show, handleClose, { username: username, plant: plant })
       ) : (
@@ -103,6 +148,7 @@ export function PlantPlotButton({
           plantNames={plantNames}
         />
       )}
+<<<<<<< HEAD
       {plant !== undefined ? (
         <StyledPlot onClick={handleClick} {...rest}>
           <VStack maxHeight='95%' maxWidth='95%' shouldWrapChildren={true}>
@@ -130,6 +176,24 @@ export function PlantPlotButton({
         </StyledPlot>
       )}
     </Box>
+=======
+      <VStack width='full' height='95%' paddingTop={2} paddingBottom={4} spacing='-3'>
+        <HStack width='full' align='self-end'>
+          <Spacer />
+          {statusIcon}
+        </HStack>
+        <VStack spacing={4} maxWidth='80%'>
+          <Text flexWrap={'wrap'}>{plant !== undefined ? plant.name : 'Plant me!'}</Text>
+          <Image
+            maxHeight='50px'
+            maxWidth='50px'
+            src={displayImg}
+            alt={'life cycle image of plant or shovel if no plant'}
+          />
+        </VStack>
+      </VStack>
+    </StyledPlot>
+>>>>>>> main
   );
 }
 
