@@ -1,6 +1,12 @@
 import { Controller, Get, Path, Route, Post, Body, Delete } from 'tsoa';
 import mongoose from 'mongoose';
-import { PlantAge, PlantId, PlantType, PlotPlant } from '../../types/CoveyTownSocket';
+import {
+  PlantAge,
+  PlantHealthStatus,
+  PlantId,
+  PlantType,
+  PlotPlant,
+} from '../../types/CoveyTownSocket';
 import * as plantDao from '../../database/dao/plant-dao';
 import * as gardenDao from '../../database/dao/garden-dao';
 import * as gardenerDao from '../../database/dao/gardener-dao';
@@ -49,6 +55,24 @@ export class GardenController extends Controller {
       return garden;
     } catch (error: unknown) {
       return { error: `Error getting garden by id: ${error}` };
+    }
+  }
+
+  /**
+   * Retrieves a given garden by town ID
+   * @returns garden
+   */
+  @Get('{townId}/garden')
+  public async getGardenByTownId(
+    @Path()
+    townId: string,
+  ) {
+    connectToGardenDB();
+    try {
+      const garden = await gardenDao.findGardenByTownId(townId);
+      return garden;
+    } catch (error: unknown) {
+      return { error: `Error finding garden by town id: ${error}` };
     }
   }
 
@@ -347,6 +371,7 @@ export class GardenController extends Controller {
         gardenPlotId: gardenPlotIdObject,
         name: requestBody.name,
         age: 'seedling',
+        status: 'healthy',
         lastWatered: new Date(),
         species: requestBody.species.toLowerCase() as PlantType,
       });
@@ -377,9 +402,9 @@ export class GardenController extends Controller {
   }
 
   /**
-   * Update a garden
-   * @param requestBody
-   * @returns the ID of the newly created garden
+   * Update a plant last watered
+   * @param requestBody with plantId
+   * @returns response
    */
   @Post('/update/plantLastWatered')
   public async updatePlantLastWatered(@Body() requestBody: { plantId: string }) {
@@ -394,18 +419,16 @@ export class GardenController extends Controller {
   }
 
   /**
-   * Update a garden
-   * @param requestBody
-   * @returns the ID of the newly created garden
+   * Update a plant age
+   * @param requestBody with plantId and new plantAge
+   * @returns response
    */
   @Post('/update/plantAge')
   public async updatePlantAge(@Body() requestBody: { plantId: string; plantAge: string }) {
     if (!['seedling', 'sprout', 'adult'].includes(requestBody.plantAge.toLowerCase())) {
       throw new Error('Invalid value for species.');
     }
-    const plantIdObject = mongoose.Types.ObjectId.createFromHexString(
-      requestBody.plantId.toLowerCase(),
-    );
+    const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
     connectToGardenDB();
     try {
       const response = await plantDao.updatePlantAge(
@@ -415,6 +438,33 @@ export class GardenController extends Controller {
       return response;
     } catch (error: unknown) {
       return { error: `Error updating plant age: ${error}` };
+    }
+  }
+
+  /**
+   * Update a plant status
+   * @param requestBody with plantId and new plantStatus
+   * @returns response
+   */
+  @Post('/update/plantStatus')
+  public async updatePlantStatus(@Body() requestBody: { plantId: string; plantStatus: string }) {
+    if (
+      !['healthy', 'dehydrated', 'about to die', 'dead'].includes(
+        requestBody.plantStatus.toLowerCase(),
+      )
+    ) {
+      throw new Error('Invalid value for plant health status.');
+    }
+    const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
+    connectToGardenDB();
+    try {
+      const response = await plantDao.updatePlantStatus(
+        plantIdObject,
+        requestBody.plantStatus.toLowerCase() as PlantHealthStatus,
+      );
+      return response;
+    } catch (error: unknown) {
+      return { error: `Error updating plant status: ${error}` };
     }
   }
 }

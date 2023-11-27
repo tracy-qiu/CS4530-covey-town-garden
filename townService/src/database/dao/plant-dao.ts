@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { PlantDB, plantModel } from '../schema';
-import { PlantAge } from '../../types/CoveyTownSocket';
+import { PlantAge, PlantHealthStatus } from '../../types/CoveyTownSocket';
 
 export const findPlants = (plotId: mongoose.Types.ObjectId) =>
   plantModel.find({ gardenPlotId: plotId });
@@ -11,3 +11,5 @@ export const updatePlantAge = (pid: mongoose.Types.ObjectId, plantAge: PlantAge)
   plantModel.updateOne({ _id: pid }, { $set: { age: plantAge } });
 export const updatePlantLastWatered = (pid: mongoose.Types.ObjectId) =>
   plantModel.updateOne({ _id: pid }, { $set: { lastWatered: new Date() } });
+export const updatePlantStatus = (pid: mongoose.Types.ObjectId, plantStatus: PlantHealthStatus) =>
+  plantModel.updateOne({ _id: pid }, { $set: { status: plantStatus } });

@@ -286,22 +286,4 @@ export class TownsController extends Controller {
       return { error: `Error creating new garden: ${error}` };
     }
   }
-
-  /**
-   * Retrieves a given garden by town ID
-   * @returns garden
-   */
-  @Get('{townId}/garden')
-  public async getGardenByTownId(
-    @Path()
-    townId: string,
-  ) {
-    connectToGardenDB();
-    try {
-      const garden = await gardenDao.findGardenByTownId(townId);
-      return garden;
-    } catch (error: unknown) {
-      return { error: `Error finding garden by town id: ${error}` };
-    }
-  }
 }

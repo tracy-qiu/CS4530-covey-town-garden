@@ -1,5 +1,5 @@
 import mongoose, { Document, Types, InferSchemaType } from 'mongoose';
-import { PlantAge, PlantType, PlotPlant } from '../types/CoveyTownSocket';
+import { PlantAge, PlantHealthStatus, PlantType, PlotPlant } from '../types/CoveyTownSocket';
 
 // Towns
 const townSchema = new mongoose.Schema(
@@ -65,6 +65,7 @@ export interface PlantDocument extends Document {
   gardenPlotId: Types.ObjectId;
   name: string;
   age: PlantAge;
+  status: PlantHealthStatus;
   lastWatered: Date;
   species: PlantType;
 }
@@ -75,7 +76,12 @@ const plantSchema = new mongoose.Schema<PlantDocument>(
     gardenId: { type: mongoose.Schema.Types.ObjectId, ref: 'gardenSchema', required: true },
     gardenPlotId: { type: mongoose.Schema.Types.ObjectId, ref: 'gardenPlotSchema', required: true },
     name: { type: String, required: true },
-    age: { type: String, enum: ['seedling', 'sprout', 'adult'], required: true }, // should be of type plant age (fix after merge)
+    age: { type: String, enum: ['seedling', 'sprout', 'adult'], required: true },
+    status: {
+      type: String,
+      enum: ['healthy', 'dehydrated', 'about to die', 'dead'],
+      required: true,
+    },
     lastWatered: { type: Date, required: true },
     species: { type: String, enum: ['carrot', 'rose', 'blueberry'], required: true },
   },
@@ -87,6 +93,7 @@ export type PlantDB = {
   gardenPlotId: Types.ObjectId;
   name: string;
   age: PlantAge;
+  status: PlantHealthStatus;
   lastWatered: Date;
   species: PlantType;
 };
