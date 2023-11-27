@@ -4,7 +4,8 @@ import { PlantAge, PlantType, PlotPlant } from '../types/CoveyTownSocket';
 // Towns
 const townSchema = new mongoose.Schema(
   {
-    admin: { type: String, required: true }, // would reference gardeners table? or new admin table? // depends on user definitions
+    townId: { type: String, required: true },
+    adminId: { type: mongoose.Schema.Types.ObjectId, required: true }, // would reference gardeners table? or new admin table? // depends on user definitions
   },
   { collection: 'towns' },
 );
@@ -16,7 +17,7 @@ export const townModel = mongoose.model('TownModel', townSchema);
 // Gardens
 const gardenSchema = new mongoose.Schema(
   {
-    townId: { type: String, required: true },
+    townId: { type: String, ref: 'townSchema', required: true },
     gardenPlots: [{ type: String }],
   },
   { collection: 'gardens' },
