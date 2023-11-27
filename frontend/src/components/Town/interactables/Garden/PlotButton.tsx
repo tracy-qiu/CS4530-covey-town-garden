@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Badge,
   Box,
   Button,
   ButtonProps,
-  Center,
   Spacer,
   Text,
   VStack,
@@ -71,6 +69,8 @@ export function PlantPlotButton({
 
   const [displayImg, setDisplayImg] = useState('');
   const [statusIcon, setStatusIcon] = useState(<></>);
+
+  const currUsername = useTownController().ourPlayer.userName;
 
   useEffect(() => {
     if (plant !== undefined) {
@@ -152,7 +152,9 @@ export function PlantPlotButton({
           {statusIcon}
         </HStack>
         <VStack spacing={4} maxWidth='80%'>
-          <Text flexWrap={'wrap'}>{plant !== undefined ? plant.name : 'Plant me!'}</Text>
+          <Text flexWrap={'wrap'}>
+            {plant !== undefined ? plant.name : currUsername === username && 'Plant me!'}
+          </Text>
           <Image
             maxHeight='50px'
             maxWidth='50px'
@@ -208,7 +210,7 @@ export function GardenPlotButton({
         }
         onClick={handleClick}
         {...rest}>
-        {currUsername === username ? username + ' (Me)' : username}
+        {currUsername === username ? username + ' (You)' : username}
       </StyledPlot>
     </Box>
   );

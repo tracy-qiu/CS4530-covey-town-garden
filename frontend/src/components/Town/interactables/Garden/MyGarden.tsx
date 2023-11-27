@@ -17,6 +17,7 @@ import {
   AccordionIcon,
   Badge,
   Tag,
+  Heading,
 } from '@chakra-ui/react';
 import { MyGardenPlots } from './MyGardenPlots';
 import useTownController from '../../../../hooks/useTownController';
@@ -62,21 +63,32 @@ export function MyGarden(
                   </Box>
                 </AccordionButton>
                 <AccordionPanel>
-                  <b>Health Status</b>
+                  <b>Plant Health Status</b>
                   <br />
-                  <Badge variant='solid' colorScheme={'green'} margin={'0.3em'}>
-                    {'Healthy'}
-                  </Badge>
-                  <Badge variant='solid' colorScheme={'yellow'} margin={'0.3em'}>
-                    {'Dehydrated'}
-                  </Badge>
-                  <Badge variant='solid' colorScheme={'red'} margin={'0.3em'}>
-                    {'About to Die'}
-                  </Badge>
-                  <Badge variant='solid' margin={'0.3em'}>
-                    {'Dead'}
-                  </Badge>
-                  <br />
+                  <p>
+                    <Badge variant='solid' colorScheme={'green'} marginRight={'0.5em'}>
+                      {'Healthy'}
+                    </Badge>
+                    Watered within 24 hours
+                  </p>
+                  <p>
+                    <Badge variant='solid' colorScheme={'yellow'} marginRight={'0.5em'}>
+                      {'Dehydrated'}
+                    </Badge>
+                    Not watered for 1 day
+                  </p>
+                  <p>
+                    <Badge variant='solid' colorScheme={'red'} marginRight={'0.5em'}>
+                      {'About to Die'}
+                    </Badge>
+                    Not watered for 2 days
+                  </p>
+                  <p>
+                    <Badge variant='solid' marginRight={'0.5em'}>
+                      {'Dead'}
+                    </Badge>
+                    Not watered for 3 days
+                  </p>
                 </AccordionPanel>
               </AccordionItem>
             </Accordion>
