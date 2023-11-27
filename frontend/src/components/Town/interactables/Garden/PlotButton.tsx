@@ -137,7 +137,7 @@ export function PlantPlotButton({
   return (
     <StyledPlot onClick={handleClick} {...rest}>
       {show && plant !== undefined ? (
-        PlantCare(show, handleClose, { username: username, plant: plant })
+        PlantCare({ isOpen: show, onClose: handleClose, username: username, plant: plant })
       ) : (
         <SeedManual
           isOpen={show}

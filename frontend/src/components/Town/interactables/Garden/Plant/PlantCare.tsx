@@ -14,6 +14,8 @@ import { Plant } from '../../../../../types/CoveyTownSocket';
 import useTownController from '../../../../../hooks/useTownController';
 
 export type PlantCareProps = {
+  isOpen: boolean;
+  onClose: () => void;
   username: string;
   plant: Plant;
 };
@@ -25,11 +27,12 @@ export type PlantCareProps = {
  * @param { username, plant } PlantCareProps username of the owner and plant
  * @returns {JSX.Element} component
  */
-export default function PlantCare(
-  isOpen: boolean,
-  onClose: () => void,
-  { username, plant }: PlantCareProps,
-): JSX.Element {
+export default function PlantCare({
+  isOpen,
+  onClose,
+  username,
+  plant,
+}: PlantCareProps): JSX.Element {
   const currUsername = useTownController().ourPlayer.userName;
   return (
     <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false} size='xl'>
@@ -44,7 +47,9 @@ export default function PlantCare(
           <ModalCloseButton />
           <PlantDetails species={plant.species} age={plant.age} />
           <br />
-          {currUsername === username && <PlantActions plant={plant} />}
+          {currUsername === username && (
+            <PlantActions plant={plant} data-testid={'childPlantActions'} />
+          )}
         </Container>
       </ModalContent>
     </Modal>

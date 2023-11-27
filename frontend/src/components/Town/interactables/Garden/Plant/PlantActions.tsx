@@ -193,7 +193,7 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
           </Box>
           <HStack spacing={20} justifyContent='center' alignItems='center'>
             {showWater && (
-              <GardenButton label={'Water me!'} type='Water' onClick={() => waterPlant()} />
+              <GardenButton label={'Water Me!'} type='Water' onClick={() => waterPlant()} />
             )}
             <GardenButton label={'Remove Plant'} type='Remove' onClick={() => removePlant()} />
           </HStack>

@@ -85,9 +85,9 @@ export function SeedManual({
               <ModalHeader>Seed Manual</ModalHeader>
             </VStack>
             <Accordion allowToggle>
-              {PLANT_TYPES_DATA.map(type => {
+              {PLANT_TYPES_DATA.map((type, index) => {
                 return (
-                  <AccordionItem key={type}>
+                  <AccordionItem key={type} data-testid={'seedManualAccordion' + index}>
                     <AccordionButton>
                       <Box as='span' flex='1' textAlign='left'>
                         <b>{type}</b>
@@ -106,6 +106,7 @@ export function SeedManual({
                         {currUsername === username && (
                           <HStack>
                             <Input
+                              data-testid={'plantMeInput' + index}
                               pr='2rem'
                               type={'text'}
                               placeholder='Enter plant name'
@@ -115,7 +116,8 @@ export function SeedManual({
                             />
                             <Spacer />
                             <GardenButton
-                              label='Plant Me!'
+                              data-testid={'plantMeBtn' + index}
+                              label={'Plant Me!'}
                               type='PlantMe'
                               onClick={() => plantSeed(type)}
                             />
