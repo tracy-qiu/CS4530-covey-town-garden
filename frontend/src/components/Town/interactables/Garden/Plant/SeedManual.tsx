@@ -16,6 +16,8 @@ import {
   AccordionIcon,
   Input,
   Spacer,
+  HStack,
+  VStack,
 } from '@chakra-ui/react';
 import PlantDetails from './PlantDetails';
 import { GardenButton } from '../GardenButton';
@@ -27,35 +29,48 @@ type SeedManualProps = {
   isOpen: boolean;
   onClose: () => void;
   username: string;
+  plantNames: (string | undefined)[];
 };
 
 /**
  * Displays manual of the 3 types of seeds to plant and their information
  * Will only allow owner of garden to plant seeds
- * @param { isOpen, onClose, username } SeedManualProps opening and closing modal mechanisms, and username of the gardener
+ * @param { isOpen, onClose, username } SeedManualProps opening and closing modal mechanisms, username of the gardener, and existing names of plant in garden
  * @returns {JSX.Element} component
  */
-export function SeedManual({ isOpen, onClose, username }: SeedManualProps): JSX.Element {
+export function SeedManual({
+  isOpen,
+  onClose,
+  username,
+  plantNames,
+}: SeedManualProps): JSX.Element {
   const toast = useToast();
   const currUsername = useTownController().ourPlayer.userName;
   const [newPlantName, setNewPlantName] = useState('');
 
+  const toastMsg = (
+    title: string,
+    status: 'info' | 'warning' | 'success' | 'error' | undefined,
+  ) => {
+    toast({
+      title,
+      status,
+      duration: 4000,
+      isClosable: true,
+    });
+  };
+
   const plantSeed = (plantType: PlantType) => {
     if (newPlantName === '') {
-      toast({
-        title: 'Plant must be given a name',
-        status: 'error',
-        duration: 4000,
-        isClosable: true,
-      });
+      toastMsg('Plant must be given a name', 'error');
+    } else if (plantNames.length > 0 && plantNames.includes(newPlantName)) {
+      toastMsg(
+        'Plant must be given a unique name in garden. ' + newPlantName + ' already exists!',
+        'error',
+      );
     } else {
       // TBD: add plant to list of plots
-      toast({
-        title: 'Planting ' + newPlantName + ' (' + plantType.toString() + ')',
-        status: 'success',
-        duration: 4000,
-        isClosable: true,
-      });
+      toastMsg('Planting ' + newPlantName + ' (' + plantType.toString() + ')', 'success');
     }
   };
 
@@ -66,7 +81,9 @@ export function SeedManual({ isOpen, onClose, username }: SeedManualProps): JSX.
       <ModalContent bgColor='#FFFEF6'>
         <ModalBody>
           <Container>
-            <ModalHeader>Seed Manual</ModalHeader>
+            <VStack>
+              <ModalHeader>Seed Manual</ModalHeader>
+            </VStack>
             <Accordion allowToggle>
               {PLANT_TYPES_DATA.map((type, index) => {
                 return (
@@ -87,7 +104,7 @@ export function SeedManual({ isOpen, onClose, username }: SeedManualProps): JSX.
                           alignItems: 'center',
                         }}>
                         {currUsername === username && (
-                          <>
+                          <HStack>
                             <Input
                               data-testid={'plantMeInput' + index}
                               pr='2rem'
@@ -101,11 +118,10 @@ export function SeedManual({ isOpen, onClose, username }: SeedManualProps): JSX.
                             <GardenButton
                               data-testid={'plantMeBtn' + index}
                               label={'Plant Me!'}
-                              color={'#C4A484'}
-                              hoverColor={'#CCC5AD'}
+                              type='PlantMe'
                               onClick={() => plantSeed(type)}
                             />
-                          </>
+                          </HStack>
                         )}
                       </div>
                     </AccordionPanel>

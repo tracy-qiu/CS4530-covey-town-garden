@@ -15,6 +15,9 @@ export type MyGardenPlotsProps = {
  */
 export function MyGardenPlots({ username, plants }: MyGardenPlotsProps): JSX.Element {
   //useEffect -> tracks garden controller
+  const plantNames: (string | undefined)[] = plants
+    .filter(plant => plant.plant !== undefined)
+    .map(plant => plant.plant?.name);
 
   return (
     <Container>
@@ -24,6 +27,7 @@ export function MyGardenPlots({ username, plants }: MyGardenPlotsProps): JSX.Ele
             <PlantPlotButton
               key={plant.plantId}
               username={username}
+              plantNames={plantNames}
               plotPlant={{
                 plantId: plant.plantId,
                 plant: plant.plant,

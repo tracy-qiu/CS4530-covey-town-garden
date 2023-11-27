@@ -619,6 +619,16 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
         });
         this._userID = initialData.userID;
         this._ourPlayer = this.players.find(eachPlayer => eachPlayer.id == this.userID);
+
+        // ensures that all usernames are unique in a town
+        // won't allow players with duplicate usernames to join town
+        const usersInGame = this.players.map(p => p.userName);
+
+        if (new Set(usersInGame).size !== usersInGame.length) {
+          reject(new Error('Duplicate user in game. Try again with new username!'));
+          this.disconnect();
+        }
+
         this.emit('connect', initialData.providerVideoToken);
         resolve();
       });

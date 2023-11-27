@@ -14,6 +14,7 @@ import {
   Tag,
   TagLabel,
   Avatar,
+  HStack,
   VStack,
   ModalBody,
   Container,
@@ -62,15 +63,14 @@ export function GardenArea({ interactableID }: { interactableID: InteractableID 
     const definedPlants = PLANTS.map(plant => plant.plant).filter(plant => plant !== undefined);
     definedPlants.forEach(plant => {
       if (plant?.status === 'Dehydrated') {
-        toastMsg(
-          plant.name + ' (' + plant.species + ') is dehydrated! Please add water!',
-          'warning',
-          9000,
-        );
+        toastMsg('Please water ' + plant.name + ' (' + plant.species + ')!', 'warning', 9000);
       }
       if (plant?.status === 'About to Die') {
         toastMsg(
-          plant.name + ' (' + plant.species + ') is about to die! Please add water!',
+          plant.name +
+            ' (' +
+            plant.species +
+            ') will die without water soon. Please water before it is too late!',
           'error',
           9000,
         );
@@ -106,10 +106,11 @@ export function GardenArea({ interactableID }: { interactableID: InteractableID 
               size='xs'
               ml={-1}
               mr={2}
-              src='https://dinopixel.com/preload/0223/-profile-pic-1676795544.png'
+              src='https://classroomclipart.com/image/static7/preview2/potted-succulent-plant-with-a-pink-flower-57125.jpg'
             />
             <TagLabel>Welcome, {currUsername}!</TagLabel>
           </Tag>
+          <br />
         </ModalBody>
       </VStack>
       <Accordion allowToggle>
@@ -121,25 +122,23 @@ export function GardenArea({ interactableID }: { interactableID: InteractableID 
             </Box>
           </AccordionButton>
           <AccordionPanel>
-            <VStack>
-              <p>
-                To see your garden, select this button or find your highlighted garden in the grid
-                below. You will be able to take care of your plants only in your garden. While you
-                can view other user's gardens, you cannot tend their plants. Make sure to water your
-                plants on time so they don't die!
-              </p>
-              <GardenButton
-                label={'My Garden'}
-                color={'#7ED191'}
-                hoverColor={'#87E752'}
-                onClick={enterYourGarden}
-              />
-            </VStack>
+            <p>
+              To see your garden, click the ‘My Garden’ button at the very bottom of this modal or
+              find your highlighted garden in the grid below. You will be able to take care of the
+              plants only in your garden. While you can view other user's gardens, you cannot tend
+              their plants. Make sure to water your plants on time so they don't die!
+            </p>
           </AccordionPanel>
         </AccordionItem>
       </Accordion>
+
       <br />
       <GardenAreaPlots></GardenAreaPlots>
+      <br />
+      <VStack>
+        <GardenButton label={'My Garden'} type='MyGarden' onClick={enterYourGarden} />
+      </VStack>
+
       <br />
     </Container>
   );
