@@ -33,8 +33,8 @@ export type GardenPlot = {
 }
 
 export type PlotPlant = {
-  plantId: string;
-  plant: Plant | undefined;
+  plotPlantId: string;
+  plant?: PlantId;
 }
 
 export type PlantDetailsData = {

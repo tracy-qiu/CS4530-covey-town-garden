@@ -10,8 +10,7 @@ export async function validateTownExists(townId: string) {
 }
 
 export async function validateGardenDoesNotExistInTown(townId: string) {
-  const existingGardens = await gardenDao.findGardens();
-  const matchingGardens = existingGardens.filter(garden => garden.townId.toHexString() === townId);
+  const matchingGardens = await gardenDao.findGardenByTownId(townId);
   if (matchingGardens.length !== 0) {
     throw new InvalidParametersError('Town has reached maximum of 1 garden');
   }

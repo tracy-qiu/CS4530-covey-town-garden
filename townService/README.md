@@ -56,8 +56,6 @@ garden collection
 gardener collection 
 - post /garden/gardener
   - requestBody: { name: string, gardenId: string }
-- update gardener /garden/gardner/update
-  - requestBody: { gardenId: string, name: string }
 - get gardeners by gardenId /garden/{gardenId}/gardeners
 - get one gardener by gardener /garden/gardeners/{gardenerId}
 - delete gardener by gardenerId /garden/gardeners/{gardener}
@@ -80,7 +78,6 @@ plant collection
 - update plant last watered /garden/plant/updatelLastWatered 
   - requestBody: {plantId: string}
 - get one plant by plantId /garden/plants/{plantId}
-- get plants by gardenId /garden/{gardenId}/plants -might not need it 
 - get plants by plotId /garden/plots/{plotId}/plants
 - delete plant by plantId /garden/plants/{plantId}
 

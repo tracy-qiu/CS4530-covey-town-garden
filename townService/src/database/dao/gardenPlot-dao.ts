@@ -7,11 +7,12 @@ export const findGardenPlotById = (gpid: mongoose.Types.ObjectId) => gardenPlotM
 export const createGardenPlot = (gardenPlot: GardenPlotDB) => gardenPlotModel.create(gardenPlot);
 export const deleteGardenPlot = (gpid: mongoose.Types.ObjectId) =>
   gardenPlotModel.deleteOne({ _id: gpid });
-export const updateGardenPlotTopLeft = (gpid: number, plantId: string) =>
-  gardenPlotModel.updateOne({ _id: gpid }, { $set: { topLeftPlantId: plantId } });
-export const updateGardenPlotTopRight = (gpid: number, plantId: string) =>
-  gardenPlotModel.updateOne({ _id: gpid }, { $set: { topRightPlantId: plantId } });
-export const updateGardenPlotBottomLeft = (gpid: number, plantId: string) =>
-  gardenPlotModel.updateOne({ _id: gpid }, { $set: { bottomLeftPlantId: plantId } });
-export const updateGardenPlotBottomRight = (gpid: number, plantId: string) =>
-  gardenPlotModel.updateOne({ _id: gpid }, { $set: { bottomRightPlantId: plantId } });
+export const updateGardenPlot = (
+  gpid: mongoose.Types.ObjectId,
+  plantId: mongoose.Types.ObjectId,
+  plotLocation: number,
+) =>
+  gardenPlotModel.updateOne(
+    { '_id': gpid, 'plants.plotPlantId': `${plotLocation}` },
+    { $set: { 'plants.$.plant': plantId } },
+  );
