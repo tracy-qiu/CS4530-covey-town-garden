@@ -3,7 +3,7 @@ import * as townDao from '../../database/dao/town-dao';
 import InvalidParametersError from '../../lib/InvalidParametersError';
 
 export async function validateTownExists(townId: string) {
-  const towns = await townDao.findTownById(townId);
+  const towns = await townDao.findTownByTownId(townId);
   if (towns === null) {
     throw new InvalidParametersError('Town does not exist');
   }

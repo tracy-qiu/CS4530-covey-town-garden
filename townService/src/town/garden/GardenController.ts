@@ -356,12 +356,12 @@ export class GardenController extends Controller {
     }
   }
 
-  @Delete('/plants/{plantId}')
   /**
    * Deletes plant of given plantId
    * @param requestBody
    *
    */
+  @Delete('/plants/{plantId}')
   public async deletePlant(
     @Path()
     plantId: string,
