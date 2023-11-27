@@ -206,8 +206,22 @@ export class TownsController extends Controller {
     await validateGardenDoesNotExistInTown(townId);
     const garden = await gardenDao.createGarden({
       gardenPlots: [],
-      townId: new mongoose.Types.ObjectId(townId),
+      townId,
     });
+    return garden;
+  }
+
+  /**
+   * Retrieves a given garden by town ID
+   * @returns garden
+   */
+  @Get('{townId}/garden')
+  public async getGardenByTownId(
+    @Path()
+    townId: string,
+  ) {
+    connectToGardenDB();
+    const garden = await gardenDao.findGardenByTownId(townId);
     return garden;
   }
 }

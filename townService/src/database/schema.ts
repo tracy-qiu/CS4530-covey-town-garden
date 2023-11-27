@@ -1,5 +1,5 @@
 import mongoose, { Document, Types, InferSchemaType } from 'mongoose';
-import { PlantAge, PlantType } from '../types/CoveyTownSocket';
+import { PlantAge, PlantType, PlotPlant } from '../types/CoveyTownSocket';
 
 // Towns
 const townSchema = new mongoose.Schema(
@@ -16,7 +16,7 @@ export const townModel = mongoose.model('TownModel', townSchema);
 // Gardens
 const gardenSchema = new mongoose.Schema(
   {
-    townId: { type: mongoose.Schema.Types.ObjectId, ref: 'townSchema', required: true },
+    townId: { type: String, required: true },
     gardenPlots: [{ type: String }],
   },
   { collection: 'gardens' },
@@ -27,21 +27,37 @@ export type GardenDB = InferSchemaType<typeof gardenSchema>;
 export const gardenModel = mongoose.model('GardenModel', gardenSchema);
 
 // Garden Plot
-const gardenPlotSchema = new mongoose.Schema(
+
+export interface GardenPlotDocument extends Document {
+  gardenId: Types.ObjectId;
+  gardenerId: Types.ObjectId;
+  plants: PlotPlant[];
+}
+
+const gardenPlotSchema = new mongoose.Schema<GardenPlotDocument>(
   {
     gardenId: { type: mongoose.Schema.Types.ObjectId, ref: 'gardenSchema', required: true },
     gardenerId: { type: mongoose.Schema.Types.ObjectId, ref: 'gardenerSchema', required: true },
-    topLeftPid: { type: mongoose.Schema.Types.ObjectId, ref: 'plantSchema', required: false },
-    topRightPid: { type: mongoose.Schema.Types.ObjectId, ref: 'plantSchema', required: false },
-    bottomLeftPid: { type: mongoose.Schema.Types.ObjectId, ref: 'plantSchema', required: false },
-    bottomRightPid: { type: mongoose.Schema.Types.ObjectId, ref: 'plantSchema', required: false },
+    plants: [
+      {
+        plotPlantId: { type: String, required: false },
+        plant: { type: String, required: false },
+      },
+    ],
   },
   { collection: 'gardenPlots' },
 );
 
-export type GardenPlotDB = InferSchemaType<typeof gardenPlotSchema>;
+export type GardenPlotDB = {
+  gardenId: Types.ObjectId;
+  gardenerId: Types.ObjectId;
+  plants: PlotPlant[];
+};
 
-export const gardenPlotModel = mongoose.model('GardenPlotModel', gardenPlotSchema);
+export const gardenPlotModel = mongoose.model<GardenPlotDocument>(
+  'GardenPlotModel',
+  gardenPlotSchema,
+);
 
 export interface PlantDocument extends Document {
   gardenId: Types.ObjectId;

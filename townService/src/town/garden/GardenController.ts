@@ -1,13 +1,10 @@
 import { Controller, Get, Path, Route, Post, Body, Delete } from 'tsoa';
 import mongoose from 'mongoose';
-import { PlantId, PlantType } from '../../types/CoveyTownSocket';
+import { PlantAge, PlantId, PlantType, PlotPlant } from '../../types/CoveyTownSocket';
 import * as plantDao from '../../database/dao/plant-dao';
 import * as gardenDao from '../../database/dao/garden-dao';
 import * as gardenerDao from '../../database/dao/gardener-dao';
 import * as gardenPlotDao from '../../database/dao/gardenPlot-dao';
-import { validateTownExists, validateGardenDoesNotExistInTown } from './GardenUtil';
-import { GardenCreateParams } from '../../api/Model';
-
 // replace with env variable ( ref docs )
 
 export function connectToGardenDB() {
@@ -33,7 +30,7 @@ export class GardenController extends Controller {
   }
 
   /**
-   * Retrieves a given garden by town ID
+   * Retrieves a given garden by garden ID
    * @returns garden
    */
   @Get('{gardenId}')
@@ -45,37 +42,6 @@ export class GardenController extends Controller {
     connectToGardenDB();
     const garden = await gardenDao.findGardenById(gardenIdObject);
     return garden;
-  }
-
-  // /**
-  //  * Retrieves a given garden by town ID
-  //  * @returns garden
-  //  */
-  // @Get('{townId}')
-  // public async getGardenByTownId(
-  //   @Path()
-  //   townId: string,
-  // ) {
-  //   const townIdObject = new mongoose.Types.ObjectId(townId);
-  //   connectToGardenDB();
-  //   const garden = await gardenDao.findGardenByTownId(townIdObject);
-  //   return garden;
-  // }
-
-  /**
-   * Create a new garden
-   * @param requestBody
-   * @returns the ID of the newly created plant
-   */
-  @Post()
-  public async addGarden(@Body() requestBody: { townId: string }) {
-    const townIdObject = new mongoose.Types.ObjectId(requestBody.townId);
-    connectToGardenDB();
-    const garden = await gardenDao.createGarden({
-      townId: townIdObject,
-      gardenPlots: [],
-    });
-    return garden._id;
   }
 
   /**
@@ -195,24 +161,6 @@ export class GardenController extends Controller {
     }
   }
 
-  // /**
-  //  * Update a gardener
-  //  * @param requestBody
-  //  * @returns the ID of the newly created gardener
-  //  */
-  // @Post('/gardener/update')
-  // public async updateGardener(@Body() requestBody: { name: string; gardenerId: string }) {
-  //   const gardenerIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.gardenerId);
-  //   connectToGardenDB();
-  //   try {
-  //     const response = await gardenerDao.updateGardener(gardenerIdObject, requestBody.name);
-  //     return response;
-  //   } catch (error: unknown) {
-  //     console.error('Error adding new plot to garden', error);
-  //     return { error: 'Error adding new plot to garden' };
-  //   }
-  // }
-
   // PLOT COLLECTION
   /**
    * Retrieves all garden plots for a given garden
@@ -262,15 +210,18 @@ export class GardenController extends Controller {
     const gardenIdObject = new mongoose.Types.ObjectId(requestBody.gardenId);
     const gardenerIdObject = new mongoose.Types.ObjectId(requestBody.gardenerId);
     connectToGardenDB();
+    const plantList: PlotPlant[] = Array(4)
+      .fill(undefined)
+      .map((_, index) => ({
+        plotPlantId: `${index}`,
+        plant: undefined,
+      }));
     const plot = await gardenPlotDao.createGardenPlot({
       gardenId: gardenIdObject,
-      bottomLeftPid: null,
-      bottomRightPid: null,
       gardenerId: gardenerIdObject,
-      topLeftPid: null,
-      topRightPid: null,
+      plants: plantList,
     });
-    return plot._id;
+    return plot;
   }
 
   /**
@@ -292,19 +243,44 @@ export class GardenController extends Controller {
     }
   }
 
+  /**
+   * Update a garden plot by adding a new plant
+   * @param requestBody
+   * @returns the ID of the newly created garden
+   */
+  @Post('/update/plot')
+  public async updatePlot(
+    @Body() requestBody: { plotId: string; plantId: string; plotLocation: number },
+  ) {
+    const plotIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plotId);
+    const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
+    connectToGardenDB();
+    try {
+      const response = await gardenPlotDao.updateGardenPlot(
+        plotIdObject,
+        plantIdObject,
+        requestBody.plotLocation,
+      );
+      return response;
+    } catch (error: unknown) {
+      return { error: `Error updating plot with new plant: ${error}` };
+    }
+  }
+
   // PLANT COLLECTION
   /**
-   * Retrieves all plants in the provided garden
+   * Retrieves all plants in the provided plot
    * @returns plants
    */
-  @Get('{gardenId}/plants')
-  public async getAllPlantsByGarden(
+  @Get('{plotId}/plants')
+  public async getAllPlantsByPlot(
     @Path()
-    gardenId: string,
+    plotId: string,
   ) {
+    const plotIdObject = mongoose.Types.ObjectId.createFromHexString(plotId);
     connectToGardenDB();
-    const plants = await plantDao.findPlants();
-    return plants.filter(plant => plant.gardenId.toHexString() === gardenId);
+    const plants = await plantDao.findPlants(plotIdObject);
+    return plants;
   }
 
   /**
@@ -316,8 +292,9 @@ export class GardenController extends Controller {
     @Path()
     plantId: PlantId,
   ) {
+    const plantIdObject = mongoose.Types.ObjectId.createFromHexString(plantId);
     connectToGardenDB();
-    const plant = await plantDao.findPlantById(plantId);
+    const plant = await plantDao.findPlantById(plantIdObject);
     return plant;
   }
 
@@ -373,6 +350,40 @@ export class GardenController extends Controller {
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(plantId);
     const response = await plantDao.deletePlant(plantIdObject);
     return response;
+  }
+
+  /**
+   * Update a garden
+   * @param requestBody
+   * @returns the ID of the newly created garden
+   */
+  @Post('/update/plantLastWatered')
+  public async updatePlantLastWatered(@Body() requestBody: { plantId: string }) {
+    const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
+    connectToGardenDB();
+    try {
+      const response = await plantDao.updatePlantLastWatered(plantIdObject);
+      return response;
+    } catch (error: unknown) {
+      return { error: `Error updating plant last watered: ${error}` };
+    }
+  }
+
+  /**
+   * Update a garden
+   * @param requestBody
+   * @returns the ID of the newly created garden
+   */
+  @Post('/update/plantAge')
+  public async updatePlantAge(@Body() requestBody: { plantId: string; plantAge: PlantAge }) {
+    const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
+    connectToGardenDB();
+    try {
+      const response = await plantDao.updatePlantAge(plantIdObject, requestBody.plantAge);
+      return response;
+    } catch (error: unknown) {
+      return { error: `Error updating plant age: ${error}` };
+    }
   }
 }
 export default GardenController;
