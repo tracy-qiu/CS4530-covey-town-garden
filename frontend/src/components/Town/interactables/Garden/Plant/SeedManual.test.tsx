@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import 'core-js';
 import { nanoid } from 'nanoid';
 import React, { useState } from 'react';
 import { PlayerLocation } from '../../../../../types/CoveyTownSocket';

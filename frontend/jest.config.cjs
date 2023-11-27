@@ -8,7 +8,7 @@ dependency to this list of esModules, so that it will be transformed into ESM
 module.exports = {
     // preset: 'ts-jest/presets/js-with-ts-esm',
     preset: 'ts-jest/presets/js-with-ts',
-    testEnvironment: 'node',
+    testEnvironment: 'jsdom',
     transformIgnorePatterns: [`/node_modules/(?!${esModules})`],
     setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
     transform: {

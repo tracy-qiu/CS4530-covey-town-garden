@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import 'core-js';
 import { nanoid } from 'nanoid';
 import React from 'react';
 import { Plant } from '../../../../../types/CoveyTownSocket';
