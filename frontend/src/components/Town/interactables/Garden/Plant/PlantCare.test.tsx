@@ -65,7 +65,7 @@ describe('PlantCare', () => {
 
   it('should render Plant Care header', () => {
     render(<PlantCareComponent gardenerUsername='gardenerUsername' />);
-    screen.getByText('Plant Care');
+    screen.getByText("gardenerUsername's Garden");
   });
 
   it('should render details of given plant species', () => {
