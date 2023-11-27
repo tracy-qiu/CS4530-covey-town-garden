@@ -4,12 +4,12 @@ export type GardenPlotId = string;
 
 export type GardenerId = string;
 
-export type PlantType = 'Carrot' | 'Rose' | 'Blueberry';
+export type PlantType = 'carrot' | 'rose' | 'blueberry';
 
 // plant age: corresponds to numbers (as in DB)
-export type PlantAge = 'Seedling' | 'Sprout' | 'Adult';
+export type PlantAge = 'seedling' | 'sprout' | 'adult';
 
-export type PlantHealthStatus = 'Healthy' | 'Dehydrated' | 'About to Die' | 'Dead';
+export type PlantHealthStatus = 'healthy' | 'dehydrated' | 'about to die' | 'dead';
 
 export type Plant = {
   pid: PlantId;

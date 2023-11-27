@@ -202,13 +202,17 @@ export class TownsController extends Controller {
   @Response<InvalidParametersError>(400, 'Invalid values specified')
   public async createGarden(@Path() townId: string) {
     connectToGardenDB();
-    await validateTownExists(townId);
-    await validateGardenDoesNotExistInTown(townId);
-    const garden = await gardenDao.createGarden({
-      gardenPlots: [],
-      townId,
-    });
-    return garden;
+    try {
+      await validateTownExists(townId);
+      await validateGardenDoesNotExistInTown(townId);
+      const garden = await gardenDao.createGarden({
+        gardenPlots: [],
+        townId,
+      });
+      return garden;
+    } catch (error: unknown) {
+      return { error: `Error creating new garden: ${error}` };
+    }
   }
 
   /**
@@ -221,7 +225,11 @@ export class TownsController extends Controller {
     townId: string,
   ) {
     connectToGardenDB();
-    const garden = await gardenDao.findGardenByTownId(townId);
-    return garden;
+    try {
+      const garden = await gardenDao.findGardenByTownId(townId);
+      return garden;
+    } catch (error: unknown) {
+      return { error: `Error finding garden by town id: ${error}` };
+    }
   }
 }
