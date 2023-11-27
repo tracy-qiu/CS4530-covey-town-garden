@@ -74,9 +74,9 @@ const plantSchema = new mongoose.Schema<PlantDocument>(
     gardenId: { type: mongoose.Schema.Types.ObjectId, ref: 'gardenSchema', required: true },
     gardenPlotId: { type: mongoose.Schema.Types.ObjectId, ref: 'gardenPlotSchema', required: true },
     name: { type: String, required: true },
-    age: { type: String, enum: ['Seedling', 'Sprout', 'Adult'], required: true }, // should be of type plant age (fix after merge)
+    age: { type: String, enum: ['seedling', 'sprout', 'adult'], required: true }, // should be of type plant age (fix after merge)
     lastWatered: { type: Date, required: true },
-    species: { type: String, enum: ['Carrot', 'Rose', 'Blueberry'], required: true },
+    species: { type: String, enum: ['carrot', 'rose', 'blueberry'], required: true },
   },
   { collection: 'plants' },
 );
