@@ -219,7 +219,7 @@ export class TownsController extends Controller {
    * @returns list of towns in database
    */
   @Get('townDB/{dbTownId}')
-  public async getTownByDBId(@Path() dbTownId: string) {
+  public async getTownByDbId(@Path() dbTownId: string) {
     connectToGardenDB();
     const dbTownIdObject = new mongoose.Types.ObjectId(dbTownId);
     try {
@@ -236,7 +236,7 @@ export class TownsController extends Controller {
    * @returns town
    */
   @Post('townDB')
-  public async createTownDB(@Body() requestBody: { townId: string; adminId: string }) {
+  public async createTownInDb(@Body() requestBody: { townId: string; adminId: string }) {
     const adminIdObject = new mongoose.Types.ObjectId(requestBody.adminId);
     connectToGardenDB();
     try {
@@ -247,26 +247,6 @@ export class TownsController extends Controller {
       return town;
     } catch (error: unknown) {
       return { error: `Error creating new garden: ${error}` };
-    }
-  }
-
-  /**
-   * Deletes town
-   * @param requestBody
-   *
-   */
-  @Delete('/townDB/delete/{townId}')
-  public async deleteDBTown(
-    @Path()
-    townId: string,
-  ) {
-    connectToGardenDB();
-    const townIdObject = mongoose.Types.ObjectId.createFromHexString(townId);
-    try {
-      const response = await townDao.deleteTown(townIdObject);
-      return response;
-    } catch (error: unknown) {
-      return { error: `Error deleting plant: ${error}` };
     }
   }
 
@@ -284,6 +264,26 @@ export class TownsController extends Controller {
       return garden;
     } catch (error: unknown) {
       return { error: `Error creating new garden: ${error}` };
+    }
+  }
+
+  /**
+   * Deletes town
+   * @param requestBody
+   *
+   */
+  @Delete('/townDB/delete/{townId}')
+  public async deleteDbTown(
+    @Path()
+    townId: string,
+  ) {
+    connectToGardenDB();
+    const townIdObject = mongoose.Types.ObjectId.createFromHexString(townId);
+    try {
+      const response = await townDao.deleteTown(townIdObject);
+      return response;
+    } catch (error: unknown) {
+      return { error: `Error deleting plant: ${error}` };
     }
   }
 }
