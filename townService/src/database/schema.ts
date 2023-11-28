@@ -76,14 +76,14 @@ const plantSchema = new mongoose.Schema<PlantDocument>(
     gardenId: { type: mongoose.Schema.Types.ObjectId, ref: 'gardenSchema', required: true },
     gardenPlotId: { type: mongoose.Schema.Types.ObjectId, ref: 'gardenPlotSchema', required: true },
     name: { type: String, required: true },
-    age: { type: String, enum: ['seedling', 'sprout', 'adult'], required: true },
+    age: { type: String, enum: ['Seedling', 'Sprout', 'Adult'], required: true },
     status: {
       type: String,
-      enum: ['healthy', 'dehydrated', 'about to die', 'dead'],
+      enum: ['Healthy', 'Dehydrated', 'About to Die', 'Dead'],
       required: true,
     },
     lastWatered: { type: Date, required: true },
-    species: { type: String, enum: ['carrot', 'rose', 'blueberry'], required: true },
+    species: { type: String, enum: ['Carrot', 'Rose', 'Blueberry'], required: true },
   },
   { collection: 'plants' },
 );
