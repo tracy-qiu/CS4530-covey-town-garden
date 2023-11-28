@@ -14,7 +14,7 @@ import {
   Tags,
 } from 'tsoa';
 
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 import { Town, TownCreateParams, TownCreateResponse, GardenCreateParams } from '../api/Model';
 import InvalidParametersError from '../lib/InvalidParametersError';
 import CoveyTownsStore from '../lib/TownsStore';
@@ -27,6 +27,7 @@ import {
 import { validateGardenDoesNotExistInTown, validateTownExists } from './garden/GardenUtil';
 import { connectToGardenDB } from './garden/GardenController';
 import * as gardenDao from '../database/dao/garden-dao';
+import * as townDao from '../database/dao/town-dao';
 
 /**
  * This is the town route
@@ -198,16 +199,91 @@ export class TownsController extends Controller {
     });
   }
 
+  /**
+   * Retrieves all towns from database
+   * @returns list of towns from database
+   */
+  @Get('townDB')
+  public async getAllTowns() {
+    connectToGardenDB();
+    try {
+      const towns = await townDao.findTowns();
+      return towns;
+    } catch (error: unknown) {
+      return { error: `Error getting all towns: ${error}` };
+    }
+  }
+
+  /**
+   * Retrieves a town from database by id
+   * @returns list of towns in database
+   */
+  @Get('townDB/{dbTownId}')
+  public async getTownByDbId(@Path() dbTownId: string) {
+    connectToGardenDB();
+    const dbTownIdObject = new mongoose.Types.ObjectId(dbTownId);
+    try {
+      const towns = await townDao.findTownByDBTownId(dbTownIdObject);
+      return towns;
+    } catch (error: unknown) {
+      return { error: `Error getting all towns: ${error}` };
+    }
+  }
+
+  /**
+   * Create a town
+   * @param requestBody townId and adminId
+   * @returns town
+   */
+  @Post('townDB')
+  public async createTownInDb(@Body() requestBody: { townId: string; adminId: string }) {
+    const adminIdObject = new mongoose.Types.ObjectId(requestBody.adminId);
+    connectToGardenDB();
+    try {
+      const town = await townDao.createTown({
+        townId: requestBody.townId,
+        adminId: adminIdObject,
+      });
+      return town;
+    } catch (error: unknown) {
+      return { error: `Error creating new garden: ${error}` };
+    }
+  }
+
   @Post('{townId}/garden')
   @Response<InvalidParametersError>(400, 'Invalid values specified')
   public async createGarden(@Path() townId: string) {
     connectToGardenDB();
-    await validateTownExists(townId);
-    await validateGardenDoesNotExistInTown(townId);
-    const garden = await gardenDao.createGarden({
-      gardenPlots: [],
-      townId: new mongoose.Types.ObjectId(townId),
-    });
-    return garden;
+    try {
+      await validateTownExists(townId);
+      await validateGardenDoesNotExistInTown(townId);
+      const garden = await gardenDao.createGarden({
+        gardenPlots: [],
+        townId,
+      });
+      return garden;
+    } catch (error: unknown) {
+      return { error: `Error creating new garden: ${error}` };
+    }
+  }
+
+  /**
+   * Deletes town
+   * @param requestBody
+   *
+   */
+  @Delete('/townDB/delete/{townId}')
+  public async deleteDbTown(
+    @Path()
+    townId: string,
+  ) {
+    connectToGardenDB();
+    const townIdObject = mongoose.Types.ObjectId.createFromHexString(townId);
+    try {
+      const response = await townDao.deleteTown(townIdObject);
+      return response;
+    } catch (error: unknown) {
+      return { error: `Error deleting plant: ${error}` };
+    }
   }
 }

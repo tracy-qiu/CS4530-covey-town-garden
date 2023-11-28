@@ -43,45 +43,51 @@ You should now see a "Swagger" transcript-server-openapi documentation page, wit
 This demonstrates that this endpoint of your REST API is functional.
 
 town collection 
-- post /town 
-- get one garden by townId /town/{townId}/garden
+- get getAllTowns /town/townDB 
+- get getTownByDbId/town/{dbTownId}
+- post createTownInDb /town/townDB
+  - requestBody: {townId: string}
+- post createGarden /town/{townId}/garden 
+- delete deleteDbTown /town/townDB/delete/{townId}
 
 garden collection 
-- post /garden 
-  - requestBody: {townId: string}
-- update garden /garden
-  - requestBody: { plotNumber: number, }
-- delete /garden/{gardenId} 
-
-plant collection 
-- post /garden/plant 
-  - requestBody: { gardenId: string; gardenPlotId: string; name: string; species: string }
-- update plant age by plantId /garden/plants/age
-  - requestBody: {plantId: string, age : string}
-- update plant last watered /garden/plant/lastWatered 
-  - requestBody: {plantId: string}
-- get one plant by plantId /garden/plants/{plantId}
-- get plants by gardenId /garden/{gardenId}/plants -might not need it 
-- get plants by plotId /garden/plots/{plotId}/plants
-- delete plant by plantId /garden/plants/{plantId}
-
-plot collection 
-- post /garden/plot
-  - requestBody: { gardenId: string; gardenerId: string; }
-- update plot /garden/plot
-  - requestBody: {gardenId: string, plotNumber: number, plantId: string}
-- get plots by gardenId /garden/{gardenId}/plots
-- get plots by gardenerId /garden/{gardenerId}/plots
-- get one plot by plotId /garden/plots/{plotId}
-- delete plot by plotId /garden/plots/{plotId}
+- get getAllGardens /garden 
+- get getGardenById /garden/{gardenId}
+- get getGardenbyTownId /garden/{townId}/garden
+- post updateGarden /garden/update
+  - requestBody: { gardenId: string; plotId: string }
+- delete deleteGarden /garden/{gardenId} 
 
 gardener collection 
-- post /garden/gardener
+- get getAllGardenersInGarden /garden/{gardenId}/gardeners
+- get getGardener /garden/gardeners/{gardenerId}
+- post addGardener /garden/gardener
   - requestBody: { name: string, gardenId: string }
-- update gardener /garden/gardner
-  - requestBody: { gardenId: string, name: string }
-- get gardeners by gardenId /garden/{gardenId}/gardener
-- get one gardener by gardener /garden/gardeners/{gardenerId}
-- delete gardener by gardenerId /garden/gardeners/{gardener}
+- delete deleteGardener /garden/gardeners/{gardenerId} 
 
-delete action deletes all items associated with the thing you are deleting 
+plot collection 
+- get getAllPlotsInGarden /garden/{gardenId}/plots
+- get getPlot /garden/plots/{gardenPlotId}
+- post addPlot /garden/plot
+  - requestBody: { gardenId: string; gardenerId: string; }
+- delete deletePlot /garden/plots/{gardenPlotId}
+- post updatePlot /garden/update/plot
+  - requestBody: { plotId: string; plantId: string; plotLocation: number }
+
+plant collection 
+- get getAllPlantsByPlot /garden/{plotId}/plants
+- get getPlantById /garden/plants/{plantId}
+- post addPlant /garden/plant 
+  - requestBody: { gardenId: string;
+      gardenPlotId: string;
+      name: string;
+      species: string; }
+- delete deletePlant /garden/plants/{plantId}
+- post upatePlantAge /garden/update/plantAge 
+  - requestBody: { plantId: string; plantAge: string }
+- post updatePlantStatus /garden/update/plantStatus
+  - requestBody: { plantId: string; plantStatus: string }
+- post updatePlantLastWatered /garden/update/plantAge
+  - requestBody: { plantId: string }
+
+* delete action deletes all items associated with the thing you are deleting 
