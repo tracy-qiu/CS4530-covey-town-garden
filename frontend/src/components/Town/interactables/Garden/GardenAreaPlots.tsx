@@ -4,54 +4,26 @@ import { GardenPlotButton } from './PlotButton';
 import { PlotPlant } from '../../../../types/CoveyTownSocket';
 
 const samplePlant1: PlotPlant = {
-  plantId: '12',
-  plant: {
-    pid: '1',
-    name: 'blueberry',
-    species: 'Blueberry',
-    age: 'Seedling',
-    lastWatered: new Date(),
-    status: 'Healthy',
-  },
+  plotPlantId: '12',
+  plant: '1',
 };
 
 const samplePlant2: PlotPlant = {
-  plantId: '13',
-  plant: {
-    pid: '2',
-    name: 'Rosalina',
-    species: 'Rose',
-    age: 'Sprout',
-    lastWatered: new Date(),
-    status: 'Dehydrated',
-  },
+  plotPlantId: '13',
+  plant: '2',
 };
 
 const samplePlant3: PlotPlant = {
-  plantId: '14',
-  plant: {
-    pid: '3',
-    name: 'Bugs',
-    species: 'Carrot',
-    age: 'Adult',
-    lastWatered: new Date(),
-    status: 'About to Die',
-  },
+  plotPlantId: '14',
+  plant: '3',
 };
 
 const samplePlantDead: PlotPlant = {
-  plantId: '100',
-  plant: {
-    pid: '4',
-    name: 'Yoloing so much that is crazy Jr. Plant Sr.',
-    species: 'Carrot',
-    age: 'Adult',
-    lastWatered: new Date(),
-    status: 'Dead',
-  },
+  plotPlantId: '100',
+  plant: '4',
 };
 
-const undefinedPlant: PlotPlant = { plantId: '16', plant: undefined };
+const undefinedPlant: PlotPlant = { plotPlantId: '16', plant: undefined };
 
 export const PLANTS: PlotPlant[] = [samplePlant1, samplePlant2, samplePlantDead, undefinedPlant];
 

@@ -352,14 +352,14 @@ export class GardenController extends Controller {
       gardenId: string;
       gardenPlotId: string;
       name: string;
-      species: string;
+      species: PlantType;
     },
   ) {
     const gardenIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.gardenId);
     const gardenPlotIdObject = mongoose.Types.ObjectId.createFromHexString(
       requestBody.gardenPlotId,
     );
-    if (!['carrot', 'rose', 'blueberry'].includes(requestBody.species.toLowerCase())) {
+    if (!['Carrot', 'Rose', 'Blueberry'].includes(requestBody.species)) {
       throw new Error('Invalid value for species.');
     }
     connectToGardenDB();
@@ -368,10 +368,10 @@ export class GardenController extends Controller {
         gardenId: gardenIdObject,
         gardenPlotId: gardenPlotIdObject,
         name: requestBody.name,
-        age: 'seedling',
-        status: 'healthy',
+        age: 'Seedling',
+        status: 'Healthy',
         lastWatered: new Date(),
-        species: requestBody.species.toLowerCase() as PlantType,
+        species: requestBody.species,
       });
       return plant;
     } catch (error: unknown) {
@@ -405,17 +405,14 @@ export class GardenController extends Controller {
    * @returns response
    */
   @Post('/update/plantAge')
-  public async updatePlantAge(@Body() requestBody: { plantId: string; plantAge: string }) {
-    if (!['seedling', 'sprout', 'adult'].includes(requestBody.plantAge.toLowerCase())) {
+  public async updatePlantAge(@Body() requestBody: { plantId: string; plantAge: PlantAge }) {
+    if (!['Seedling', 'Sprout', 'Adult'].includes(requestBody.plantAge)) {
       throw new Error('Invalid value for species.');
     }
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
     connectToGardenDB();
     try {
-      const response = await plantDao.updatePlantAge(
-        plantIdObject,
-        requestBody.plantAge.toLowerCase() as PlantAge,
-      );
+      const response = await plantDao.updatePlantAge(plantIdObject, requestBody.plantAge);
       return response;
     } catch (error: unknown) {
       return { error: `Error updating plant age: ${error}` };
@@ -428,21 +425,16 @@ export class GardenController extends Controller {
    * @returns response
    */
   @Post('/update/plantStatus')
-  public async updatePlantStatus(@Body() requestBody: { plantId: string; plantStatus: string }) {
-    if (
-      !['healthy', 'dehydrated', 'about to die', 'dead'].includes(
-        requestBody.plantStatus.toLowerCase(),
-      )
-    ) {
+  public async updatePlantStatus(
+    @Body() requestBody: { plantId: string; plantStatus: PlantHealthStatus },
+  ) {
+    if (!['Healthy', 'Dehydrated', 'About to Die', 'Dead'].includes(requestBody.plantStatus)) {
       throw new Error('Invalid value for plant health status.');
     }
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
     connectToGardenDB();
     try {
-      const response = await plantDao.updatePlantStatus(
-        plantIdObject,
-        requestBody.plantStatus.toLowerCase() as PlantHealthStatus,
-      );
+      const response = await plantDao.updatePlantStatus(plantIdObject, requestBody.plantStatus);
       return response;
     } catch (error: unknown) {
       return { error: `Error updating plant status: ${error}` };

@@ -37,9 +37,9 @@ export function addPlant(
 // initialize mock data
 export function initialize(): void {
   allPlants = [];
-  addPlant('Carrots', 'carrot', 'seedling', new Date(), 'healthy');
-  addPlant('Roses', 'rose', 'adult', new Date(), 'dehydrated');
-  addPlant('Blueberries', 'blueberry', 'sprout', new Date(), 'about to die');
+  addPlant('Carrots', 'Carrot', 'Seedling', new Date(), 'Healthy');
+  addPlant('Roses', 'Rose', 'Adult', new Date(), 'Dehydrated');
+  addPlant('Blueberries', 'Blueberry', 'Sprout', new Date(), 'About to Die');
 }
 
 export function getAll(): Plant[] {
