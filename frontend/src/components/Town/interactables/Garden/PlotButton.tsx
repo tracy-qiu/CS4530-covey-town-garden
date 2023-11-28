@@ -78,9 +78,7 @@ export function PlantPlotButton({
         PLANT_DETAILS_DATA.find(info => info.type === plant.species) ?? undefined;
       if (plantInfo && plant !== undefined) {
         if (plant.status == 'Dead') {
-          setDisplayImg(
-            'https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/820068/tombstone-clipart-md.png',
-          );
+          setDisplayImg('./images/tombstone.png');
         } else if (plant.age === 'Seedling') {
           setDisplayImg(plantInfo.seedImg);
         } else if (plant.age === 'Sprout') {
@@ -90,9 +88,7 @@ export function PlantPlotButton({
         }
       }
     } else {
-      setDisplayImg(
-        'https://creazilla-store.fra1.digitaloceanspaces.com/cliparts/4056/sand-shovel-clipart-xl.png',
-      );
+      setDisplayImg('./images/shovel.png');
     }
 
     const dehydratedColor = '#ECC94B';
