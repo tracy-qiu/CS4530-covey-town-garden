@@ -13,10 +13,10 @@ import { ClientToServerEvents, ServerToClientEvents } from './types/CoveyTownSoc
 import { TownsController } from './town/TownsController';
 import { logError } from './Utils';
 
-// const CONNECTION_STRING =
-//   'mongodb+srv://surabhiKeesara:garden@garden-cluster.jhykp3h.mongodb.net/garden-area?retryWrites=true&w=majority';
+const CONNECTION_STRING =
+  'mongodb+srv://surabhiKeesara:garden@garden-cluster.jhykp3h.mongodb.net/garden-area?retryWrites=true&w=majority';
 
-// mongoose.connect(CONNECTION_STRING);
+mongoose.connect(CONNECTION_STRING);
 
 // Create the server instances
 const app = Express();
