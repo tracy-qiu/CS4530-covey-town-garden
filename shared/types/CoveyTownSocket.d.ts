@@ -47,19 +47,6 @@ export type PlantDetailsData = {
   matureImg: string;
 }
 
-/**
- * Type for a move in player's Garden
- */
-export interface MyGardenMove {
-  plot?: '1' | '2' | '3' | '4';
-  isPlantWatered?: boolean;
-  isPlantRemoved?: boolean;
-}
-
-export interface GardenGameState extends WinnableGameState {
-  moves: ReadonlyArray<MyGardenMove>;
-}
-
 export type TownJoinResponse = {
   /** Unique ID that represents this player * */
   userID: string;

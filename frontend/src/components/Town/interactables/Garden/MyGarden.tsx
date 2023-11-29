@@ -17,7 +17,6 @@ import {
   AccordionIcon,
   Badge,
   Tag,
-  Heading,
 } from '@chakra-ui/react';
 import { MyGardenPlots } from './MyGardenPlots';
 import useTownController from '../../../../hooks/useTownController';

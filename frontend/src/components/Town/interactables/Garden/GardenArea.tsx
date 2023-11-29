@@ -2,7 +2,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import TownController, { useInteractable } from '../../../../classes/TownController';
 import useTownController from '../../../../hooks/useTownController';
-import { InteractableID } from '../../../../types/CoveyTownSocket';
 import GameAreaInteractable from '../GameArea';
 import {
   Modal,
@@ -14,7 +13,6 @@ import {
   Tag,
   TagLabel,
   Avatar,
-  HStack,
   VStack,
   ModalBody,
   Container,
@@ -34,7 +32,7 @@ import { MyGarden } from './MyGarden';
  * @param {InteractableID} interactableID
  * @returns {JSX.Element} GardenArea
  */
-export function GardenArea({ interactableID }: { interactableID: InteractableID }): JSX.Element {
+export function GardenArea(): JSX.Element {
   const toast = useToast();
   const townController: TownController = useTownController();
   const currUsername = townController.ourPlayer.userName;
@@ -156,8 +154,6 @@ export default function GardenAreaWrapper(): JSX.Element {
   const closeModal = useCallback(() => {
     if (gameArea) {
       townController.interactEnd(gameArea);
-      const controller = townController.getGameAreaController(gameArea);
-      controller.leaveGame();
     }
   }, [townController, gameArea]);
 
@@ -166,7 +162,7 @@ export default function GardenAreaWrapper(): JSX.Element {
       <Modal isOpen={true} onClose={closeModal} closeOnOverlayClick={false} size='xl'>
         <ModalOverlay />
         <ModalContent bgColor='#FFFEF6'>
-          <GardenArea interactableID={''}></GardenArea>
+          <GardenArea />
           <ModalCloseButton />
         </ModalContent>
       </Modal>
