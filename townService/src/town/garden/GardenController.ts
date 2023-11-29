@@ -13,6 +13,7 @@ import * as gardenerDao from '../../database/dao/gardener-dao';
 import * as gardenPlotDao from '../../database/dao/gardenPlot-dao';
 import { validateTownExists, validateGardenDoesNotExistInTown } from './GardenUtil';
 import InvalidParametersError from '../../lib/InvalidParametersError';
+import { GardenerDB } from '../../database/schema';
 
 @Route('garden')
 export class GardenController extends Controller {
@@ -111,6 +112,7 @@ export class GardenController extends Controller {
     const gardenIdObject = mongoose.Types.ObjectId.createFromHexString(gardenId);
     try {
 <<<<<<< HEAD
+<<<<<<< HEAD
       // delete the garden
       await gardenDao.deleteGarden(gardenIdObject);
 
@@ -140,11 +142,34 @@ export class GardenController extends Controller {
       }
 >>>>>>> delete endpoint deletes all associated items and add mongoose disconnects to endpoints
 >>>>>>> delete endpoint deletes all associated items and add mongoose disconnects to endpoints
+=======
+      // delete the garden
+      await gardenDao.deleteGarden(gardenIdObject);
+
+      // delete all garden plots in garden
+      gardenPlotDao.deleteGardenPlotsByGarden(gardenIdObject);
+
+      // delete all gardeners in garden
+      await gardenerDao.deleteGardenersByGarden(gardenIdObject);
+
+      // delete all plants in garden
+      await plantDao.deletePlantsByGarden(gardenIdObject);
+>>>>>>> deleteGardener not working
     } catch (error: unknown) {
       return { error: `Error deleting garden: ${error}` };
     }
+    mongoose.disconnect();
     return { success: 'Garden successfully deleted.' };
   }
+
+  /**
+   * garden 655ec5b40ea6fd95e7881384
+   * plots
+   * 65658b4197ab972bebd2c75c
+   * 65658e7bda270ae81fd737ae
+   * plants
+   *
+   */
 
   // Gardener Collection Endpoints
 
@@ -214,7 +239,10 @@ export class GardenController extends Controller {
   ) {
     const gardenerIdObject = mongoose.Types.ObjectId.createFromHexString(gardenerId);
     try {
+<<<<<<< HEAD
       await gardenerDao.deleteGardener(gardenerIdObject);
+=======
+>>>>>>> deleteGardener not working
       // delete gardener
       await gardenerDao.deleteGardener(gardenerIdObject);
       // delete gardener's garden plot
@@ -236,7 +264,11 @@ export class GardenController extends Controller {
       // mongoose.disconnect();
       return { error: `Error deleting gardener ${error}` };
     }
+<<<<<<< HEAD
     // mongoose.disconnect();
+=======
+    mongoose.disconnect();
+>>>>>>> deleteGardener not working
     return { success: 'Gardener successfully deleted.' };
   }
 
@@ -307,6 +339,7 @@ export class GardenController extends Controller {
   }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   // private async _deletePlotHelper(gardenPlotId: string) {
   //   const gardenPlotIdObject = mongoose.Types.ObjectId.createFromHexString(gardenPlotId);
   //   const plot = await gardenPlotDao.findGardenPlotById(gardenPlotIdObject);
@@ -358,6 +391,8 @@ export class GardenController extends Controller {
   }
 >>>>>>> delete endpoint deletes all associated items and add mongoose disconnects to endpoints
 
+=======
+>>>>>>> deleteGardener not working
   /**
    * Deletes a plot by plot Id
    * @param gardenPlotId
@@ -387,6 +422,7 @@ export class GardenController extends Controller {
     connectToGardenDB();
     try {
 <<<<<<< HEAD
+<<<<<<< HEAD
       const response = await gardenPlotDao.deleteGardenPlot(gardenPlotIdObject);
       mongoose.disconnect();
       return response;
@@ -394,9 +430,25 @@ export class GardenController extends Controller {
       this._deletePlotHelper(gardenPlotId);
 >>>>>>> delete endpoint deletes all associated items and add mongoose disconnects to endpoints
 >>>>>>> delete endpoint deletes all associated items and add mongoose disconnects to endpoints
+=======
+      const gardenPlotIdObject = mongoose.Types.ObjectId.createFromHexString(gardenPlotId);
+      const plot = await gardenPlotDao.findGardenPlotById(gardenPlotIdObject);
+      // delete the plot
+      await gardenPlotDao.deleteGardenPlot(gardenPlotIdObject);
+
+      // delete the plot from the garden
+      const gardenIdObject = plot?.gardenId;
+      if (gardenIdObject) {
+        await gardenDao.deleteGardenPlot(gardenIdObject, gardenPlotId);
+      }
+
+      // delete all plants associated to plot
+      await plantDao.deletePlantsByPlot(gardenPlotIdObject);
+>>>>>>> deleteGardener not working
     } catch (error: unknown) {
       return { error: `Error deleting garden plot: ${error}` };
     }
+    mongoose.disconnect();
     return { success: 'Plot successfully deleted.' };
   }
 
@@ -523,6 +575,7 @@ export class GardenController extends Controller {
     );
     try {
 <<<<<<< HEAD
+<<<<<<< HEAD
       // delete plant
       await plantDao.deletePlant(plantIdObject);
       // delete plant from plot
@@ -533,17 +586,23 @@ export class GardenController extends Controller {
       mongoose.disconnect();
       return response;
 =======
+=======
+>>>>>>> deleteGardener not working
       // delete plant
       await plantDao.deletePlant(plantIdObject);
-      // delete plant from
+      // delete plant from plot
       await gardenPlotDao.deleteGardenPlotPlant(gardenPlotIdObject, plantIdObject);
+<<<<<<< HEAD
 >>>>>>> delete endpoint deletes all associated items and add mongoose disconnects to endpoints
 >>>>>>> delete endpoint deletes all associated items and add mongoose disconnects to endpoints
+=======
+>>>>>>> deleteGardener not working
     } catch (error: unknown) {
       // mongoose.disconnect();
 
       return { error: `Error deleting plant: ${error}` };
     }
+    mongoose.disconnect();
     return { success: 'Plant successfully deleted.' };
   }
 
