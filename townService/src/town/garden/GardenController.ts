@@ -13,7 +13,6 @@ import * as gardenerDao from '../../database/dao/gardener-dao';
 import * as gardenPlotDao from '../../database/dao/gardenPlot-dao';
 import { validateTownExists, validateGardenDoesNotExistInTown } from './GardenUtil';
 import InvalidParametersError from '../../lib/InvalidParametersError';
-import { GardenerDB } from '../../database/schema';
 
 <<<<<<< HEAD
 =======
@@ -148,7 +147,6 @@ export class GardenController extends Controller {
     } catch (error: unknown) {
       return { error: `Error deleting garden: ${error}` };
     }
-    mongoose.disconnect();
     return { success: 'Garden successfully deleted.' };
   }
 
@@ -324,12 +322,37 @@ export class GardenController extends Controller {
     }
   }
 
+  private async _deletePlotHelper(gardenPlotId: string) {
+    const gardenPlotIdObject = mongoose.Types.ObjectId.createFromHexString(gardenPlotId);
+    const plot = await gardenPlotDao.findGardenPlotById(gardenPlotIdObject);
+    // delete the plot
+    await gardenPlotDao.deleteGardenPlot(gardenPlotIdObject);
+
+    // delete the plot from the garden
+    const gardenIdObject = plot?.gardenId;
+    if (gardenIdObject) {
+      await gardenDao.deleteGardenPlot(gardenIdObject, gardenPlotId);
+    }
+
+    // delete all plants associated to plot
+    const plotPlants = plot?.plants
+      .map(plant => plant.plantId)
+      .filter((plantId: string | null): plantId is string => plantId !== null);
+    if (plotPlants) {
+      await Promise.all(
+        plotPlants.map(async (plantId: string) => {
+          await plantDao.deletePlant(new mongoose.Types.ObjectId(plantId));
+        }),
+      );
+    }
+  }
+
   /**
    * Deletes a plot by plot Id
    * @param gardenPlotId
    * @returns response of deleteGardenPlot
    */
-  @Delete('/plots/{gardenPlotId}')
+  @Delete('/plots/{gardenId}')
   public async deletePlot(
     @Path()
     gardenPlotId: string,
@@ -355,7 +378,6 @@ export class GardenController extends Controller {
     } catch (error: unknown) {
       return { error: `Error deleting garden plot: ${error}` };
     }
-    mongoose.disconnect();
     return { success: 'Plot successfully deleted.' };
   }
 
@@ -484,7 +506,6 @@ export class GardenController extends Controller {
     } catch (error: unknown) {
       return { error: `Error deleting plant: ${error}` };
     }
-    mongoose.disconnect();
     return { success: 'Plant successfully deleted.' };
   }
 
