@@ -55,7 +55,7 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
     setLastWateredTime(new Date().toLocaleString());
     toastMsg('Watered ' + plant.name + ' (' + plant.species + ')!', 'success');
 
-    // TBD: set health status and age based on watering
+    // set health status and age based on watering
     if (plant.status === 'Healthy') {
       if (plant.age === 'Seedling') {
         gardenApiClient.updatePlantAge({ plantId: plant._id, plantAge: 'Sprout' }).catch(error => {
@@ -124,10 +124,6 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
     );
     setDaysSinceLastWater(differenceInDays);
 
-    // TBD: will call backend to reset the plant's status -> which will automatically update the frontend look
-    // these toasts are just placeholders
-    // we will remove these toast messagees later because they should be called in the community garden area
-
     // set status to dehydrated if it's been 1 day
     if (daysSinceLastWater == 1) {
       gardenApiClient
@@ -152,7 +148,7 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
           toastMsg(error, 'error');
         });
     }
-  }, [daysSinceLastWater, lastWateredTime, plant.name, plant.species, toastMsg]);
+  }, [daysSinceLastWater, lastWateredTime, plant._id, plant.name, plant.species, toastMsg]);
 
   return (
     <Container>
