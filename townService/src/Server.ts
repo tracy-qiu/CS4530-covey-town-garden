@@ -6,11 +6,15 @@ import swaggerUi from 'swagger-ui-express';
 import { ValidateError } from 'tsoa';
 import fs from 'fs/promises';
 import { Server as SocketServer } from 'socket.io';
+import mongoose from 'mongoose';
 import { RegisterRoutes } from '../generated/routes';
 import TownsStore from './lib/TownsStore';
 import { ClientToServerEvents, ServerToClientEvents } from './types/CoveyTownSocket';
 import { TownsController } from './town/TownsController';
 import { logError } from './Utils';
+
+const CONNECTION_STRING =
+  'mongodb+srv://surabhiKeesara:garden@garden-cluster.jhykp3h.mongodb.net/garden-area?retryWrites=true&w=majority';
 
 // Create the server instances
 const app = Express();
@@ -74,4 +78,5 @@ server.listen(process.env.PORT || 8081, () => {
   if (process.env.DEMO_TOWN_ID) {
     TownsStore.getInstance().createTown(process.env.DEMO_TOWN_ID, false);
   }
+  mongoose.connect(CONNECTION_STRING);
 });
