@@ -200,11 +200,13 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
             </GridItem>
             <GridItem w='100%'>
               <b>Current Date: </b>
-              <Badge variant='outline'>{today.toLocaleString('en-US', {
+              <Badge variant='outline'>
+                {today.toLocaleString('en-US', {
                   year: 'numeric',
                   month: 'numeric',
                   day: 'numeric',
-                })}</Badge>
+                })}
+              </Badge>
             </GridItem>
             <GridItem w='100%'>
               <b>Last Watered: </b>
