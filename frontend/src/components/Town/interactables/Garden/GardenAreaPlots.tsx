@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Box, SimpleGrid } from '@chakra-ui/react';
 import { GardenPlotButton } from './PlotButton';
-import { GardenPlot, Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
+import { GardenPlot, PlotPlant } from '../../../../types/CoveyTownSocket';
 import useTownController from '../../../../hooks/useTownController';
-import PlayersInTownList from '../../../SocialSidebar/PlayersList';
 import { gardenApiClient } from '../../../../classes/garden-client';
 
 const samplePlant1: PlotPlant = {
@@ -16,17 +15,12 @@ const samplePlant2: PlotPlant = {
   plantId: '65643e8e2e726976a53f8465',
 };
 
-const samplePlant3: PlotPlant = {
-  plotPlantId: '14',
-  plantId: '65643e8e2e726976a53f8465',
-};
-
 const samplePlantDead: PlotPlant = {
   plotPlantId: '100',
   plantId: '65643e8e2e726976a53f8465',
 };
 
-const undefinedPlant: PlotPlant = { plotPlantId: '16', plantId: undefined };
+const undefinedPlant: PlotPlant = { plotPlantId: '16', plantId: null };
 
 export const PLANTS: PlotPlant[] = [samplePlant1, samplePlant2, samplePlantDead, undefinedPlant];
 
