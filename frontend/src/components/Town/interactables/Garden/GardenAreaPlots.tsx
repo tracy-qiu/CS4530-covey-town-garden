@@ -1,26 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Box, SimpleGrid } from '@chakra-ui/react';
 import { GardenPlotButton } from './PlotButton';
-import { PlotPlant } from '../../../../types/CoveyTownSocket';
+import { GardenPlot, Plant, PlotPlant } from '../../../../types/CoveyTownSocket';
+import useTownController from '../../../../hooks/useTownController';
+import PlayersInTownList from '../../../SocialSidebar/PlayersList';
+import { gardenApiClient } from '../../../../classes/garden-client';
 
 const samplePlant1: PlotPlant = {
   plotPlantId: '12',
-  plant: '1',
+  plant: '65643e8e2e726976a53f8465',
 };
 
 const samplePlant2: PlotPlant = {
   plotPlantId: '13',
-  plant: '2',
+  plant: '65643e8e2e726976a53f8465',
 };
 
 const samplePlant3: PlotPlant = {
   plotPlantId: '14',
-  plant: '3',
+  plant: '65643e8e2e726976a53f8465',
 };
 
 const samplePlantDead: PlotPlant = {
   plotPlantId: '100',
-  plant: '4',
+  plant: '65643e8e2e726976a53f8465',
 };
 
 const undefinedPlant: PlotPlant = { plotPlantId: '16', plant: undefined };
@@ -34,32 +37,54 @@ export const PLANTS: PlotPlant[] = [samplePlant1, samplePlant2, samplePlantDead,
  * @returns {JSX.Element} GardenPlots
  */
 export function GardenAreaPlots(): JSX.Element {
-  const users: string[] = [
-    'user1',
-    'user2',
-    'user3',
-    'long username',
-    'Katherine',
-    'tracy',
-    'surabhi',
-    'madison',
-    'user5',
-    'user6',
-    'user7',
-    'user8',
-  ];
+  const [gardenPlots, setGardenPlots] = useState<Record<string, unknown>[]>([]);
+  const townController = useTownController();
+  const townId = townController.townID;
+
+  useEffect(() => {
+    const updateGardenDetails = async () => {
+      const garden = await gardenApiClient.getGardenByTown(townId);
+      const gardenId = garden._id;
+      const plots = await gardenApiClient.getPlotsByGarden(gardenId);
+      // on each garden plot ...
+      const newPlots = plots.map(async (plot: GardenPlot) => {
+        // and for each plot plant in a garden plot ...
+        const newPlants = plot.plants.map(async (plotPlant: PlotPlant) => {
+          // get the plant by plant id for each plotplant
+          const plant = plotPlant.plant
+            ? await gardenApiClient.getPlant(plotPlant.plant).catch(error => {
+                if (error.response && error.response.status === 204) {
+                  return undefined;
+                }
+              })
+            : undefined;
+          return { plotPlantId: plotPlant.plotPlantId, plant };
+        });
+        const gardener = await gardenApiClient.getGardener(plot.gardenerId);
+        return {
+          _id: plot._id,
+          gardenId: gardenId,
+          gardenerId: plot.gardenerId,
+          gardenerName: gardener.name,
+          plants: await Promise.all(newPlants),
+        };
+      });
+      setGardenPlots(await Promise.all(newPlots));
+    };
+    updateGardenDetails();
+  });
 
   return (
     <Container>
       <SimpleGrid spacing={3} columns={4}>
-        {users.map((username, index) => {
+        {gardenPlots.map((plot, index) => {
           return (
-            <Box key={username}>
+            <Box key={plot}>
               <GardenPlotButton
-                fontSize='20px'
-                key={`${index}`}
-                username={username}
-                plants={PLANTS}></GardenPlotButton>
+                gardenId={plot.gardenId}
+                gardenPlotId={plot._id}
+                username={plot.gardenerName}
+                plants={plot.plants}></GardenPlotButton>
             </Box>
           );
         })}

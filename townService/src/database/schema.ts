@@ -5,7 +5,7 @@ import { PlantAge, PlantHealthStatus, PlantType, PlotPlant } from '../types/Cove
 const townSchema = new mongoose.Schema(
   {
     townId: { type: String, required: true },
-    adminId: { type: mongoose.Schema.Types.ObjectId, required: true }, // would reference gardeners table? or new admin table? // depends on user definitions
+    adminId: { type: mongoose.Schema.Types.ObjectId }, // would reference gardeners table? or new admin table? // depends on user definitions
   },
   { collection: 'towns' },
 );
@@ -17,7 +17,7 @@ export const townModel = mongoose.model('TownModel', townSchema);
 // Gardens
 const gardenSchema = new mongoose.Schema(
   {
-    townId: { type: String, ref: 'townSchema', required: true },
+    townId: { type: String, required: true },
     gardenPlots: [{ type: String }],
   },
   { collection: 'gardens' },

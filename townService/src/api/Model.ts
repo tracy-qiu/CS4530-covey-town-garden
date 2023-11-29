@@ -35,6 +35,10 @@ export interface TownCreateResponse {
    * An "Update password" for the newly created town. This password is needed to update or delete the town.
    */
   townUpdatePassword: string;
+  /**
+   * The ID of the garden created in this town.
+   */
+  gardenId: string;
 }
 
 /**

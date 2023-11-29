@@ -5,7 +5,7 @@ import { PlantPlotButton } from './PlotButton';
 
 export type MyGardenPlotsProps = {
   username: string;
-  plants: PlotPlant[];
+  plants: Record<string, unknown>[];
 };
 
 /**

@@ -37,7 +37,7 @@ describe('PlantCare', () => {
   Object.defineProperty(townController, 'ourPlayer', { get: () => ourPlayer });
 
   const testPlant: Plant = {
-    pid: '1',
+    _id: '1',
     name: 'blueberry',
     species: 'Blueberry',
     age: 'Seedling',

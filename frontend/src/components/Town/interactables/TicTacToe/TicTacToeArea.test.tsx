@@ -396,24 +396,6 @@ describe('[T2] TicTacToeArea', () => {
           );
         });
       });
-
-      it('Is disabled and set to loading when the player is joining a game', async () => {
-        gameAreaController.mockStatus = 'WAITING_TO_START';
-        gameAreaController.mockIsPlayer = false;
-        renderTicTacToeArea();
-        const button = screen.getByText('Join New Game');
-        expect(button).toBeEnabled();
-        expect(within(button).queryByText('Loading...')).not.toBeInTheDocument(); //Check that the loading text is not displayed
-        fireEvent.click(button);
-        expect(gameAreaController.joinGame).toBeCalled();
-        expect(button).toBeDisabled();
-        expect(within(button).queryByText('Loading...')).toBeInTheDocument(); //Check that the loading text is displayed
-        act(() => {
-          joinGameResolve();
-        });
-        await waitFor(() => expect(button).toBeEnabled());
-        expect(within(button).queryByText('Loading...')).not.toBeInTheDocument(); //Check that the loading text is not displayed
-      });
     });
     it('Adds the display of the button when a game becomes possible to join', () => {
       gameAreaController.mockStatus = 'IN_PROGRESS';

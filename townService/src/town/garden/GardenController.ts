@@ -1,4 +1,4 @@
-import { Controller, Get, Path, Route, Post, Body, Delete } from 'tsoa';
+import { Response, Controller, Get, Path, Route, Post, Body, Delete } from 'tsoa';
 import mongoose from 'mongoose';
 import {
   PlantAge,
@@ -11,6 +11,8 @@ import * as plantDao from '../../database/dao/plant-dao';
 import * as gardenDao from '../../database/dao/garden-dao';
 import * as gardenerDao from '../../database/dao/gardener-dao';
 import * as gardenPlotDao from '../../database/dao/gardenPlot-dao';
+import { validateTownExists, validateGardenDoesNotExistInTown } from './GardenUtil';
+import InvalidParametersError from '../../lib/InvalidParametersError';
 
 @Route('garden')
 export class GardenController extends Controller {
@@ -23,10 +25,25 @@ export class GardenController extends Controller {
   public async getAllGardens() {
     try {
       const gardens = await gardenDao.findGardens();
-
       return gardens;
     } catch (error: unknown) {
       return { error: `Error getting all gardens: ${error}` };
+    }
+  }
+
+  @Post('{townId}/garden')
+  @Response<InvalidParametersError>(400, 'Invalid values specified')
+  public async createGarden(@Path() townId: string) {
+    try {
+      await validateTownExists(townId);
+      await validateGardenDoesNotExistInTown(townId);
+      const garden = await gardenDao.createGarden({
+        gardenPlots: [],
+        townId,
+      });
+      return garden;
+    } catch (error: unknown) {
+      return Error(`Error creating new garden: ${error}`);
     }
   }
 
@@ -40,10 +57,8 @@ export class GardenController extends Controller {
     gardenId: string,
   ) {
     const gardenIdObject = new mongoose.Types.ObjectId(gardenId);
-
     try {
       const garden = await gardenDao.findGardenById(gardenIdObject);
-
       return garden;
     } catch (error: unknown) {
       return { error: `Error getting garden by id: ${error}` };
@@ -61,7 +76,6 @@ export class GardenController extends Controller {
   ) {
     try {
       const garden = await gardenDao.findGardenByTownId(townId);
-
       return garden;
     } catch (error: unknown) {
       return { error: `Error finding garden by town id: ${error}` };
@@ -76,10 +90,8 @@ export class GardenController extends Controller {
   @Post('/update')
   public async updateGarden(@Body() requestBody: { gardenId: string; plotId: string }) {
     const gardenIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.gardenId);
-
     try {
       const response = await gardenDao.updateGarden(gardenIdObject, requestBody.plotId);
-
       return response;
     } catch (error: unknown) {
       return { error: `Error adding plot to garden: ${error}` };
@@ -98,7 +110,6 @@ export class GardenController extends Controller {
     const gardenIdObject = mongoose.Types.ObjectId.createFromHexString(gardenId);
     try {
       const response = await gardenDao.deleteGarden(gardenIdObject);
-
       return response;
     } catch (error: unknown) {
       return { error: `Error deleting garden: ${error}` };
@@ -119,7 +130,6 @@ export class GardenController extends Controller {
     const gardenIdObject = mongoose.Types.ObjectId.createFromHexString(gardenId);
     try {
       const gardeners = await gardenerDao.findGardeners(gardenIdObject);
-
       return gardeners;
     } catch (error: unknown) {
       return { error: `Error finding gardeners in garden: ${error}` };
@@ -136,10 +146,8 @@ export class GardenController extends Controller {
     gardenerId: string,
   ) {
     const gardenerIdObject = mongoose.Types.ObjectId.createFromHexString(gardenerId);
-
     try {
       const gardener = await gardenerDao.findGardenerById(gardenerIdObject);
-
       return gardener;
     } catch (error: unknown) {
       return { error: `Error finding gardeners by id: ${error}` };
@@ -177,7 +185,6 @@ export class GardenController extends Controller {
     const gardenerIdObject = mongoose.Types.ObjectId.createFromHexString(gardenerId);
     try {
       const response = await gardenerDao.deleteGardener(gardenerIdObject);
-
       return response;
     } catch (error: unknown) {
       return { error: `Error deleting gardener ${error}` };
@@ -198,7 +205,6 @@ export class GardenController extends Controller {
     const gardenIdObject = new mongoose.Types.ObjectId(gardenId);
     try {
       const plots = await gardenPlotDao.findGardenPlots(gardenIdObject);
-
       return plots;
     } catch (error: unknown) {
       return { error: `Error adding new gardener to garden: ${error}` };
@@ -216,10 +222,8 @@ export class GardenController extends Controller {
     gardenPlotId: PlantId,
   ) {
     const gardenPlotIdObject = new mongoose.Types.ObjectId(gardenPlotId);
-
     try {
       const plot = await gardenPlotDao.findGardenPlotById(gardenPlotIdObject);
-
       return plot;
     } catch (error: unknown) {
       return { error: `Error adding new gardener to garden: ${error}` };
@@ -235,7 +239,6 @@ export class GardenController extends Controller {
   public async addPlot(@Body() requestBody: { gardenId: string; gardenerId: string }) {
     const gardenIdObject = new mongoose.Types.ObjectId(requestBody.gardenId);
     const gardenerIdObject = new mongoose.Types.ObjectId(requestBody.gardenerId);
-
     const plants: PlotPlant[] = Array(4)
       .fill(undefined)
       .map((_, index) => ({
@@ -248,7 +251,6 @@ export class GardenController extends Controller {
         gardenerId: gardenerIdObject,
         plants,
       });
-
       return plot;
     } catch (error: unknown) {
       return { error: `Error adding plot to garden: ${error}` };
@@ -268,7 +270,6 @@ export class GardenController extends Controller {
     const gardenPlotIdObject = mongoose.Types.ObjectId.createFromHexString(gardenPlotId);
     try {
       const response = await gardenPlotDao.deleteGardenPlot(gardenPlotIdObject);
-
       return response;
     } catch (error: unknown) {
       return { error: `Error deleting garden plot: ${error}` };
@@ -286,14 +287,12 @@ export class GardenController extends Controller {
   ) {
     const plotIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plotId);
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
-
     try {
       const response = await gardenPlotDao.updateGardenPlot(
         plotIdObject,
         plantIdObject,
         requestBody.plotLocation,
       );
-
       return response;
     } catch (error: unknown) {
       return { error: `Error updating plot with new plant: ${error}` };
@@ -311,10 +310,8 @@ export class GardenController extends Controller {
     plotId: string,
   ) {
     const plotIdObject = mongoose.Types.ObjectId.createFromHexString(plotId);
-
     try {
       const plants = await plantDao.findPlants(plotIdObject);
-
       return plants;
     } catch (error: unknown) {
       return { error: `Error getting all plants in a plot: ${error}` };
@@ -331,10 +328,8 @@ export class GardenController extends Controller {
     plantId: PlantId,
   ) {
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(plantId);
-
     try {
       const plant = await plantDao.findPlantById(plantIdObject);
-
       return plant;
     } catch (error: unknown) {
       return { error: `Error getting plant by id: ${error}` };
@@ -363,7 +358,6 @@ export class GardenController extends Controller {
     if (!['Carrot', 'Rose', 'Blueberry'].includes(requestBody.species)) {
       throw new Error('Invalid value for species.');
     }
-
     try {
       const plant = await plantDao.createPlant({
         gardenId: gardenIdObject,
@@ -374,7 +368,6 @@ export class GardenController extends Controller {
         lastWatered: new Date(),
         species: requestBody.species,
       });
-
       return plant;
     } catch (error: unknown) {
       return { error: `Error creating new plant: ${error}` };
@@ -394,7 +387,6 @@ export class GardenController extends Controller {
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(plantId);
     try {
       const response = await plantDao.deletePlant(plantIdObject);
-
       return response;
     } catch (error: unknown) {
       return { error: `Error deleting plant: ${error}` };
@@ -412,10 +404,8 @@ export class GardenController extends Controller {
       throw new Error('Invalid value for species.');
     }
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
-
     try {
       const response = await plantDao.updatePlantAge(plantIdObject, requestBody.plantAge);
-
       return response;
     } catch (error: unknown) {
       return { error: `Error updating plant age: ${error}` };
@@ -435,10 +425,8 @@ export class GardenController extends Controller {
       throw new Error('Invalid value for plant health status.');
     }
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
-
     try {
       const response = await plantDao.updatePlantStatus(plantIdObject, requestBody.plantStatus);
-
       return response;
     } catch (error: unknown) {
       return { error: `Error updating plant status: ${error}` };
@@ -453,10 +441,8 @@ export class GardenController extends Controller {
   @Post('/update/plantLastWatered')
   public async updatePlantLastWatered(@Body() requestBody: { plantId: string }) {
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
-
     try {
       const response = await plantDao.updatePlantLastWatered(plantIdObject);
-
       return response;
     } catch (error: unknown) {
       return { error: `Error updating plant last watered: ${error}` };

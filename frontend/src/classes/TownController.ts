@@ -35,6 +35,7 @@ import InteractableAreaController, {
 import TicTacToeAreaController from './interactable/TicTacToeAreaController';
 import ViewingAreaController from './interactable/ViewingAreaController';
 import PlayerController from './PlayerController';
+import { gardenApiClient } from './garden-client';
 
 const CALCULATE_NEARBY_PLAYERS_DELAY_MS = 300;
 const SOCKET_COMMAND_TIMEOUT_MS = 5000;
@@ -581,7 +582,7 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
          */
     return new Promise<void>((resolve, reject) => {
       this._socket.connect();
-      this._socket.on('initialize', initialData => {
+      this._socket.on('initialize', async initialData => {
         this._providerVideoToken = initialData.providerVideoToken;
         this._friendlyNameInternal = initialData.friendlyName;
         this._townIsPubliclyListedInternal = initialData.isPubliclyListed;
@@ -617,6 +618,23 @@ export default class TownController extends (EventEmitter as new () => TypedEmit
         if (new Set(usersInGame).size !== usersInGame.length) {
           reject(new Error('Duplicate user in game. Try again with new username!'));
           this.disconnect();
+        }
+
+        await gardenApiClient.createGarden(this.townID);
+        const garden = await gardenApiClient.getGardenByTown(this.townID);
+        const gardenersInGarden = await gardenApiClient.getGardenersByGarden(garden._id);
+        if (gardenersInGarden.length >= 50) {
+          // reject(new Error("The garden is full! You can join the town but won't get a plot"));
+        } else if (
+          gardenersInGarden.find(gardener => gardener.name === this._ourPlayer?.userName) ===
+          undefined
+        ) {
+          const gardenerId = await gardenApiClient.createGardener({
+            name: this._ourPlayer?.userName ?? '',
+            gardenId: garden._id,
+          });
+          const plotId = await gardenApiClient.createPlot({ gardenId: garden._id, gardenerId });
+          await gardenApiClient.updateGarden({ gardenId: garden._id, plotId });
         }
 
         this.emit('connect', initialData.providerVideoToken);

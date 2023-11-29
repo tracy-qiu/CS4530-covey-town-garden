@@ -481,6 +481,7 @@ describe('Town Selection', () => {
         togglePublicBox?: boolean;
         townID?: string;
         roomPassword?: string;
+        gardenId: string;
         errorMessage?: string;
       }) => {
         fireEvent.change(userNameField, { target: { value: params.userName } });
@@ -499,6 +500,7 @@ describe('Town Selection', () => {
             toCancelablePromise({
               townID: params.townID,
               townUpdatePassword: params.roomPassword,
+              gardenId: params.gardenId,
             }),
           );
         } else if (params.errorMessage) {
@@ -515,6 +517,7 @@ describe('Town Selection', () => {
               userName: '',
               townName: nanoid(),
               errorMessage: 'FAIL',
+              gardenId: '655ec5b40ea6fd95e7881384',
             });
             await waitFor(() =>
               expect(mockToast).toBeCalledWith({
@@ -529,6 +532,7 @@ describe('Town Selection', () => {
               townName: '',
               userName: nanoid(),
               errorMessage: 'FAIL',
+              gardenId: '655ec5b40ea6fd95e7881384',
             });
             await waitFor(() =>
               expect(mockToast).toBeCalledWith({
@@ -549,6 +553,7 @@ describe('Town Selection', () => {
               userName: nanoid(),
               townID,
               roomPassword,
+              gardenId: '655ec5b40ea6fd95e7881384',
             });
             await waitFor(() =>
               expect(mockTownsService.createTown).toBeCalledWith({
@@ -568,6 +573,7 @@ describe('Town Selection', () => {
               townID,
               roomPassword,
               togglePublicBox: true,
+              gardenId: '655ec5b40ea6fd95e7881384',
             });
             await waitFor(() =>
               expect(mockTownsService.createTown).toBeCalledWith({
@@ -587,6 +593,7 @@ describe('Town Selection', () => {
               townID,
               roomPassword,
               togglePublicBox: true,
+              gardenId: '655ec5b40ea6fd95e7881384',
             });
             await waitFor(() =>
               expect(mockTownsService.createTown).toBeCalledWith({
@@ -618,6 +625,7 @@ describe('Town Selection', () => {
               townID,
               roomPassword,
               togglePublicBox: true,
+              gardenId: '655ec5b40ea6fd95e7881384',
             });
 
             // Check for call sequence
@@ -641,6 +649,7 @@ describe('Town Selection', () => {
               townName,
               userName: nanoid(),
               errorMessage,
+              gardenId: '655ec5b40ea6fd95e7881384',
             });
             await waitFor(() =>
               expect(mockTownsService.createTown).toBeCalledWith({
