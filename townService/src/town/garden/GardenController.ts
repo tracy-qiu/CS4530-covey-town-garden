@@ -1,4 +1,4 @@
-import { Response, Controller, Get, Path, Route, Post, Body, Delete } from 'tsoa';
+import { Controller, Get, Path, Route, Post, Body, Delete, Response } from 'tsoa';
 import mongoose from 'mongoose';
 import {
   PlantAge,
@@ -13,10 +13,12 @@ import * as gardenerDao from '../../database/dao/gardener-dao';
 import * as gardenPlotDao from '../../database/dao/gardenPlot-dao';
 import { validateTownExists, validateGardenDoesNotExistInTown } from './GardenUtil';
 import InvalidParametersError from '../../lib/InvalidParametersError';
+import { GardenerDB } from '../../database/schema';
 
 @Route('garden')
 export class GardenController extends Controller {
   // Garden Collection Endpoints
+
   /**
    * Retrieves all gardens across all towns
    * @returns garden
@@ -25,6 +27,7 @@ export class GardenController extends Controller {
   public async getAllGardens() {
     try {
       const gardens = await gardenDao.findGardens();
+
       return gardens;
     } catch (error: unknown) {
       return { error: `Error getting all gardens: ${error}` };
@@ -59,6 +62,7 @@ export class GardenController extends Controller {
     const gardenIdObject = new mongoose.Types.ObjectId(gardenId);
     try {
       const garden = await gardenDao.findGardenById(gardenIdObject);
+
       return garden;
     } catch (error: unknown) {
       return { error: `Error getting garden by id: ${error}` };
@@ -76,6 +80,7 @@ export class GardenController extends Controller {
   ) {
     try {
       const garden = await gardenDao.findGardenByTownId(townId);
+
       return garden;
     } catch (error: unknown) {
       return { error: `Error finding garden by town id: ${error}` };
@@ -92,6 +97,7 @@ export class GardenController extends Controller {
     const gardenIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.gardenId);
     try {
       const response = await gardenDao.updateGarden(gardenIdObject, requestBody.plotId);
+
       return response;
     } catch (error: unknown) {
       return { error: `Error adding plot to garden: ${error}` };
@@ -109,11 +115,21 @@ export class GardenController extends Controller {
   ) {
     const gardenIdObject = mongoose.Types.ObjectId.createFromHexString(gardenId);
     try {
-      const response = await gardenDao.deleteGarden(gardenIdObject);
-      return response;
+      // delete the garden
+      await gardenDao.deleteGarden(gardenIdObject);
+
+      // delete all garden plots in garden
+      gardenPlotDao.deleteGardenPlotsByGarden(gardenIdObject);
+
+      // delete all gardeners in garden
+      await gardenerDao.deleteGardenersByGarden(gardenIdObject);
+
+      // delete all plants in garden
+      await plantDao.deletePlantsByGarden(gardenIdObject);
     } catch (error: unknown) {
       return { error: `Error deleting garden: ${error}` };
     }
+    return { success: 'Garden successfully deleted.' };
   }
 
   // Gardener Collection Endpoints
@@ -184,11 +200,15 @@ export class GardenController extends Controller {
   ) {
     const gardenerIdObject = mongoose.Types.ObjectId.createFromHexString(gardenerId);
     try {
-      const response = await gardenerDao.deleteGardener(gardenerIdObject);
-      return response;
+      // delete gardener
+      await gardenerDao.deleteGardener(gardenerIdObject);
+      // delete gardener's garden plot
+      await gardenPlotDao.deleteGardenPlotsByGardener(gardenerIdObject);
     } catch (error: unknown) {
       return { error: `Error deleting gardener ${error}` };
     }
+
+    return { success: 'Gardener successfully deleted.' };
   }
 
   // Plot Collection Endpoints
@@ -243,7 +263,7 @@ export class GardenController extends Controller {
       .fill(undefined)
       .map((_, index) => ({
         plotPlantId: `${index}`,
-        plant: undefined,
+        plantId: null,
       }));
     try {
       const plot = await gardenPlotDao.createGardenPlot({
@@ -267,13 +287,24 @@ export class GardenController extends Controller {
     @Path()
     gardenPlotId: string,
   ) {
-    const gardenPlotIdObject = mongoose.Types.ObjectId.createFromHexString(gardenPlotId);
     try {
-      const response = await gardenPlotDao.deleteGardenPlot(gardenPlotIdObject);
-      return response;
+      const gardenPlotIdObject = mongoose.Types.ObjectId.createFromHexString(gardenPlotId);
+      const plot = await gardenPlotDao.findGardenPlotById(gardenPlotIdObject);
+      // delete the plot
+      await gardenPlotDao.deleteGardenPlot(gardenPlotIdObject);
+
+      // delete the plot from the garden
+      const gardenIdObject = plot?.gardenId;
+      if (gardenIdObject) {
+        await gardenDao.deleteGardenPlot(gardenIdObject, gardenPlotId);
+      }
+
+      // delete all plants associated to plot
+      await plantDao.deletePlantsByPlot(gardenPlotIdObject);
     } catch (error: unknown) {
       return { error: `Error deleting garden plot: ${error}` };
     }
+    return { success: 'Plot successfully deleted.' };
   }
 
   /**
@@ -342,6 +373,7 @@ export class GardenController extends Controller {
    * @returns the plant object
    */
   @Post('/plant')
+  @Response<InvalidParametersError>(400, 'Invalid values specified')
   public async addPlant(
     @Body()
     requestBody: {
@@ -356,7 +388,7 @@ export class GardenController extends Controller {
       requestBody.gardenPlotId,
     );
     if (!['Carrot', 'Rose', 'Blueberry'].includes(requestBody.species)) {
-      throw new Error('Invalid value for species.');
+      throw new InvalidParametersError('Invalid value for species.');
     }
     try {
       const plant = await plantDao.createPlant({
@@ -386,11 +418,20 @@ export class GardenController extends Controller {
   ) {
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(plantId);
     try {
-      const response = await plantDao.deletePlant(plantIdObject);
-      return response;
+      const plant = await plantDao.findPlantById(plantIdObject);
+      const gardenPlotIdObject = new mongoose.Types.ObjectId(plant?.gardenPlotId);
+      // delete plant
+      await plantDao.deletePlant(plantIdObject);
+      // delete plant from plot
+      await gardenPlotDao.deleteGardenPlotPlant(gardenPlotIdObject, plantIdObject);
+      // delete plant
+      await plantDao.deletePlant(plantIdObject);
+      // delete plant from plot
+      await gardenPlotDao.deleteGardenPlotPlant(gardenPlotIdObject, plantIdObject);
     } catch (error: unknown) {
       return { error: `Error deleting plant: ${error}` };
     }
+    return { success: 'Plant successfully deleted.' };
   }
 
   /**

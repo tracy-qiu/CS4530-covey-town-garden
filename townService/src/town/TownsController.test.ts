@@ -4,6 +4,9 @@ import { nanoid } from 'nanoid';
 import { Town } from '../api/Model';
 import { ConversationArea, Interactable, TownEmitter, ViewingArea } from '../types/CoveyTownSocket';
 import TownsStore from '../lib/TownsStore';
+import * as gardenDao from '../database/dao/garden-dao';
+import { GardenController } from './garden/GardenController';
+
 import {
   createConversationForTesting,
   getLastEmittedEvent,
