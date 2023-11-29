@@ -34,7 +34,7 @@ export type GardenPlot = {
 
 export type PlotPlant = {
   plotPlantId: string;
-  plant?: PlantId;
+  plantId: PlantId | null;
 }
 
 export type PlantDetailsData = {
