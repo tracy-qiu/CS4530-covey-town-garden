@@ -345,7 +345,7 @@ export class GardenController extends Controller {
    * @param gardenPlotId
    * @returns response of deleteGardenPlot
    */
-  @Delete('/plots/{gardenId}')
+  @Delete('/plots/{gardenPlotId}')
   public async deletePlot(
     @Path()
     gardenPlotId: string,
