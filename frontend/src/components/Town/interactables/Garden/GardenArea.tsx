@@ -40,6 +40,9 @@ export function GardenArea(): JSX.Element {
   const currUsername = townController.ourPlayer.userName;
   const [show, setShow] = useState(false);
   const [plants, setPlants] = useState<Record<string, unknown>[]>([]);
+  const [gardenId, setGardenId] = useState('');
+  const [gardenPlotId, setGardenPlotId] = useState('');
+
   const handleClose = () => setShow(false);
 
   const toastMsg = (
@@ -63,10 +66,10 @@ export function GardenArea(): JSX.Element {
   useEffect(() => {
     const updateGardenDetails = async () => {
       const garden = await gardenApiClient.getGardenByTown(townController.townID);
-      const gardenId = garden._id;
-      const gardeners = await gardenApiClient.getGardenersByGarden(gardenId);
+      const gid = garden._id;
+      const gardeners = await gardenApiClient.getGardenersByGarden(gid);
       const gardener = gardeners.find(g => g.name === townController.ourPlayer.userName);
-      const plots = await gardenApiClient.getPlotsByGarden(gardenId);
+      const plots = await gardenApiClient.getPlotsByGarden(gid);
       const plot = plots.find(p => p.gardenerId === gardener?._id);
       if (plot) {
         const newPlants = plot.plants.map(async (plotPlant: PlotPlant) => {
@@ -81,7 +84,9 @@ export function GardenArea(): JSX.Element {
           return { plotPlantId: plotPlant.plotPlantId, plant };
         });
         setPlants(await Promise.all(newPlants));
+        setGardenPlotId(plot._id);
       }
+      setGardenId(gid);
     };
     updateGardenDetails();
   });
@@ -118,6 +123,8 @@ export function GardenArea(): JSX.Element {
         MyGarden(currUsername, {
           isOpen: show,
           onClose: handleClose,
+          gardenId: gardenId,
+          gardenPlotId: gardenPlotId,
           plants: plants,
         })}
       <VStack>

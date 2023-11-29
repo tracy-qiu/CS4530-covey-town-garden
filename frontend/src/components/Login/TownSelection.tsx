@@ -205,8 +205,6 @@ export default function TownSelection(): JSX.Element {
             Town ID: {newTownInfo.townID}
             <br />
             Town Editing Password: {newTownInfo.townUpdatePassword}
-            <br />
-            Created Garden ID: {newTownInfo.gardenId}
           </>
         ),
         status: 'success',

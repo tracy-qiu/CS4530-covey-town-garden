@@ -26,7 +26,7 @@ export type MyGardenAreaProps = {
   onClose: () => void;
   gardenId: string;
   gardenPlotId: string;
-  plants: PlotPlant[];
+  plants: Record<string, unknown>[];
 };
 
 /**
