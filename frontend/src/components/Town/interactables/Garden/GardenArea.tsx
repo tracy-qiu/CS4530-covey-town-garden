@@ -26,6 +26,8 @@ import { GardenAreaPlots, PLANTS } from './GardenAreaPlots';
 import { GardenButton } from './GardenButton';
 import { useToast } from '@chakra-ui/react';
 import { MyGarden } from './MyGarden';
+import { gardenApiClient } from '../../../../classes/garden-client';
+import { PlotPlant } from '../../../../types/CoveyTownSocket';
 
 /**
  * Renders the plots and other components of the overall community garden area.
@@ -37,6 +39,7 @@ export function GardenArea(): JSX.Element {
   const townController: TownController = useTownController();
   const currUsername = townController.ourPlayer.userName;
   const [show, setShow] = useState(false);
+  const [plants, setPlants] = useState<Record<string, unknown>[]>([]);
   const handleClose = () => setShow(false);
 
   const toastMsg = (
@@ -58,7 +61,33 @@ export function GardenArea(): JSX.Element {
   };
 
   useEffect(() => {
-    const definedPlants = PLANTS.map(plant => plant.plant).filter(plant => plant !== undefined);
+    const updateGardenDetails = async () => {
+      const garden = await gardenApiClient.getGardenByTown(townController.townID);
+      const gardenId = garden._id;
+      const gardeners = await gardenApiClient.getGardenersByGarden(gardenId);
+      const gardener = gardeners.find(g => g.name === townController.ourPlayer.userName);
+      const plots = await gardenApiClient.getPlotsByGarden(gardenId);
+      const plot = plots.find(p => p.gardenerId === gardener?._id);
+      if (plot) {
+        const newPlants = plot.plants.map(async (plotPlant: PlotPlant) => {
+          const plant =
+            plotPlant.plantId !== null
+              ? await gardenApiClient.getPlant(plotPlant.plantId).catch(error => {
+                  if (error.response && error.response.status === 204) {
+                    return undefined;
+                  }
+                })
+              : undefined;
+          return { plotPlantId: plotPlant.plotPlantId, plant };
+        });
+        setPlants(await Promise.all(newPlants));
+      }
+    };
+    updateGardenDetails();
+  });
+
+  useEffect(() => {
+    const definedPlants = plants.map(plant => plant.plant).filter(plant => plant !== undefined);
     definedPlants.forEach(plant => {
       if (plant?.status === 'Dehydrated') {
         toastMsg('Please water ' + plant.name + ' (' + plant.species + ')!', 'warning', 9000);
@@ -89,7 +118,7 @@ export function GardenArea(): JSX.Element {
         MyGarden(currUsername, {
           isOpen: show,
           onClose: handleClose,
-          plants: PLANTS,
+          plants: plants,
         })}
       <VStack>
         <ModalHeader textAlign='center'>{'Community Garden'}</ModalHeader>

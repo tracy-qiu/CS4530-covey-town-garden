@@ -59,7 +59,6 @@ export function GardenAreaPlots(): JSX.Element {
                   }
                 })
               : undefined;
-          console.log(plotPlant);
           return { plotPlantId: plotPlant.plotPlantId, plant };
         });
         const gardener = await gardenApiClient.getGardener(plot.gardenerId);
