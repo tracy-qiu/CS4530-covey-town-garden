@@ -5,7 +5,7 @@ export const findGardenPlots = (gid: mongoose.Types.ObjectId) =>
   gardenPlotModel.find({ gardenId: gid });
 export const findGardenPlotById = (gpid: mongoose.Types.ObjectId) => gardenPlotModel.findById(gpid);
 export const findGardenPlotByGardener = (gid: mongoose.Types.ObjectId) =>
-  gardenPlotModel.find({ gardenerId: gid });
+  gardenPlotModel.findOne({ gardenerId: gid });
 export const createGardenPlot = (gardenPlot: GardenPlotDB) => gardenPlotModel.create(gardenPlot);
 export const deleteGardenPlot = (gpid: mongoose.Types.ObjectId) =>
   gardenPlotModel.deleteOne({ _id: gpid });
