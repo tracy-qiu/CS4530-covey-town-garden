@@ -134,12 +134,6 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
         .updatePlantStatus({ plantId: plant._id, plantStatus: 'Dehydrated' })
         .catch(error => {
           toastMsg(error, 'error');
-        })
-        .then(() => {
-          toastMsg(
-            plant.name + ' (' + plant.species + ') is dehydrated! Please add water!',
-            'warning',
-          );
         });
     }
     // set status to about to die if it's been 2 days
@@ -148,12 +142,6 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
         .updatePlantStatus({ plantId: plant._id, plantStatus: 'About to Die' })
         .catch(error => {
           toastMsg(error, 'error');
-        })
-        .then(() => {
-          toastMsg(
-            plant.name + ' (' + plant.species + ') is about to die! Please add water asap!',
-            'error',
-          );
         });
     }
     // set status to about to die if it's been 3 days
@@ -162,9 +150,6 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
         .updatePlantStatus({ plantId: plant._id, plantStatus: 'Dead' })
         .catch(error => {
           toastMsg(error, 'error');
-        })
-        .then(() => {
-          toastMsg(plant.name + ' (' + plant.species + ') is dead! Please remove!', 'error');
         });
     }
   }, [daysSinceLastWater, lastWateredTime, plant.name, plant.species, toastMsg]);
