@@ -132,15 +132,6 @@ export class GardenController extends Controller {
     return { success: 'Garden successfully deleted.' };
   }
 
-  /**
-   * garden 655ec5b40ea6fd95e7881384
-   * plots
-   * 65658b4197ab972bebd2c75c
-   * 65658e7bda270ae81fd737ae
-   * plants
-   *
-   */
-
   // Gardener Collection Endpoints
 
   /**
@@ -397,7 +388,7 @@ export class GardenController extends Controller {
       requestBody.gardenPlotId,
     );
     if (!['Carrot', 'Rose', 'Blueberry'].includes(requestBody.species)) {
-      throw new Error('Invalid value for species.');
+      throw new InvalidParametersError('Invalid value for species.');
     }
     try {
       const plant = await plantDao.createPlant({
@@ -437,14 +428,7 @@ export class GardenController extends Controller {
       await plantDao.deletePlant(plantIdObject);
       // delete plant from plot
       await gardenPlotDao.deleteGardenPlotPlant(gardenPlotIdObject, plantIdObject);
-
-      // delete plant
-      await plantDao.deletePlant(plantIdObject);
-      // delete plant from
-      await gardenPlotDao.deleteGardenPlotPlant(gardenPlotIdObject, plantIdObject);
     } catch (error: unknown) {
-      // mongoose.disconnect();
-
       return { error: `Error deleting plant: ${error}` };
     }
     return { success: 'Plant successfully deleted.' };

@@ -248,25 +248,6 @@ export class TownsController extends Controller {
       });
       return town;
     } catch (error: unknown) {
-      // mongoose.disconnect();
-      return { error: `Error creating new garden: ${error}` };
-    }
-  }
-
-  @Post('{townId}/garden')
-  @Response<InvalidParametersError>(400, 'Invalid values specified')
-  public async createGarden(@Path() townId: string) {
-    try {
-      await validateTownExists(townId);
-      await validateGardenDoesNotExistInTown(townId);
-      const garden = await gardenDao.createGarden({
-        gardenPlots: [],
-        townId,
-      });
-      // mongoose.disconnect();
-      return garden;
-    } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error creating new garden: ${error}` };
     }
   }
