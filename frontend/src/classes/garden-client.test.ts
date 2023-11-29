@@ -120,10 +120,8 @@ describe('Garden API Client Tests', () => {
         gardenPlotId: '655f63f32af8827337046952',
         gardenId: '655f63762af8827337046941',
       });
-      expect(result).toEqual(mockResponse.data);
+      expect(result).toEqual(mockResponse.data._id);
     });
-    it('updatePlantAge updates expected plant', async () => {});
-    it('updatePlantWatered updates expected plant', async () => {});
   });
   describe('Plot tests', () => {
     it('getPlot returns expected plot', async () => {
@@ -216,11 +214,25 @@ describe('Garden API Client Tests', () => {
         data: {
           gardenId: '655d213fe1575ca615961d28',
           gardenerId: '65488a8a51272d8bd84fa95e',
-          topLeftPid: null,
-          topRightPid: null,
-          bottomLeftPid: null,
-          bottomRightPid: null,
-          _id: '6563a094acbcaa67b9020416',
+          plants: [
+            {
+              plotPlantId: '0',
+              _id: '656712a5a6c61426b82aeeed',
+            },
+            {
+              plotPlantId: '1',
+              _id: '656712a5a6c61426b82aeeee',
+            },
+            {
+              plotPlantId: '2',
+              _id: '656712a5a6c61426b82aeeef',
+            },
+            {
+              plotPlantId: '3',
+              _id: '656712a5a6c61426b82aeef0',
+            },
+          ],
+          _id: '656712a5a6c61426b82aeeec',
           __v: 0,
         },
       };
@@ -232,7 +244,6 @@ describe('Garden API Client Tests', () => {
       });
       expect(result).toEqual(mockResponse.data._id);
     });
-    it('updatePlot updates expected plot', async () => {});
   });
   describe('Garden tests', () => {
     it('getGarden returns expected garden given a town id', async () => {
@@ -277,7 +288,6 @@ describe('Garden API Client Tests', () => {
       const result = await gardenApiClient.createGarden('655d6195e1575ca615961d32');
       expect(result).toEqual(mockResponse.data);
     });
-    it('updateGarden updates expected garden', async () => {});
   });
   describe('Gardener tests', () => {
     it('getGardener returns expected gardener', async () => {
@@ -324,6 +334,5 @@ describe('Garden API Client Tests', () => {
       });
       expect(result).toEqual(mockResponse.data._id);
     });
-    it('updateGardener updates expected gardener', async () => {});
   });
 });

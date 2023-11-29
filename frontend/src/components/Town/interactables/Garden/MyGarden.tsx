@@ -24,6 +24,8 @@ import useTownController from '../../../../hooks/useTownController';
 export type MyGardenAreaProps = {
   isOpen: boolean;
   onClose: () => void;
+  gardenId: string;
+  gardenPlotId: string;
   plants: PlotPlant[];
 };
 
@@ -37,7 +39,7 @@ export type MyGardenAreaProps = {
  */
 export function MyGarden(
   username: string,
-  { isOpen, onClose, plants }: MyGardenAreaProps,
+  { isOpen, onClose, gardenId, gardenPlotId, plants }: MyGardenAreaProps,
 ): JSX.Element {
   const currUsername = useTownController().ourPlayer.userName;
 
@@ -92,7 +94,11 @@ export function MyGarden(
               </AccordionItem>
             </Accordion>
             <br />
-            <MyGardenPlots plants={plants} username={username}></MyGardenPlots>
+            <MyGardenPlots
+              gardenId={gardenId}
+              gardenPlotId={gardenPlotId}
+              plants={plants}
+              username={username}></MyGardenPlots>
           </Container>
         </ModalBody>
         <ModalCloseButton />

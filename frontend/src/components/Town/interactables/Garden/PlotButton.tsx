@@ -42,9 +42,11 @@ const StyledPlot = chakra(Button, {
 });
 
 interface PlantPlotButtonProps extends ButtonProps {
+  gardenId: string;
+  gardenPlotId: string;
   username: string;
   plantNames: (string | undefined)[];
-  plotPlant: PlotPlant;
+  plotPlant: Record<string, unknown>;
 }
 
 /**
@@ -55,10 +57,12 @@ interface PlantPlotButtonProps extends ButtonProps {
  * @returns { JSX.Element } plot button
  */
 export function PlantPlotButton({
+  gardenId,
+  gardenPlotId,
   children,
   username,
   plantNames,
-  plotPlant: { plant },
+  plotPlant: { plantId, plant },
   ...rest
 }: PlantPlotButtonProps): JSX.Element {
   const [show, setShow] = useState(false);
@@ -138,6 +142,9 @@ export function PlantPlotButton({
         <SeedManual
           isOpen={show}
           onClose={handleClose}
+          gardenId={gardenId}
+          gardenPlotId={gardenPlotId}
+          plotPlantId={parseInt(plantId)}
           username={username}
           plantNames={plantNames}
         />
@@ -168,6 +175,8 @@ export function PlantPlotButton({
 }
 
 interface GardenPlotButtonProps extends ButtonProps {
+  gardenId: string;
+  gardenPlotId: string;
   username: string;
   plants: PlotPlant[];
 }
@@ -180,6 +189,8 @@ interface GardenPlotButtonProps extends ButtonProps {
 
 export function GardenPlotButton({
   children,
+  gardenId,
+  gardenPlotId,
   username,
   plants,
   ...rest
@@ -198,6 +209,8 @@ export function GardenPlotButton({
       {show &&
         MyGarden(username, {
           isOpen: show,
+          gardenId: gardenId,
+          gardenPlotId: gardenPlotId,
           onClose: handleClose,
           plants: plants,
         })}

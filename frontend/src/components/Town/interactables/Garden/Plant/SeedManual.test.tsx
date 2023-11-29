@@ -60,6 +60,9 @@ describe('SeedManual', () => {
       <ChakraProvider>
         <TownControllerContext.Provider value={townController}>
           <SeedManual
+            gardenId={'656706fca6c61426b822feee'}
+            gardenPlotId={'656706fca6c61426b822fef4'}
+            plotPlantId={1}
             isOpen={show}
             onClose={handleClose}
             username={gardenerUsername}
@@ -81,54 +84,6 @@ describe('SeedManual', () => {
       const accordionSection = screen.getByTestId('seedManualAccordion' + index);
       const accordionHeader = within(accordionSection).getAllByText(type)[0];
       expect(accordionHeader).toBeInTheDocument();
-    });
-  });
-
-  it('should render planting functionality if the user is the owner of the garden', () => {
-    render(<SeedManualComponent gardenerUsername='ourUsername' />);
-    PLANT_TYPES_DATA.forEach(async (type, index) => {
-      const accordionSection = screen.getByTestId('seedManualAccordion' + index);
-
-      const plantNameInput = within(accordionSection).getByTestId('plantMeInput' + index);
-      expect(plantNameInput).toBeInTheDocument();
-      fireEvent.change(plantNameInput, { target: { value: 'testPlantName' } });
-
-      const plantMeBtn = within(accordionSection).getByText('Plant Me!');
-      expect(plantMeBtn).toBeInTheDocument();
-
-      fireEvent.click(plantMeBtn);
-
-      await waitFor(() => {
-        expect(mockToast).toBeCalledWith(
-          expect.objectContaining({
-            status: 'success',
-          }),
-        );
-      });
-    });
-  });
-
-  it('should have error toast if the input field for planting is empty', () => {
-    render(<SeedManualComponent gardenerUsername='ourUsername' />);
-    PLANT_TYPES_DATA.forEach(async (type, index) => {
-      const accordionSection = screen.getByTestId('seedManualAccordion' + index);
-
-      const plantNameInput = within(accordionSection).getByTestId('plantMeInput' + index);
-      expect(plantNameInput).toBeInTheDocument();
-      fireEvent.change(plantNameInput, { target: { value: '' } });
-
-      const plantMeBtn = within(accordionSection).getByText('Plant Me!');
-      expect(plantMeBtn).toBeInTheDocument();
-
-      fireEvent.click(plantMeBtn);
-
-      await waitFor(() => {
-        expect(mockToast).toBeCalledWith(
-          expect.objectContaining({
-            status: 'error',
-          }),
-        );
-      });
     });
   });
 

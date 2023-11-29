@@ -4,6 +4,8 @@ import { Container, SimpleGrid } from '@chakra-ui/react';
 import { PlantPlotButton } from './PlotButton';
 
 export type MyGardenPlotsProps = {
+  gardenId: string;
+  gardenPlotId: string;
   username: string;
   plants: Record<string, unknown>[];
 };
@@ -13,7 +15,12 @@ export type MyGardenPlotsProps = {
  * @param { username, plants } MyGardenPlotsProps username of gardener and list of plants to display in user's garden
  * @returns {JSX.Element} GardenPlots
  */
-export function MyGardenPlots({ username, plants }: MyGardenPlotsProps): JSX.Element {
+export function MyGardenPlots({
+  gardenId,
+  gardenPlotId,
+  username,
+  plants,
+}: MyGardenPlotsProps): JSX.Element {
   //useEffect -> tracks garden controller
   const plantNames: (string | undefined)[] = plants
     .filter(plant => plant.plant !== undefined)
@@ -26,10 +33,12 @@ export function MyGardenPlots({ username, plants }: MyGardenPlotsProps): JSX.Ele
           return (
             <PlantPlotButton
               key={plant.plantId}
+              gardenId={gardenId}
+              gardenPlotId={gardenPlotId}
               username={username}
               plantNames={plantNames}
               plotPlant={{
-                plantId: plant.plantId,
+                plantId: plant.plotPlantId,
                 plant: plant.plant,
               }}
             />

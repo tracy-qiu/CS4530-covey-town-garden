@@ -16,6 +16,7 @@ import {
 import { Plant } from '../../../../../types/CoveyTownSocket';
 import { GardenButton } from '../GardenButton';
 import { useToast } from '@chakra-ui/react';
+import { gardenApiClient } from '../../../../../classes/garden-client';
 
 type PlantActionProps = {
   plant: Plant;
@@ -29,7 +30,8 @@ type PlantActionProps = {
 export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
   const toast = useToast();
   const [statusColor, setStatusColor] = useState('');
-  const [lastWateredTime, setLastWateredTime] = useState('');
+  const initialWaterTime = plant.lastWatered ? plant.lastWatered.toLocaleString() : '';
+  const [lastWateredTime, setLastWateredTime] = useState(initialWaterTime);
   const [daysSinceLastWater, setDaysSinceLastWater] = useState(0);
   const [display, setDisplay] = useState(true);
   const today = new Date().toLocaleString('en-US', {
@@ -51,27 +53,41 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
   };
 
   const waterPlant = () => {
-    // need to send lastWatered time to database and reset the object
+    gardenApiClient.updatePlantWatered({ plantId: plant._id }).catch(error => {
+      toastMsg(error, 'error');
+    });
     setLastWateredTime(today);
     toastMsg('Watered ' + plant.name + ' (' + plant.species + ')!', 'success');
 
     // TBD: set health status and age based on watering
     if (plant.status === 'Healthy') {
       if (plant.age === 'Seedling') {
-        // set plant age to be sprout
+        gardenApiClient.updatePlantAge({ plantId: plant._id, plantAge: 'Sprout' }).catch(error => {
+          toastMsg(error, 'error');
+        });
         toastMsg('Plant is now a Sprout', 'info');
       } else if (plant.age === 'Sprout') {
-        // set plant age to be adult
+        gardenApiClient.updatePlantAge({ plantId: plant._id, plantAge: 'Adult' }).catch(error => {
+          toastMsg(error, 'error');
+        });
         toastMsg('Plant is now an Adult', 'info');
       }
       // if it is an adult, do nothing
     }
     if (plant.status === 'Dehydrated') {
-      // set plant status to healthy
+      gardenApiClient
+        .updatePlantStatus({ plantId: plant._id, plantStatus: 'Healthy' })
+        .catch(error => {
+          toastMsg(error, 'error');
+        });
       toastMsg('Plant is now Healthy', 'info');
     }
     if (plant.status === 'About to Die') {
-      // set plant status to healthy
+      gardenApiClient
+        .updatePlantStatus({ plantId: plant._id, plantStatus: 'Healthy' })
+        .catch(error => {
+          toastMsg(error, 'error');
+        });
       toastMsg('Plant is now Healthy', 'info');
     }
   };
@@ -180,7 +196,7 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
             </GridItem>
             <GridItem w='100%'>
               <b>Last Watered: </b>
-              <Badge variant='outline'>{lastWateredTime}</Badge>
+              <Badge variant='outline'>{new Date(lastWateredTime).toLocaleString()}</Badge>
               <p>{daysSinceLastWater} days ago</p>
             </GridItem>
           </Grid>

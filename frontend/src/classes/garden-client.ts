@@ -1,5 +1,13 @@
 import axios, { AxiosInstance } from 'axios';
-import { Garden, GardenPlot, Gardener, PlantType, Plant, PlantAge } from '../types/CoveyTownSocket';
+import {
+  Garden,
+  GardenPlot,
+  Gardener,
+  PlantType,
+  Plant,
+  PlantAge,
+  PlantHealthStatus,
+} from '../types/CoveyTownSocket';
 
 export interface GardenClient {
   readonly getGardenByTown: (townId: string) => Promise<Garden>;
@@ -36,6 +44,10 @@ export interface GardenClient {
     plantId: string;
     plotLocation: number;
   }) => Promise<string>;
+  readonly updatePlantStatus: (requestBody: {
+    plantId: string;
+    plantStatus: PlantHealthStatus;
+  }) => Promise<string>;
   readonly updateGardener: (requestBody: { gardenId: string; name: string }) => Promise<string>;
   readonly updateGarden: (requestBody: { gardenId: string; plotId: string }) => Promise<string>;
 }
@@ -69,6 +81,7 @@ export enum GardenRoutes {
   CREATE_TOWN = '/garden/town',
 
   UPDATE_PLANT_WATERED = '/garden/update/plantLastWatered',
+  UPDATE_PLANT_STATUS = '/garden/update/plantStatus',
   UPDATE_PLANT_AGE = '/garden/update/plantAge',
   UPDATE_PLOT = '/garden/update/plot',
   UPDATE_GARDENER = '/garden/gardener',
@@ -217,7 +230,7 @@ const createPlant = (requestBody: {
   name: string;
   species: PlantType;
 }): Promise<string> => {
-  return AppAxiosInstance.post(GardenRoutes.CREATE_PLANT, requestBody).then(res => res.data);
+  return AppAxiosInstance.post(GardenRoutes.CREATE_PLANT, requestBody).then(res => res.data._id);
 };
 
 /**
@@ -267,6 +280,18 @@ const createTown = (requestBody: { townId: string; adminId?: string }): Promise<
  */
 const updatePlantAge = (requestBody: { plantId: string; plantAge: PlantAge }): Promise<string> => {
   return AppAxiosInstance.post(GardenRoutes.UPDATE_PLANT_AGE, requestBody).then(res => res.data);
+};
+
+/**
+ * Water a plant by updating its 'lastWatered' field
+ * @param requestBody { plantId (string), plantStatus (string) }
+ * @returns PlantId HexString
+ */
+const updatePlantStatus = (requestBody: {
+  plantId: string;
+  plantStatus: PlantHealthStatus;
+}): Promise<string> => {
+  return AppAxiosInstance.post(GardenRoutes.UPDATE_PLANT_STATUS, requestBody).then(res => res.data);
 };
 
 /**
@@ -334,6 +359,7 @@ export const gardenApiClient: GardenClient = Object.freeze({
   updateGarden,
   updateGardener,
   updatePlot,
+  updatePlantStatus,
   updatePlantAge,
   updatePlantWatered,
 });

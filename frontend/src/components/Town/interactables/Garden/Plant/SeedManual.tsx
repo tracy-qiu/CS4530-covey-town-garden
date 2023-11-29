@@ -24,10 +24,14 @@ import { GardenButton } from '../GardenButton';
 import { useToast } from '@chakra-ui/react';
 import useTownController from '../../../../../hooks/useTownController';
 import { PLANT_TYPES_DATA } from '../garden-data/data';
+import { gardenApiClient } from '../../../../../classes/garden-client';
 
 type SeedManualProps = {
   isOpen: boolean;
   onClose: () => void;
+  gardenId: string;
+  gardenPlotId: string;
+  plotPlantId: number;
   username: string;
   plantNames: (string | undefined)[];
 };
@@ -41,6 +45,9 @@ type SeedManualProps = {
 export function SeedManual({
   isOpen,
   onClose,
+  gardenId,
+  gardenPlotId,
+  plotPlantId,
   username,
   plantNames,
 }: SeedManualProps): JSX.Element {
@@ -60,7 +67,7 @@ export function SeedManual({
     });
   };
 
-  const plantSeed = (plantType: PlantType) => {
+  const plantSeed = async (plantType: PlantType) => {
     if (newPlantName === '') {
       toastMsg('Plant must be given a name', 'error');
     } else if (plantNames.length > 0 && plantNames.includes(newPlantName)) {
@@ -69,8 +76,30 @@ export function SeedManual({
         'error',
       );
     } else {
-      // TBD: add plant to list of plots
-      toastMsg('Planting ' + newPlantName + ' (' + plantType.toString() + ')', 'success');
+      const plantId = await gardenApiClient
+        .createPlant({
+          gardenId,
+          gardenPlotId,
+          name: newPlantName,
+          species: plantType,
+        })
+        .catch(() => {
+          toastMsg('Could not add plant', 'error');
+          return undefined;
+        });
+      if (plantId) {
+        await gardenApiClient
+          .updatePlot({
+            plotId: gardenPlotId,
+            plantId,
+            plotLocation: plotPlantId,
+          })
+          .catch(() => {
+            toastMsg('Could not add plant', 'error');
+            return undefined;
+          });
+        toastMsg('Planting ' + newPlantName + ' (' + plantType.toString() + ')', 'success');
+      }
     }
   };
 
