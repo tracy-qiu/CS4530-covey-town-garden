@@ -8,25 +8,25 @@ import { gardenApiClient } from '../../../../classes/garden-client';
 
 const samplePlant1: PlotPlant = {
   plotPlantId: '12',
-  plant: '65643e8e2e726976a53f8465',
+  plantId: '65643e8e2e726976a53f8465',
 };
 
 const samplePlant2: PlotPlant = {
   plotPlantId: '13',
-  plant: '65643e8e2e726976a53f8465',
+  plantId: '65643e8e2e726976a53f8465',
 };
 
 const samplePlant3: PlotPlant = {
   plotPlantId: '14',
-  plant: '65643e8e2e726976a53f8465',
+  plantId: '65643e8e2e726976a53f8465',
 };
 
 const samplePlantDead: PlotPlant = {
   plotPlantId: '100',
-  plant: '65643e8e2e726976a53f8465',
+  plantId: '65643e8e2e726976a53f8465',
 };
 
-const undefinedPlant: PlotPlant = { plotPlantId: '16', plant: undefined };
+const undefinedPlant: PlotPlant = { plotPlantId: '16', plantId: undefined };
 
 export const PLANTS: PlotPlant[] = [samplePlant1, samplePlant2, samplePlantDead, undefinedPlant];
 
@@ -51,13 +51,15 @@ export function GardenAreaPlots(): JSX.Element {
         // and for each plot plant in a garden plot ...
         const newPlants = plot.plants.map(async (plotPlant: PlotPlant) => {
           // get the plant by plant id for each plotplant
-          const plant = plotPlant.plant
-            ? await gardenApiClient.getPlant(plotPlant.plant).catch(error => {
-                if (error.response && error.response.status === 204) {
-                  return undefined;
-                }
-              })
-            : undefined;
+          const plant =
+            plotPlant.plantId !== null
+              ? await gardenApiClient.getPlant(plotPlant.plantId).catch(error => {
+                  if (error.response && error.response.status === 204) {
+                    return undefined;
+                  }
+                })
+              : undefined;
+          console.log(plotPlant);
           return { plotPlantId: plotPlant.plotPlantId, plant };
         });
         const gardener = await gardenApiClient.getGardener(plot.gardenerId);
