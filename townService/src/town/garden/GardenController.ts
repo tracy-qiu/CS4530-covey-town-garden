@@ -30,13 +30,11 @@ export class GardenController extends Controller {
    */
   @Get()
   public async getAllGardens() {
-    // connectToGardenDB();
     try {
       const gardens = await gardenDao.findGardens();
-      // mongoose.disconnect();
+
       return gardens;
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error getting all gardens: ${error}` };
     }
   }
@@ -51,13 +49,12 @@ export class GardenController extends Controller {
     gardenId: string,
   ) {
     const gardenIdObject = new mongoose.Types.ObjectId(gardenId);
-    // connectToGardenDB();
+
     try {
       const garden = await gardenDao.findGardenById(gardenIdObject);
-      // mongoose.disconnect();
+
       return garden;
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error getting garden by id: ${error}` };
     }
   }
@@ -71,13 +68,11 @@ export class GardenController extends Controller {
     @Path()
     townId: string,
   ) {
-    // connectToGardenDB();
     try {
       const garden = await gardenDao.findGardenByTownId(townId);
-      // mongoose.disconnect();
+
       return garden;
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error finding garden by town id: ${error}` };
     }
   }
@@ -90,13 +85,12 @@ export class GardenController extends Controller {
   @Post('/update')
   public async updateGarden(@Body() requestBody: { gardenId: string; plotId: string }) {
     const gardenIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.gardenId);
-    // connectToGardenDB();
+
     try {
       const response = await gardenDao.updateGarden(gardenIdObject, requestBody.plotId);
-      // mongoose.disconnect();
+
       return response;
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error adding plot to garden: ${error}` };
     }
   }
@@ -110,7 +104,6 @@ export class GardenController extends Controller {
     @Path()
     gardenId: string,
   ) {
-    // connectToGardenDB();
     const gardenIdObject = mongoose.Types.ObjectId.createFromHexString(gardenId);
     try {
       // delete the garden
@@ -125,7 +118,6 @@ export class GardenController extends Controller {
       // delete all plants in garden
       await plantDao.deletePlantsByGarden(gardenIdObject);
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error deleting garden: ${error}` };
     }
     return { success: 'Garden successfully deleted.' };
@@ -151,14 +143,12 @@ export class GardenController extends Controller {
     @Path()
     gardenId: string,
   ) {
-    // connectToGardenDB();
     const gardenIdObject = mongoose.Types.ObjectId.createFromHexString(gardenId);
     try {
       const gardeners = await gardenerDao.findGardeners(gardenIdObject);
-      // mongoose.disconnect();
+
       return gardeners;
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error finding gardeners in garden: ${error}` };
     }
   }
@@ -173,13 +163,12 @@ export class GardenController extends Controller {
     gardenerId: string,
   ) {
     const gardenerIdObject = mongoose.Types.ObjectId.createFromHexString(gardenerId);
-    // connectToGardenDB();
+
     try {
       const gardener = await gardenerDao.findGardenerById(gardenerIdObject);
-      // mongoose.disconnect();
+
       return gardener;
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error finding gardeners by id: ${error}` };
     }
   }
@@ -212,31 +201,16 @@ export class GardenController extends Controller {
     @Path()
     gardenerId: string,
   ) {
-    // connectToGardenDB();
     const gardenerIdObject = mongoose.Types.ObjectId.createFromHexString(gardenerId);
     try {
       // delete gardener
       await gardenerDao.deleteGardener(gardenerIdObject);
       // delete gardener's garden plot
       await gardenPlotDao.deleteGardenPlotsByGardener(gardenerIdObject);
-
-      // // delete plants in gardener's garden plot
-      // const gardenPlot = gardenPlotDao.findGardenPlotByGardener(gardenerIdObject);
-      // const plotPlants = gardenPlot?.plants
-      //   .map(plant => plant.plantId)
-      //   .filter((plantId: string | null): plantId is string => plantId !== null);
-      // if (plotPlants) {
-      //   await Promise.all(
-      //     plotPlants.map(async (plantId: string) => {
-      //       await plantDao.deletePlant(new mongoose.Types.ObjectId(plantId));
-      //     }),
-      //   );
-      // }
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error deleting gardener ${error}` };
     }
-    // mongoose.disconnect();
+
     return { success: 'Gardener successfully deleted.' };
   }
 
@@ -251,14 +225,12 @@ export class GardenController extends Controller {
     @Path()
     gardenId: string,
   ) {
-    // connectToGardenDB();
     const gardenIdObject = new mongoose.Types.ObjectId(gardenId);
     try {
       const plots = await gardenPlotDao.findGardenPlots(gardenIdObject);
-      // mongoose.disconnect();
+
       return plots;
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error adding new gardener to garden: ${error}` };
     }
   }
@@ -274,13 +246,12 @@ export class GardenController extends Controller {
     gardenPlotId: PlantId,
   ) {
     const gardenPlotIdObject = new mongoose.Types.ObjectId(gardenPlotId);
-    // connectToGardenDB();
+
     try {
       const plot = await gardenPlotDao.findGardenPlotById(gardenPlotIdObject);
-      // mongoose.disconnect();
+
       return plot;
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error adding new gardener to garden: ${error}` };
     }
   }
@@ -294,7 +265,7 @@ export class GardenController extends Controller {
   public async addPlot(@Body() requestBody: { gardenId: string; gardenerId: string }) {
     const gardenIdObject = new mongoose.Types.ObjectId(requestBody.gardenId);
     const gardenerIdObject = new mongoose.Types.ObjectId(requestBody.gardenerId);
-    // connectToGardenDB();
+
     const plants: PlotPlant[] = Array(4)
       .fill(undefined)
       .map((_, index) => ({
@@ -307,38 +278,12 @@ export class GardenController extends Controller {
         gardenerId: gardenerIdObject,
         plants,
       });
-      // mongoose.disconnect();
+
       return plot;
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error adding plot to garden: ${error}` };
     }
   }
-
-  // private async _deletePlotHelper(gardenPlotId: string) {
-  //   const gardenPlotIdObject = mongoose.Types.ObjectId.createFromHexString(gardenPlotId);
-  //   const plot = await gardenPlotDao.findGardenPlotById(gardenPlotIdObject);
-  //   // delete the plot
-  //   await gardenPlotDao.deleteGardenPlot(gardenPlotIdObject);
-
-  //   // delete the plot from the garden
-  //   const gardenIdObject = plot?.gardenId;
-  //   if (gardenIdObject) {
-  //     await gardenDao.deleteGardenPlot(gardenIdObject, gardenPlotId);
-  //   }
-
-  //   // delete all plants associated to plot
-  //   const plotPlants = plot?.plants
-  //     .map(plant => plant.plantId)
-  //     .filter((plantId: string | null): plantId is string => plantId !== null);
-  //   if (plotPlants) {
-  //     await Promise.all(
-  //       plotPlants.map(async (plantId: string) => {
-  //         await plantDao.deletePlant(new mongoose.Types.ObjectId(plantId));
-  //       }),
-  //     );
-  //   }
-  // }
 
   /**
    * Deletes a plot by plot Id
@@ -350,7 +295,6 @@ export class GardenController extends Controller {
     @Path()
     gardenPlotId: string,
   ) {
-    // connectToGardenDB();
     try {
       const gardenPlotIdObject = mongoose.Types.ObjectId.createFromHexString(gardenPlotId);
       const plot = await gardenPlotDao.findGardenPlotById(gardenPlotIdObject);
@@ -366,7 +310,6 @@ export class GardenController extends Controller {
       // delete all plants associated to plot
       await plantDao.deletePlantsByPlot(gardenPlotIdObject);
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error deleting garden plot: ${error}` };
     }
     return { success: 'Plot successfully deleted.' };
@@ -383,17 +326,14 @@ export class GardenController extends Controller {
   ) {
     const plotIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plotId);
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
-    // connectToGardenDB();
     try {
       const response = await gardenPlotDao.updateGardenPlot(
         plotIdObject,
         plantIdObject,
         requestBody.plotLocation,
       );
-      // mongoose.disconnect();
       return response;
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error updating plot with new plant: ${error}` };
     }
   }
@@ -409,13 +349,11 @@ export class GardenController extends Controller {
     plotId: string,
   ) {
     const plotIdObject = mongoose.Types.ObjectId.createFromHexString(plotId);
-    // connectToGardenDB();
     try {
       const plants = await plantDao.findPlants(plotIdObject);
-      // mongoose.disconnect();
+
       return plants;
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error getting all plants in a plot: ${error}` };
     }
   }
@@ -430,13 +368,10 @@ export class GardenController extends Controller {
     plantId: PlantId,
   ) {
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(plantId);
-    // connectToGardenDB();
     try {
       const plant = await plantDao.findPlantById(plantIdObject);
-      // mongoose.disconnect();
       return plant;
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error getting plant by id: ${error}` };
     }
   }
@@ -464,7 +399,7 @@ export class GardenController extends Controller {
     if (!['Carrot', 'Rose', 'Blueberry'].includes(requestBody.species)) {
       throw new Error('Invalid value for species.');
     }
-    // connectToGardenDB();
+
     try {
       const plant = await plantDao.createPlant({
         gardenId: gardenIdObject,
@@ -475,10 +410,8 @@ export class GardenController extends Controller {
         lastWatered: new Date(),
         species: requestBody.species,
       });
-      // mongoose.disconnect();
       return plant;
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error creating new plant: ${error}` };
     }
   }
@@ -488,20 +421,15 @@ export class GardenController extends Controller {
    * @param requestBody
    *
    */
-  @Delete('/plant/delete')
+  @Delete('/plants/{plantId}')
   public async deletePlant(
-    @Body()
-    requestBody: {
-      plantId: string;
-      gardenPlotId: string;
-    },
+    @Path()
+    plantId: string,
   ) {
-    // connectToGardenDB();
-    const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
-    const gardenPlotIdObject = mongoose.Types.ObjectId.createFromHexString(
-      requestBody.gardenPlotId,
-    );
+    const plantIdObject = mongoose.Types.ObjectId.createFromHexString(plantId);
     try {
+      const plant = await plantDao.findPlantById(plantIdObject);
+      const gardenPlotIdObject = new mongoose.Types.ObjectId(plant?.gardenPlotId);
       // delete plant
       await plantDao.deletePlant(plantIdObject);
       // delete plant from plot
@@ -523,13 +451,10 @@ export class GardenController extends Controller {
       throw new Error('Invalid value for species.');
     }
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
-    // connectToGardenDB();
     try {
       const response = await plantDao.updatePlantAge(plantIdObject, requestBody.plantAge);
-      // mongoose.disconnect();
       return response;
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error updating plant age: ${error}` };
     }
   }
@@ -547,13 +472,11 @@ export class GardenController extends Controller {
       throw new Error('Invalid value for plant health status.');
     }
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
-    // connectToGardenDB();
+
     try {
       const response = await plantDao.updatePlantStatus(plantIdObject, requestBody.plantStatus);
-      // mongoose.disconnect();
       return response;
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error updating plant status: ${error}` };
     }
   }
@@ -566,13 +489,10 @@ export class GardenController extends Controller {
   @Post('/update/plantLastWatered')
   public async updatePlantLastWatered(@Body() requestBody: { plantId: string }) {
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
-    // connectToGardenDB();
     try {
       const response = await plantDao.updatePlantLastWatered(plantIdObject);
-      // mongoose.disconnect();
       return response;
     } catch (error: unknown) {
-      // mongoose.disconnect();
       return { error: `Error updating plant last watered: ${error}` };
     }
   }
