@@ -25,7 +25,7 @@ import {
   ViewingArea,
 } from '../types/CoveyTownSocket';
 import { validateGardenDoesNotExistInTown, validateTownExists } from './garden/GardenUtil';
-import { connectToGardenDB } from './garden/GardenController';
+// import { connectToGardenDB } from './garden/GardenController';
 import * as gardenDao from '../database/dao/garden-dao';
 import * as townDao from '../database/dao/town-dao';
 
@@ -205,7 +205,7 @@ export class TownsController extends Controller {
    */
   @Get('townDB')
   public async getAllTowns() {
-    connectToGardenDB();
+    // connectToGardenDB();
     try {
       const towns = await townDao.findTowns();
       return towns;
@@ -220,7 +220,7 @@ export class TownsController extends Controller {
    */
   @Get('townDB/{dbTownId}')
   public async getTownByDbId(@Path() dbTownId: string) {
-    connectToGardenDB();
+    // connectToGardenDB();
     const dbTownIdObject = new mongoose.Types.ObjectId(dbTownId);
     try {
       const towns = await townDao.findTownByDBTownId(dbTownIdObject);
@@ -238,7 +238,7 @@ export class TownsController extends Controller {
   @Post('townDB')
   public async createTownInDb(@Body() requestBody: { townId: string; adminId: string }) {
     const adminIdObject = new mongoose.Types.ObjectId(requestBody.adminId);
-    connectToGardenDB();
+    // connectToGardenDB();
     try {
       const town = await townDao.createTown({
         townId: requestBody.townId,
@@ -253,7 +253,7 @@ export class TownsController extends Controller {
   @Post('{townId}/garden')
   @Response<InvalidParametersError>(400, 'Invalid values specified')
   public async createGarden(@Path() townId: string) {
-    connectToGardenDB();
+    // connectToGardenDB();
     try {
       await validateTownExists(townId);
       await validateGardenDoesNotExistInTown(townId);
@@ -277,13 +277,28 @@ export class TownsController extends Controller {
     @Path()
     townId: string,
   ) {
-    connectToGardenDB();
+    // connectToGardenDB();
     const townIdObject = mongoose.Types.ObjectId.createFromHexString(townId);
     try {
       const response = await townDao.deleteTown(townIdObject);
       return response;
     } catch (error: unknown) {
       return { error: `Error deleting plant: ${error}` };
+    }
+  }
+
+  /**
+   * Retrieves all gardens across all towns
+   * @returns garden
+   */
+  @Get()
+  public getAllGardens() {
+    // connectToGardenDB();
+    try {
+      const gardens = gardenDao.findGardens();
+      return gardens;
+    } catch (error: unknown) {
+      return { error: `Error getting all gardens: ${error}` };
     }
   }
 }
