@@ -42,7 +42,7 @@ const gardenPlotSchema = new mongoose.Schema<GardenPlotDocument>(
     plants: [
       {
         plotPlantId: { type: String, required: false },
-        plant: { type: String, required: false },
+        plantId: { type: String, required: false },
       },
     ],
   },

@@ -1,4 +1,4 @@
-import { Controller, Get, Path, Route, Post, Body, Delete } from 'tsoa';
+import { Controller, Get, Path, Route, Post, Body, Delete, Response } from 'tsoa';
 import mongoose from 'mongoose';
 import {
   PlantAge,
@@ -11,6 +11,7 @@ import * as plantDao from '../../database/dao/plant-dao';
 import * as gardenDao from '../../database/dao/garden-dao';
 import * as gardenerDao from '../../database/dao/gardener-dao';
 import * as gardenPlotDao from '../../database/dao/gardenPlot-dao';
+import InvalidParametersError from '../../lib/InvalidParametersError';
 
 export function connectToGardenDB() {
   const connectionString =
@@ -111,13 +112,27 @@ export class GardenController extends Controller {
     connectToGardenDB();
     const gardenIdObject = mongoose.Types.ObjectId.createFromHexString(gardenId);
     try {
+<<<<<<< HEAD
       const response = await gardenDao.deleteGarden(gardenIdObject);
       mongoose.disconnect();
       return response;
+=======
+      const garden = await gardenDao.findGardenById(gardenIdObject);
+      await gardenDao.deleteGarden(gardenIdObject);
+      const gardenPlots = garden?.gardenPlots;
+      if (gardenPlots) {
+        await Promise.all(
+          gardenPlots.map(async (plotId: string) => {
+            this._deletePlotHelper(plotId);
+          }),
+        );
+      }
+>>>>>>> delete endpoint deletes all associated items and add mongoose disconnects to endpoints
     } catch (error: unknown) {
       mongoose.disconnect();
       return { error: `Error deleting garden: ${error}` };
     }
+    return { success: 'Garden successfully deleted.' };
   }
 
   // Gardener Collection Endpoints
@@ -263,7 +278,7 @@ export class GardenController extends Controller {
       .fill(undefined)
       .map((_, index) => ({
         plotPlantId: `${index}`,
-        plant: undefined,
+        plantId: null,
       }));
     try {
       const plot = await gardenPlotDao.createGardenPlot({
@@ -279,26 +294,55 @@ export class GardenController extends Controller {
     }
   }
 
+  private async _deletePlotHelper(gardenPlotId: string) {
+    const gardenPlotIdObject = mongoose.Types.ObjectId.createFromHexString(gardenPlotId);
+    const plot = await gardenPlotDao.findGardenPlotById(gardenPlotIdObject);
+    // delete the plot
+    await gardenPlotDao.deleteGardenPlot(gardenPlotIdObject);
+
+    // delete the plot from the garden
+    const gardenIdObject = plot?.gardenId;
+    if (gardenIdObject) {
+      await gardenDao.deleteGardenPlot(gardenIdObject, gardenPlotId);
+    }
+
+    // delete all plants associated to plot
+    const plotPlants = plot?.plants
+      .map(plant => plant.plantId)
+      .filter((plantId: string | null): plantId is string => plantId !== null);
+    if (plotPlants) {
+      await Promise.all(
+        plotPlants.map(async (plantId: string) => {
+          await plantDao.deletePlant(new mongoose.Types.ObjectId(plantId));
+        }),
+      );
+    }
+  }
+
   /**
    * Deletes a plot by plot Id
    * @param gardenPlotId
    * @returns response of deleteGardenPlot
    */
-  @Delete('/plots/{gardenPlotId}')
+  @Delete('/plots/{gardenId}')
   public async deletePlot(
     @Path()
     gardenPlotId: string,
   ) {
     connectToGardenDB();
-    const gardenPlotIdObject = mongoose.Types.ObjectId.createFromHexString(gardenPlotId);
     try {
+<<<<<<< HEAD
       const response = await gardenPlotDao.deleteGardenPlot(gardenPlotIdObject);
       mongoose.disconnect();
       return response;
+=======
+      this._deletePlotHelper(gardenPlotId);
+>>>>>>> delete endpoint deletes all associated items and add mongoose disconnects to endpoints
     } catch (error: unknown) {
       mongoose.disconnect();
       return { error: `Error deleting garden plot: ${error}` };
     }
+    return { success: 'Plot successfully deleted.' };
   }
 
   /**
@@ -376,6 +420,7 @@ export class GardenController extends Controller {
    * @returns the plant object
    */
   @Post('/plant')
+  @Response<InvalidParametersError>(400, 'Invalid values specified')
   public async addPlant(
     @Body()
     requestBody: {
@@ -416,21 +461,35 @@ export class GardenController extends Controller {
    * @param requestBody
    *
    */
-  @Delete('/plants/{plantId}')
+  @Delete('/plant/delete')
   public async deletePlant(
-    @Path()
-    plantId: string,
+    @Body()
+    requestBody: {
+      plantId: string;
+      gardenPlotId: string;
+    },
   ) {
     connectToGardenDB();
-    const plantIdObject = mongoose.Types.ObjectId.createFromHexString(plantId);
+    const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
+    const gardenPlotIdObject = mongoose.Types.ObjectId.createFromHexString(
+      requestBody.gardenPlotId,
+    );
     try {
+<<<<<<< HEAD
       const response = await plantDao.deletePlant(plantIdObject);
       mongoose.disconnect();
       return response;
+=======
+      // delete plant
+      await plantDao.deletePlant(plantIdObject);
+      // delete plant from
+      await gardenPlotDao.deleteGardenPlotPlant(gardenPlotIdObject, plantIdObject);
+>>>>>>> delete endpoint deletes all associated items and add mongoose disconnects to endpoints
     } catch (error: unknown) {
       mongoose.disconnect();
       return { error: `Error deleting plant: ${error}` };
     }
+    return { success: 'Plant successfully deleted.' };
   }
 
   /**

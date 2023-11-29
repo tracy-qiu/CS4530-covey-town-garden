@@ -4,6 +4,9 @@ import { nanoid } from 'nanoid';
 import { Town } from '../api/Model';
 import { ConversationArea, Interactable, TownEmitter, ViewingArea } from '../types/CoveyTownSocket';
 import TownsStore from '../lib/TownsStore';
+import * as gardenDao from '../database/dao/garden-dao';
+import { GardenController } from './garden/GardenController';
+
 import {
   createConversationForTesting,
   getLastEmittedEvent,
@@ -361,6 +364,35 @@ describe('TownsController integration tests', () => {
           controller.createViewingArea(testingTown.townID, sessionToken, viewingArea),
         ).rejects.toThrow();
       });
+    });
+  });
+
+  describe('getAllGardens', () => {
+    it('should return gardens on success', async () => {
+      // Mock the implementation of findGardens
+      const mockGardens = [{ name: 'Garden 1' }];
+      (gardenDao.findGardens as jest.Mock).mockResolvedValue(mockGardens);
+
+      const gardenController = new GardenController();
+
+      // Act
+      const result = await gardenController.getAllGardens();
+
+      // Assert
+      expect(result).toEqual(mockGardens);
+    });
+
+    it('should return an error on failure', async () => {
+      // Mock the implementation of findGardens to throw an error
+      (gardenDao.findGardens as jest.Mock).mockRejectedValue(new Error('Database error'));
+
+      const gardenController = new GardenController();
+
+      // Act
+      const result = await gardenController.getAllGardens();
+
+      // Assert
+      expect(result).toEqual({ error: 'Error getting all gardens: Error: Database error' });
     });
   });
 });
