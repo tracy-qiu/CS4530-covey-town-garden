@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import 'core-js';
 import { nanoid } from 'nanoid';
 import React from 'react';
@@ -70,43 +70,4 @@ describe('PlantActions', () => {
     const removePlantBtn = screen.getByText('Remove Plant');
     expect(removePlantBtn).toBeInTheDocument();
   });
-
-  //   it('should display toasts and update last watered date when water me button is clicked', async () => {
-  //     render(<PlantActionsComponent />);
-
-  //     const waterPlantBtn = screen.getByText('Water Me!');
-
-  //     fireEvent.click(waterPlantBtn);
-
-  //     await waitFor(() => {
-  //         expect(mockToast).toBeCalledWith(
-  //           expect.objectContaining({
-  //             status: 'success',
-  //           }),
-  //         );
-  //       screen.getByText(
-  //         new Date().toLocaleString('en-US', {
-  //           year: 'numeric',
-  //           month: 'numeric',
-  //           day: 'numeric',
-  //         }),
-  //       );
-  //     });
-  //   });
-
-  //   it('should display toasts when remove plant button is clicked', async () => {
-  //     render(<PlantActionsComponent />);
-
-  //     const removePlantBtn = screen.getByText('Remove Plant');
-
-  //     fireEvent.click(removePlantBtn);
-
-  //     await waitFor(() => {
-  //       expect(mockToast).toBeCalledWith(
-  //         expect.objectContaining({
-  //           status: 'success',
-  //         }),
-  //       );
-  //     });
-  //   });
 });

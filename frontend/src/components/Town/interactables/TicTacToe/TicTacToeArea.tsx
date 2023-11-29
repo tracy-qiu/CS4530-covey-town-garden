@@ -156,15 +156,6 @@ function TicTacToeArea({ interactableID }: { interactableID: InteractableID }): 
     );
   }
 
-  // const samplePlant: Plant = {
-  //   pid: 'ajsfd',
-  //   name: 'blueberry',
-  //   species: 'Blueberry',
-  //   age: 'Seedling',
-  //   lastWatered: new Date(),
-  //   status: 'Healthy',
-  // };
-
   return (
     <Container>
       <Accordion allowToggle>
@@ -234,7 +225,6 @@ export default function TicTacToeAreaWrapper(): JSX.Element {
           <ModalHeader>{gameArea.name}</ModalHeader>
           <ModalCloseButton />
           <TicTacToeArea interactableID={gameArea.name} />;
-          {/* <GardenArea interactableID={gameArea.name} />; */}
         </ModalContent>
       </Modal>
     );

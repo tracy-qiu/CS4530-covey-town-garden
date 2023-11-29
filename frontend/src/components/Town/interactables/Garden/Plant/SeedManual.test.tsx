@@ -36,8 +36,6 @@ describe('SeedManual', () => {
 
   Object.defineProperty(townController, 'ourPlayer', { get: () => ourPlayer });
 
-  const mockedOnClick = jest.fn();
-
   const mockToast = jest.fn();
   jest.mock('@chakra-ui/react', () => {
     const ui = jest.requireActual('@chakra-ui/react');
