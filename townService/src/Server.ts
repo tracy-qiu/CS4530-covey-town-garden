@@ -13,8 +13,8 @@ import { ClientToServerEvents, ServerToClientEvents } from './types/CoveyTownSoc
 import { TownsController } from './town/TownsController';
 import { logError } from './Utils';
 
-// const CONNECTION_STRING =
-//   'mongodb+srv://surabhiKeesara:garden@garden-cluster.jhykp3h.mongodb.net/garden-area?retryWrites=true&w=majority';
+const CONNECTION_STRING =
+  'mongodb+srv://surabhiKeesara:garden@garden-cluster.jhykp3h.mongodb.net/garden-area?retryWrites=true&w=majority';
 
 // mongoose.connect(CONNECTION_STRING);
 
@@ -80,4 +80,5 @@ server.listen(process.env.PORT || 8081, () => {
   if (process.env.DEMO_TOWN_ID) {
     TownsStore.getInstance().createTown(process.env.DEMO_TOWN_ID, false);
   }
+  mongoose.connect(CONNECTION_STRING);
 });
