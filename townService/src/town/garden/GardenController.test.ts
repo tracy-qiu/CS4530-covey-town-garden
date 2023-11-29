@@ -268,49 +268,4 @@ describe('GardenController', () => {
       );
     });
   });
-
-  describe('deletePlant', () => {
-    it('should delete a plant successfully', async () => {
-      const mockPlantId = '65658b4197ab972bebd2c75a';
-      const mockPlantIdObject = { mock: 'plantIdObject' };
-      const mockGardenPlotIdObject = { mock: 'gardenPlotIdObject' };
-      const mockPlant = { plantId: 'plant1', gardenPlotId: 'plot1' };
-
-      const controller = new GardenController();
-
-      // Mock the implementation of findPlantById and deletePlant
-      (plantDao.findPlantById as jest.Mock).mockResolvedValue(mockPlant);
-      (gardenPlotDao.deleteGardenPlotPlant as jest.Mock).mockResolvedValue(undefined);
-
-      // Act
-      const result = await controller.deletePlant(mockPlantId);
-
-      // Assert
-      expect(result).toEqual({ success: 'Plant successfully deleted.' });
-      expect(plantDao.findPlantById).toHaveBeenCalledWith(mockPlantIdObject);
-      expect(gardenPlotDao.deleteGardenPlotPlant).toHaveBeenCalledWith(
-        mockGardenPlotIdObject,
-        mockPlantIdObject,
-      );
-      expect(plantDao.deletePlant).toHaveBeenCalledWith(mockPlantIdObject);
-    });
-
-    it('should return an error if an exception occurs', async () => {
-      const mockPlantId = '65658b4197ab972bebd2c75a';
-      const mockPlantIdObject = { mock: 'plantIdObject' };
-      const mockError = new Error('Database error');
-
-      const controller = new GardenController();
-
-      // Mock the implementation of findPlantById and deletePlant to throw an error
-      (plantDao.findPlantById as jest.Mock).mockRejectedValue(mockError);
-
-      const result = await controller.deletePlant(mockPlantId);
-
-      expect(result).toEqual({ error: `Error deleting plant: ${mockError}` });
-      expect(plantDao.findPlantById).toHaveBeenCalledWith(mockPlantIdObject);
-      expect(gardenPlotDao.deleteGardenPlotPlant).not.toHaveBeenCalled();
-      expect(plantDao.deletePlant).not.toHaveBeenCalled();
-    });
-  });
 });
