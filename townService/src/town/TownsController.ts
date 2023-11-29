@@ -208,8 +208,10 @@ export class TownsController extends Controller {
     connectToGardenDB();
     try {
       const towns = await townDao.findTowns();
+      mongoose.disconnect();
       return towns;
     } catch (error: unknown) {
+      mongoose.disconnect();
       return { error: `Error getting all towns: ${error}` };
     }
   }
@@ -224,8 +226,10 @@ export class TownsController extends Controller {
     const dbTownIdObject = new mongoose.Types.ObjectId(dbTownId);
     try {
       const towns = await townDao.findTownByDBTownId(dbTownIdObject);
+      mongoose.disconnect();
       return towns;
     } catch (error: unknown) {
+      mongoose.disconnect();
       return { error: `Error getting all towns: ${error}` };
     }
   }
@@ -244,8 +248,10 @@ export class TownsController extends Controller {
         townId: requestBody.townId,
         adminId: adminIdObject,
       });
+      mongoose.disconnect();
       return town;
     } catch (error: unknown) {
+      mongoose.disconnect();
       return { error: `Error creating new garden: ${error}` };
     }
   }
@@ -261,8 +267,10 @@ export class TownsController extends Controller {
         gardenPlots: [],
         townId,
       });
+      mongoose.disconnect();
       return garden;
     } catch (error: unknown) {
+      mongoose.disconnect();
       return { error: `Error creating new garden: ${error}` };
     }
   }
@@ -281,8 +289,10 @@ export class TownsController extends Controller {
     const townIdObject = mongoose.Types.ObjectId.createFromHexString(townId);
     try {
       const response = await townDao.deleteTown(townIdObject);
+      mongoose.disconnect();
       return response;
     } catch (error: unknown) {
+      mongoose.disconnect();
       return { error: `Error deleting plant: ${error}` };
     }
   }
