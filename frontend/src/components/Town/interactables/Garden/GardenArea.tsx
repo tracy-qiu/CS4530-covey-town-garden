@@ -91,32 +91,6 @@ export function GardenArea(): JSX.Element {
     updateGardenDetails();
   });
 
-  useEffect(() => {
-    const definedPlants = plants.map(plant => plant.plant).filter(plant => plant !== undefined);
-    definedPlants.forEach(plant => {
-      if (plant?.status === 'Dehydrated') {
-        toastMsg('Please water ' + plant.name + ' (' + plant.species + ')!', 'warning', 9000);
-      }
-      if (plant?.status === 'About to Die') {
-        toastMsg(
-          plant.name +
-            ' (' +
-            plant.species +
-            ') will die without water soon. Please water before it is too late!',
-          'error',
-          9000,
-        );
-      }
-      if (plant?.status === 'Dead') {
-        toastMsg(
-          plant.name + ' (' + plant.species + ') is dead! Please remove plant!',
-          'error',
-          9000,
-        );
-      }
-    });
-  }, [toastMsg]);
-
   return (
     <Container>
       {show &&
