@@ -1,5 +1,4 @@
 import React from 'react';
-import { PlotPlant } from '../../../../types/CoveyTownSocket';
 import { Container, SimpleGrid } from '@chakra-ui/react';
 import { PlantPlotButton } from './PlotButton';
 

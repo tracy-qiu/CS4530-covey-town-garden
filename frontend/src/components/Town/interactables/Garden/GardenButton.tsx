@@ -1,9 +1,6 @@
 import React from 'react';
 import { Button } from '@chakra-ui/react';
 
-// TO FILL OUT -> for use on main garden screen, could be used for returning
-// to main garden from my garden
-
 export type GardenButtonProps = {
   label: string;
   type: ButtonType;

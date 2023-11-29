@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import 'core-js';
 import { nanoid } from 'nanoid';
 import React, { useState } from 'react';
@@ -47,7 +47,6 @@ describe('SeedManual', () => {
   });
 
   beforeEach(() => {
-    // gameAreaController.mockReset();
     mockToast.mockReset();
   });
 
