@@ -270,4 +270,19 @@ export class TownsController extends Controller {
       return { error: `Error deleting plant: ${error}` };
     }
   }
+
+  /**
+   * Retrieves all gardens across all towns
+   * @returns garden
+   */
+  @Get()
+  public getAllGardens() {
+    // connectToGardenDB();
+    try {
+      const gardens = gardenDao.findGardens();
+      return gardens;
+    } catch (error: unknown) {
+      return { error: `Error getting all gardens: ${error}` };
+    }
+  }
 }
