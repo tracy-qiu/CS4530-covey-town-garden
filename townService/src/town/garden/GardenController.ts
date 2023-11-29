@@ -131,6 +131,15 @@ export class GardenController extends Controller {
     return { success: 'Garden successfully deleted.' };
   }
 
+  /**
+   * garden 655ec5b40ea6fd95e7881384
+   * plots
+   * 65658b4197ab972bebd2c75c
+   * 65658e7bda270ae81fd737ae
+   * plants
+   *
+   */
+
   // Gardener Collection Endpoints
 
   /**
