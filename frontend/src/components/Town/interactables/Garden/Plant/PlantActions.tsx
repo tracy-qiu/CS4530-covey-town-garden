@@ -34,11 +34,7 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
   const [lastWateredTime, setLastWateredTime] = useState(initialWaterTime);
   const [daysSinceLastWater, setDaysSinceLastWater] = useState(0);
   const [display, setDisplay] = useState(true);
-  const today = new Date().toLocaleString('en-US', {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-  });
+  const today = new Date();
 
   const toastMsg = (
     title: string,
@@ -56,7 +52,7 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
     gardenApiClient.updatePlantWatered({ plantId: plant._id }).catch(error => {
       toastMsg(error, 'error');
     });
-    setLastWateredTime(today);
+    setLastWateredTime(new Date().toLocaleString());
     toastMsg('Watered ' + plant.name + ' (' + plant.species + ')!', 'success');
 
     // TBD: set health status and age based on watering
@@ -93,6 +89,9 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
   };
 
   const removePlant = () => {
+    gardenApiClient.deletePlant(plant._id).catch(error => {
+      toastMsg(error, 'error');
+    });
     toastMsg('Removed ' + plant.name + ' (' + plant.species + ')!', 'success');
     // hides the plant action section if the plant is removed
     setDisplay(false);
@@ -131,18 +130,27 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
 
     // set status to dehydrated if it's been 1 day
     if (daysSinceLastWater == 1) {
-      toastMsg(plant.name + ' (' + plant.species + ') is dehydrated! Please add water!', 'warning');
+      gardenApiClient
+        .updatePlantStatus({ plantId: plant._id, plantStatus: 'Dehydrated' })
+        .catch(error => {
+          toastMsg(error, 'error');
+        });
     }
     // set status to about to die if it's been 2 days
     if (daysSinceLastWater >= 2) {
-      toastMsg(
-        plant.name + ' (' + plant.species + ') is about to die! Please add water asap!',
-        'error',
-      );
+      gardenApiClient
+        .updatePlantStatus({ plantId: plant._id, plantStatus: 'About to Die' })
+        .catch(error => {
+          toastMsg(error, 'error');
+        });
     }
     // set status to about to die if it's been 3 days
     if (daysSinceLastWater >= 3) {
-      toastMsg(plant.name + ' (' + plant.species + ') is dead! Please remove!', 'error');
+      gardenApiClient
+        .updatePlantStatus({ plantId: plant._id, plantStatus: 'Dead' })
+        .catch(error => {
+          toastMsg(error, 'error');
+        });
     }
   }, [daysSinceLastWater, lastWateredTime, plant.name, plant.species, toastMsg]);
 
@@ -192,7 +200,13 @@ export default function PlantActions({ plant }: PlantActionProps): JSX.Element {
             </GridItem>
             <GridItem w='100%'>
               <b>Current Date: </b>
-              <Badge variant='outline'>{today}</Badge>
+              <Badge variant='outline'>
+                {today.toLocaleString('en-US', {
+                  year: 'numeric',
+                  month: 'numeric',
+                  day: 'numeric',
+                })}
+              </Badge>
             </GridItem>
             <GridItem w='100%'>
               <b>Last Watered: </b>

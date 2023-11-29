@@ -64,14 +64,16 @@ export default function PlantDetails({ species, age }: PlantDetailsProp): JSX.El
         </Heading>
         <p>{instructions}</p>
         <br />
-        <p>
-          Watering a <span style={{ color: '#2F855A', fontWeight: 'bold' }}>Healthy</span>{' '}
-          {species.toLowerCase()} will progress it to the next life cycle stage. Watering a{' '}
-          {species.toLowerCase()} that is{' '}
-          <span style={{ color: '#B7791F', fontWeight: 'bold' }}>Dehydrated</span> or{' '}
-          <span style={{ color: '#E53E3E', fontWeight: 'bold' }}>About to Die</span> will make it{' '}
-          <span style={{ color: '#2F855A', fontWeight: 'bold' }}>Healthy</span> again.
-        </p>
+        {species !== undefined && (
+          <p>
+            Watering a <span style={{ color: '#2F855A', fontWeight: 'bold' }}>Healthy</span>{' '}
+            {species.toLowerCase()} will progress it to the next life cycle stage. Watering a{' '}
+            {species.toLowerCase()} that is{' '}
+            <span style={{ color: '#B7791F', fontWeight: 'bold' }}>Dehydrated</span> or{' '}
+            <span style={{ color: '#E53E3E', fontWeight: 'bold' }}>About to Die</span> will make it{' '}
+            <span style={{ color: '#2F855A', fontWeight: 'bold' }}>Healthy</span> again.
+          </p>
+        )}
         <br />
         <Heading as='h5' size='sm'>
           Life Cycle

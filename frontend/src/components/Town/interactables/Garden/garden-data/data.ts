@@ -30,7 +30,7 @@ export const PLANT_DETAILS_DATA: PlantDetailsData[] = [
     about:
       'Carrots are a versatile root vegetable known for their nutritional value and sweet flavor. In some cultures, they are associated with simplicity, fertility, and grounding.',
     instructions: 'To tend a carrot, water it once a day.',
-    aboutImg: './images/carrot_bunch.jpeg',
+    aboutImg: './images/carrot_about.jpeg',
     seedImg: './images/seedling.png',
     sproutImg: './images/sprout.png',
     matureImg: './images/mature_carrot.png',
