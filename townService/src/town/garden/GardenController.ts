@@ -1,5 +1,5 @@
 import { Controller, Get, Path, Route, Post, Body, Delete, Response } from 'tsoa';
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 import {
   PlantAge,
   PlantHealthStatus,
@@ -13,7 +13,6 @@ import * as gardenerDao from '../../database/dao/gardener-dao';
 import * as gardenPlotDao from '../../database/dao/gardenPlot-dao';
 import { validateTownExists, validateGardenDoesNotExistInTown } from './GardenUtil';
 import InvalidParametersError from '../../lib/InvalidParametersError';
-import { GardenerDB } from '../../database/schema';
 
 @Route('garden')
 export class GardenController extends Controller {
@@ -93,14 +92,16 @@ export class GardenController extends Controller {
    * @returns response
    */
   @Post('/update')
-  public async updateGarden(@Body() requestBody: { gardenId: string; plotId: string }) {
+  public async updateGarden(
+    @Body() requestBody: { gardenId: string; plotId: string },
+  ): Promise<Document | null> {
     const gardenIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.gardenId);
     try {
       const response = await gardenDao.updateGarden(gardenIdObject, requestBody.plotId);
 
-      return response;
+      return response as unknown as Document;
     } catch (error: unknown) {
-      return { error: `Error adding plot to garden: ${error}` };
+      return null;
     }
   }
 
@@ -315,7 +316,7 @@ export class GardenController extends Controller {
   @Post('/update/plot')
   public async updatePlot(
     @Body() requestBody: { plotId: string; plantId: string; plotLocation: number },
-  ) {
+  ): Promise<Document | null> {
     const plotIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plotId);
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
     try {
@@ -324,9 +325,9 @@ export class GardenController extends Controller {
         plantIdObject,
         requestBody.plotLocation,
       );
-      return response;
+      return response as unknown as Document;
     } catch (error: unknown) {
-      return { error: `Error updating plot with new plant: ${error}` };
+      return null;
     }
   }
 
@@ -440,16 +441,18 @@ export class GardenController extends Controller {
    * @returns response
    */
   @Post('/update/plantAge')
-  public async updatePlantAge(@Body() requestBody: { plantId: string; plantAge: PlantAge }) {
+  public async updatePlantAge(
+    @Body() requestBody: { plantId: string; plantAge: PlantAge },
+  ): Promise<Document | null> {
     if (!['Seedling', 'Sprout', 'Adult'].includes(requestBody.plantAge)) {
       throw new Error('Invalid value for species.');
     }
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
     try {
       const response = await plantDao.updatePlantAge(plantIdObject, requestBody.plantAge);
-      return response;
+      return response as unknown as Document;
     } catch (error: unknown) {
-      return { error: `Error updating plant age: ${error}` };
+      return null;
     }
   }
 
@@ -461,16 +464,16 @@ export class GardenController extends Controller {
   @Post('/update/plantStatus')
   public async updatePlantStatus(
     @Body() requestBody: { plantId: string; plantStatus: PlantHealthStatus },
-  ) {
+  ): Promise<Document | null> {
     if (!['Healthy', 'Dehydrated', 'About to Die', 'Dead'].includes(requestBody.plantStatus)) {
       throw new Error('Invalid value for plant health status.');
     }
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
     try {
       const response = await plantDao.updatePlantStatus(plantIdObject, requestBody.plantStatus);
-      return response;
+      return response as unknown as Document;
     } catch (error: unknown) {
-      return { error: `Error updating plant status: ${error}` };
+      return null;
     }
   }
 
@@ -480,13 +483,15 @@ export class GardenController extends Controller {
    * @returns response
    */
   @Post('/update/plantLastWatered')
-  public async updatePlantLastWatered(@Body() requestBody: { plantId: string }) {
+  public async updatePlantLastWatered(
+    @Body() requestBody: { plantId: string },
+  ): Promise<Document | null> {
     const plantIdObject = mongoose.Types.ObjectId.createFromHexString(requestBody.plantId);
     try {
       const response = await plantDao.updatePlantLastWatered(plantIdObject);
-      return response;
+      return response as unknown as Document;
     } catch (error: unknown) {
-      return { error: `Error updating plant last watered: ${error}` };
+      return null;
     }
   }
 }
