@@ -74,7 +74,7 @@ export function GardenAreaPlots(): JSX.Element {
       <SimpleGrid spacing={3} columns={4}>
         {gardenPlots.map((plot, index) => {
           return (
-            <Box key={plot}>
+            <Box key={index}>
               <GardenPlotButton
                 gardenId={plot.gardenId}
                 gardenPlotId={plot._id}
