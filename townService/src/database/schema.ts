@@ -1,4 +1,4 @@
-import mongoose, { Document, Types, InferSchemaType } from 'mongoose';
+import mongoose, { Document, Types } from 'mongoose';
 import { PlantAge, PlantHealthStatus, PlantType, PlotPlant } from '../types/CoveyTownSocket';
 
 // Towns
@@ -10,7 +10,10 @@ const townSchema = new mongoose.Schema(
   { collection: 'towns' },
 );
 
-export type TownDB = InferSchemaType<typeof townSchema>;
+export type TownDB = {
+  townId: string;
+  adminId: Types.ObjectId;
+};
 
 export const townModel = mongoose.model('TownModel', townSchema);
 
@@ -23,7 +26,10 @@ const gardenSchema = new mongoose.Schema(
   { collection: 'gardens' },
 );
 
-export type GardenDB = InferSchemaType<typeof gardenSchema>;
+export type GardenDB = {
+  townId: string;
+  gardenPlots: string[];
+};
 
 export const gardenModel = mongoose.model('GardenModel', gardenSchema);
 
@@ -109,6 +115,9 @@ const gardenerSchema = new mongoose.Schema(
   { collection: 'gardeners' },
 );
 
-export type GardenerDB = InferSchemaType<typeof gardenerSchema>;
+export type GardenerDB = {
+  gardenId: Types.ObjectId;
+  name: string;
+};
 
 export const gardenerModel = mongoose.model('GardenerModel', gardenerSchema);
