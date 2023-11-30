@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Box, SimpleGrid } from '@chakra-ui/react';
 import { GardenPlotButton } from './PlotButton';
-import { GardenPlot, PlotPlant } from '../../../../types/CoveyTownSocket';
+import { GardenPlot, PlotPlant, FrontendGardenPlot } from '../../../../types/CoveyTownSocket';
 import useTownController from '../../../../hooks/useTownController';
 import { gardenApiClient } from '../../../../classes/garden-client';
 
@@ -31,7 +31,7 @@ export const PLANTS: PlotPlant[] = [samplePlant1, samplePlant2, samplePlantDead,
  * @returns {JSX.Element} GardenPlots
  */
 export function GardenAreaPlots(): JSX.Element {
-  const [gardenPlots, setGardenPlots] = useState<Record<string, unknown>[]>([]);
+  const [gardenPlots, setGardenPlots] = useState<FrontendGardenPlot[]>([]);
   const townController = useTownController();
   const townId = townController.townID;
 
@@ -53,7 +53,7 @@ export function GardenAreaPlots(): JSX.Element {
                   }
                 })
               : undefined;
-          return { plotPlantId: plotPlant.plotPlantId, plant };
+          return { plotPlantId: plotPlant.plotPlantId, plantId: plotPlant.plantId, plant };
         });
         const gardener = await gardenApiClient.getGardener(plot.gardenerId);
         return {

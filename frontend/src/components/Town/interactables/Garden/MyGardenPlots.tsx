@@ -1,12 +1,13 @@
 import React from 'react';
 import { Container, SimpleGrid } from '@chakra-ui/react';
 import { PlantPlotButton } from './PlotButton';
+import { FrontendGardenPlot, PlotPlant } from '../../../../types/CoveyTownSocket';
 
 export type MyGardenPlotsProps = {
   gardenId: string;
   gardenPlotId: string;
   username: string;
-  plants: Record<string, unknown>[];
+  plants: PlotPlant[];
 };
 
 /**
@@ -37,7 +38,8 @@ export function MyGardenPlots({
               username={username}
               plantNames={plantNames}
               plotPlant={{
-                plantId: plant.plotPlantId,
+                plotPlantId: plant.plotPlantId,
+                plantId: plant.plantId,
                 plant: plant.plant,
               }}
             />

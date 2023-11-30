@@ -46,7 +46,7 @@ interface PlantPlotButtonProps extends ButtonProps {
   gardenPlotId: string;
   username: string;
   plantNames: (string | undefined)[];
-  plotPlant: Record<string, unknown>;
+  plotPlant: PlotPlant;
 }
 
 /**
@@ -62,7 +62,7 @@ export function PlantPlotButton({
   children,
   username,
   plantNames,
-  plotPlant: { plantId, plant },
+  plotPlant: { plotPlantId, plantId, plant },
   ...rest
 }: PlantPlotButtonProps): JSX.Element {
   const [show, setShow] = useState(false);
@@ -144,7 +144,7 @@ export function PlantPlotButton({
           onClose={handleClose}
           gardenId={gardenId}
           gardenPlotId={gardenPlotId}
-          plotPlantId={parseInt(plantId)}
+          plotPlantId={parseInt(plotPlantId)}
           username={username}
           plantNames={plantNames}
         />

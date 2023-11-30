@@ -19,13 +19,14 @@ import {
 } from '@chakra-ui/react';
 import { MyGardenPlots } from './MyGardenPlots';
 import useTownController from '../../../../hooks/useTownController';
+import { PlotPlant } from '../../../../types/CoveyTownSocket';
 
 export type MyGardenAreaProps = {
   isOpen: boolean;
   onClose: () => void;
   gardenId: string;
   gardenPlotId: string;
-  plants: Record<string, unknown>[];
+  plants: PlotPlant[];
 };
 
 /**

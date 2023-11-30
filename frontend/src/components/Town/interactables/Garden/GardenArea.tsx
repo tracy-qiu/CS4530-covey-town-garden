@@ -39,7 +39,7 @@ export function GardenArea(): JSX.Element {
   const townController: TownController = useTownController();
   const currUsername = townController.ourPlayer.userName;
   const [show, setShow] = useState(false);
-  const [plants, setPlants] = useState<Record<string, unknown>[]>([]);
+  const [plants, setPlants] = useState<PlotPlant[]>([]);
   const [gardenId, setGardenId] = useState('');
   const [gardenPlotId, setGardenPlotId] = useState('');
 
@@ -81,7 +81,7 @@ export function GardenArea(): JSX.Element {
                   }
                 })
               : undefined;
-          return { plotPlantId: plotPlant.plotPlantId, plant };
+          return { plotPlantId: plotPlant.plotPlantId, plantId: plotPlant.plantId, plant };
         });
         setPlants(await Promise.all(newPlants));
         setGardenPlotId(plot._id);
