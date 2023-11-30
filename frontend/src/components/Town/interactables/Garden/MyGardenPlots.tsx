@@ -28,10 +28,10 @@ export function MyGardenPlots({
   return (
     <Container>
       <SimpleGrid spacing={3} columns={2}>
-        {plants.map(plant => {
+        {plants.map((plant, index) => {
           return (
             <PlantPlotButton
-              key={plant.plantId}
+              key={index}
               gardenId={gardenId}
               gardenPlotId={gardenPlotId}
               username={username}
